@@ -21,6 +21,7 @@ import {
   createUserData,
 } from "../../../features/userCreationSlice";
 import ProfilePhoto from "../../../assets/profilepic2.jpg";
+import AccessTable from "../GLCMA100200/Access";
 
 const CommonCode = () => {
   const dispatch = useDispatch();
@@ -149,7 +150,7 @@ const CommonCode = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          gap: 2,
+          gap: 1,
           backgroundColor: "red",
           borderRadius: 1,
           p: 1,
@@ -249,14 +250,14 @@ const CommonCode = () => {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 1,
           }}
         >
           <Box
             sx={{
               display: "flex",
               gap: 2,
-              height: "35%",
+              height: "40%",
               width: "100%",
               background: "yellow",
             }}
@@ -274,9 +275,10 @@ const CommonCode = () => {
                 container
                 spacing={1}
                 sx={{
-                  "& > .MuiGrid-item": { mb: "-17px", p:"4px" },
+                  "& > .MuiGrid-item": { mb: "-17px", p: "4px" },
                   background: "orange",
-                  height: "100%",
+                  maxHeight: "100%",
+                  overflowY: "auto",
                   display: "flex",
                   flexWrap: "wrap",
                   justifyContent: "space-between",
@@ -323,7 +325,6 @@ const CommonCode = () => {
               sx={{
                 width: "20%",
                 borderRadius: 1,
-                padding: "10px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -332,25 +333,45 @@ const CommonCode = () => {
                 overflowY: "auto",
               }}
             >
-              <img src={ProfilePhoto} alt="" style={{ height: "70px" }} />
-              <Box sx={{ width: "90%", marginTop: "10px" }}>
-                <Stack spacing={1}>
+              <Box
+                sx={{
+                  background: "red",
+                  width: "100%",
+                  height: "40%",
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "5px",
+                }}
+              >
+                <img src={ProfilePhoto} alt="" style={{ height: "100%" }} />
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height:"60%",
+                  maxHeight: "60%",
+                  overflowY: "auto",
+                  background: "blue",
+                  padding: "5px",
+                }}
+              >
+                <Stack spacing={0.5}>
                   <Button
                     variant="contained"
-                    sx={{ fontSize: "11px", padding: "3px 10px" }}
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
                   >
                     Password reset
                   </Button>
                   <Button
                     variant="contained"
-                    sx={{ fontSize: "11px", padding: "3px 10px" }}
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
                     color="error"
                   >
                     Block
                   </Button>
                   <Button
                     variant="contained"
-                    sx={{ fontSize: "11px", padding: "3px 10px" }}
+                    sx={{fontSize: "0.65rem", padding: "3px 10px" }}
                     color="success"
                   >
                     Activate
@@ -360,16 +381,16 @@ const CommonCode = () => {
             </Box>
           </Box>
 
-          {/* <Box
+          <Box
             sx={{
-              width: { xs: "100%", md: "700px" },
-              height: "100%",
-              // backgroundColor: "#e3f2fd",
+              width: "calc(100vw - 550px)",
+              maxHeight: "60%",
+              overflowY: "auto",
               background: "red",
             }}
           >
-            <Access />
-          </Box> */}
+            <AccessTable />
+          </Box>
         </Box>
       </Box>
     </Box>
