@@ -73,10 +73,13 @@ const UserCreation = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-
   //userData as userDataList use because of  clashing
 
-  const { userData:userDataList, status, error } = useSelector((state) => state.userCreation);
+  const {
+    userData: userDataList,
+    status,
+    error,
+  } = useSelector((state) => state.userCreation);
 
   useEffect(() => {
     if (status === "idle") {
@@ -84,29 +87,24 @@ const UserCreation = () => {
     }
   }, [dispatch, status]);
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
-
 
   const genderOptions = [
     { label: "Male", value: "Male" },
     { label: "Female", value: "Female" },
   ];
 
- 
-
   const Save_Click = (event) => {
     if (event) {
       event.preventDefault();
     }
-     dispatch(createUserData(userData));
-     setUserData(initialUserData);
-     dispatch(fetchUserCreationData(userData))
+    dispatch(createUserData(userData));
+    setUserData(initialUserData);
+    dispatch(fetchUserCreationData(userData));
   };
-
 
   const handleUserSelect = (user) => {
     console.log("Selected employee data:", user);
@@ -140,7 +138,7 @@ const UserCreation = () => {
       sx={{
         width: "100%",
         height: "100vh",
-        p: 2,
+        p: 1,
         // backgroundColor: "#e0e0e0",
         backgroundColor: "#fafafa",
       }}
@@ -153,7 +151,6 @@ const UserCreation = () => {
           alignItems: "center",
           p: 1,
           backgroundColor: "#ffffff",
-         
 
           boxShadow: 2,
           borderRadius: 1,
@@ -161,8 +158,7 @@ const UserCreation = () => {
           justifyContent: "flex-start",
         }}
       >
-       
-        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click}  />
+        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
       </Box>
 
       <Box
@@ -174,23 +170,26 @@ const UserCreation = () => {
           borderRadius: 1,
           p: 2,
           boxShadow: 2,
-          height: "calc(100vh - 100px)",
+          height: "calc(100vh - 150px)",
         }}
       >
         {/*  User List */}
         <Box
           sx={{
-            width: { xs: "100%", md: "300px" },
+            width: { xs: "100%", md: "250px" },
             flexShrink: 0,
-       
+
             borderRadius: 1,
             boxShadow: 2,
             background: "#ffffff",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
           }}
         >
           <TableContainer sx={{ height: "90%" }}>
             <Table stickyHeader aria-label="user table">
-              <TableHead >
+              <TableHead>
                 <TableRow>
                   {userColumns.map((column) => (
                     <TableCell
@@ -201,7 +200,8 @@ const UserCreation = () => {
                         fontWeight: "600",
                         // background:"#1976d2",
                         backgroundColor: (theme) => theme.palette.primary.main,
-                        color:"white"
+                        color: "white",
+                        fontSize: "12px",
                       }}
                     >
                       {column.label}
@@ -225,6 +225,7 @@ const UserCreation = () => {
                       transition: "background-color 0.3s ease",
                       "& .MuiTableCell-root": {
                         padding: "8px 18px",
+                        fontSize: "12px",
                       },
                     }}
                   >
@@ -236,7 +237,13 @@ const UserCreation = () => {
             </Table>
           </TableContainer>
 
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: "5px",
+            }}
+          >
             <CustomPagination
               totalItems={userDataList.length}
               itemsPerPage={rowsPerPage}

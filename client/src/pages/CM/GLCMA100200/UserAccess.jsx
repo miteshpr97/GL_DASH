@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Grid,
-  Paper,
   Stack,
   Table,
   TableBody,
@@ -121,9 +120,10 @@ const UserAccess = () => {
       sx={{
         width: "100%",
         height: "100vh",
-        p: 2,
+        p: 1,
         // backgroundColor: "#e0e0e0",
-        backgroundColor: "#fafafa",
+        // backgroundColor: "#fafafa",
+        background: "yellow",
       }}
     >
       {/* Header with Action Buttons */}
@@ -151,23 +151,25 @@ const UserAccess = () => {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           gap: 2,
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "red",
           borderRadius: 1,
           p: 2,
           boxShadow: 2,
-          // height: "calc(100vh - 100px)",
-          height:"100%"
+          height: "calc(100vh - 150px)",
         }}
       >
         {/*  User List */}
         <Box
           sx={{
-            width: { xs: "100%", md: "300px" },
+            width: { xs: "100%", md: "250px" },
             flexShrink: 0,
 
             borderRadius: 1,
             boxShadow: 2,
             background: "#ffffff",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
           }}
         >
           <TableContainer sx={{ height: "90%" }}>
@@ -184,6 +186,7 @@ const UserAccess = () => {
                         // background:"#1976d2",
                         backgroundColor: (theme) => theme.palette.primary.main,
                         color: "white",
+                        fontSize: "12px",
                       }}
                     >
                       {column.label}
@@ -207,6 +210,7 @@ const UserAccess = () => {
                       transition: "background-color 0.3s ease",
                       "& .MuiTableCell-root": {
                         padding: "8px 18px",
+                        fontSize: "12px",
                       },
                     }}
                   >
@@ -218,7 +222,13 @@ const UserAccess = () => {
             </Table>
           </TableContainer>
 
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: "5px",
+            }}
+          >
             <CustomPagination
               totalItems={userDataList.length}
               itemsPerPage={rowsPerPage}
@@ -232,11 +242,11 @@ const UserAccess = () => {
         <Box
           sx={{
             flex: 1,
-            backgroundColor: "white",
-
+            // backgroundColor: "white",
+background:"pink",
             borderRadius: 2,
             boxShadow: 3,
-            p: 2,
+            p: 1,
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -247,8 +257,9 @@ const UserAccess = () => {
             sx={{
               display: "flex",
               gap: 2,
-              height: "50%",
+              height: "40%",
               width: "100%",
+              background:"yellow",
             }}
           >
             {/* Left Section */}
@@ -258,13 +269,13 @@ const UserAccess = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                marginTop: "-10px",
+                background:"green"
               }}
             >
               <Grid
-                container
+               
                 spacing={1}
-                sx={{ "& > .MuiGrid-item": { mb: "-17px" } }}
+                sx={{ "& > .MuiGrid-item": { mb: "-30px" }, background:"orange", height:"100%" , display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}
               >
                 {[
                   { label: "EMP ID", name: "EMP_CD", value: userData.EMP_CD },
@@ -344,16 +355,14 @@ const UserAccess = () => {
           <Box
             sx={{
               width: { xs: "100%", md: "700px" },
-              height: "50%",
+              height: "100%",
               // backgroundColor: "#e3f2fd",
-              
+              background: "red",
             }}
           >
-          <Access/>
+            <Access />
           </Box>
         </Box>
-
-        
       </Box>
     </Box>
   );
