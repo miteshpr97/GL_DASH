@@ -256,7 +256,7 @@ const CommonCode = () => {
             sx={{
               display: "flex",
               gap: 2,
-              height: "35%",
+              height: "40%",
               width: "100%",
               background: "yellow",
             }}
@@ -332,25 +332,25 @@ const CommonCode = () => {
                 overflowY: "auto",
               }}
             >
-              <img src={ProfilePhoto} alt="" style={{ height: "70px" }} />
-              <Box sx={{ width: "90%", marginTop: "10px" }}>
+              <img src={ProfilePhoto} alt="" style={{ height: "60px" }} />
+              <Box sx={{ width: "90%", marginTop: "8px" }}>
                 <Stack spacing={1}>
                   <Button
                     variant="contained"
-                    sx={{ fontSize: "11px", padding: "3px 10px" }}
+                    sx={{ fontSize: "11px", padding: "2px 8px" }}
                   >
                     Password reset
                   </Button>
                   <Button
                     variant="contained"
-                    sx={{ fontSize: "11px", padding: "3px 10px" }}
+                    sx={{ fontSize: "11px", padding: "2px 8px" }}
                     color="error"
                   >
                     Block
                   </Button>
                   <Button
                     variant="contained"
-                    sx={{ fontSize: "11px", padding: "3px 10px" }}
+                    sx={{ fontSize: "11px", padding: "2px 8px" }}
                     color="success"
                   >
                     Activate

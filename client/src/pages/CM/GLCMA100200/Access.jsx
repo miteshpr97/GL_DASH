@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableContainer,
@@ -9,8 +9,100 @@ import {
   Checkbox,
   Paper,
 } from "@mui/material";
+import {
+  _getAll_WithoutToken,
+  _update_WithoutToken,
+} from "../../../CommonUtilAPI/GLApiClient";
 
 const AccessTable = () => {
+
+
+  const [userAccess, setUserAccess] = useState('')
+
+  console.log(userAccess);
+  
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await _getAll_WithoutToken("/api/GLCMA100200/");
+        setUserAccess(response.data);
+
+        // if (USER_CD) {
+        //   const userAccessResponse = await _getAll_WithoutToken(
+        //     `api/GLCMA100200/${USER_CD}`
+        //   );
+        //   const userAccessData = userAccessResponse.data;
+        //   setUserAccessData(userAccessData);
+
+        //   const initialState = response.data.reduce((acc, item, index) => {
+        //     const userAccessItem = userAccessData.find(
+        //       (ua) => ua.PAGE_CD === item.PAGE_CD
+        //     );
+        //     acc[index] = {
+        //       PAGE_YN: userAccessItem ? userAccessItem.PAGE_YN === "Y" : false,
+        //       PAGE_INQUIRY: userAccessItem
+        //         ? userAccessItem.PAGE_INQUIRY === "Y"
+        //         : false,
+        //       PAGE_SAVE: userAccessItem
+        //         ? userAccessItem.PAGE_SAVE === "Y"
+        //         : false,
+        //       PAGE_UPDATE: userAccessItem
+        //         ? userAccessItem.PAGE_UPDATE === "Y"
+        //         : false,
+        //       PAGE_DELETE: userAccessItem
+        //         ? userAccessItem.PAGE_DELETE === "Y"
+        //         : false,
+        //       PAGE_APP_Y1: userAccessItem
+        //         ? userAccessItem.PAGE_APP_Y1 === "Y"
+        //         : false,
+        //       PAGE_APP_Y2: userAccessItem
+        //         ? userAccessItem.PAGE_APP_Y2 === "Y"
+        //         : false,
+        //       PAGE_APP_Y3: userAccessItem
+        //         ? userAccessItem.PAGE_APP_Y3 === "Y"
+        //         : false,
+        //       PAGE_APP_Y4: userAccessItem
+        //         ? userAccessItem.PAGE_APP_Y4 === "Y"
+        //         : false,
+        //       PAGE_APP_Y5: userAccessItem
+        //         ? userAccessItem.PAGE_APP_Y5 === "Y"
+        //         : false,
+        //       PAGE_APP_Y6: userAccessItem
+        //         ? userAccessItem.PAGE_APP_Y6 === "Y"
+        //         : false,
+        //       PAGE_PRINT: userAccessItem
+        //         ? userAccessItem.PAGE_PRINT === "Y"
+        //         : false,
+        //       PAGE_EXCEL: userAccessItem
+        //         ? userAccessItem.PAGE_EXCEL === "Y"
+        //         : false,
+        //     };
+        //     return acc;
+        //   }, {});
+
+        //   setPermissions(initialState);
+        // }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  },);
+
+
+
+
+
+
+
+
+
+
+
+
   // Sample Data
   const dummyData = Array.from({ length: 20 }, (_, index) => ({
     MODULE_CD: `MOD${index + 1}`,
