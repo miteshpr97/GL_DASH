@@ -165,10 +165,10 @@ const UserCreation = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          gap: 2,
+          gap: 1,
           backgroundColor: "#f5f5f5",
           borderRadius: 1,
-          p: 2,
+          p: 1,
           boxShadow: 2,
           height: "calc(100vh - 150px)",
         }}
