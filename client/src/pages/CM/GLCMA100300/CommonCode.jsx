@@ -1,123 +1,23 @@
-
-
-import { Box } from '@mui/material'
-import React from 'react'
-import Access from '../GLCMA100200/Access'
+import { Box } from "@mui/material";
+import React from "react";
+import Access from "../GLCMA100200/Access";
 
 const CommonCode = () => {
   return (
-
     <Box
-    sx={{
-      height: "50%",
-      width:"50%",
-      // backgroundColor: "#e3f2fd",
-      backgroundColor: "red",
-
-    }}
-  >
-<Access/>
-
-
-  </Box>
-    
-  )
-}
-
-export default CommonCode
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      sx={{
+        height: "50%",
+        width: "50%",
+        // backgroundColor: "#e3f2fd",
+        backgroundColor: "red",
+      }}
+    >
+      <Access />
+    </Box>
+  );
+};
+
+export default CommonCode;
 
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';

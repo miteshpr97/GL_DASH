@@ -45,7 +45,7 @@ function App() {
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
             
                
-                {location.pathname !== '/login' && <Header />            }
+                {location.pathname !== '/login' && <Header /> }
                 {location.pathname !== '/login' && <Sidebar />}
                 <Box
                     component="main"

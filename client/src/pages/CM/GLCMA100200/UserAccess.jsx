@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Grid,
+  Paper,
   Stack,
   Table,
   TableBody,
@@ -12,9 +13,7 @@ import {
   TableRow,
 } from "@mui/material";
 
-import {
-  InputFieldComponent,
-} from "../../../components/CustomFormComponents";
+import { InputFieldComponent } from "../../../components/CustomFormComponents";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -140,8 +139,8 @@ const UserAccess = () => {
           borderRadius: 1,
           mb: 2,
           justifyContent: "flex-start",
-          position: "sticky",
-          top: "0",
+          // position: "sticky",
+          // top: "0",
         }}
       >
         <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
@@ -156,7 +155,8 @@ const UserAccess = () => {
           borderRadius: 1,
           p: 2,
           boxShadow: 2,
-          height: "calc(100vh - 100px)",
+          // height: "calc(100vh - 100px)",
+          height:"100%"
         }}
       >
         {/*  User List */}
@@ -343,46 +343,18 @@ const UserAccess = () => {
 
           <Box
             sx={{
+              width: { xs: "100%", md: "700px" },
               height: "50%",
               // backgroundColor: "#e3f2fd",
-              backgroundColor: "pink",
+              
             }}
           >
-            {/* <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Age</TableCell>
-                    <TableCell>Occupation</TableCell>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Age</TableCell>
-                    <TableCell>Occupation</TableCell>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Age</TableCell>
-                    <TableCell>Occupation</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>{row.id}</TableCell>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell>{row.age}</TableCell>
-                      <TableCell>{row.occupation}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer> */}
+          <Access/>
           </Box>
         </Box>
-      </Box>
 
-      <Access />
+        
+      </Box>
     </Box>
   );
 };
