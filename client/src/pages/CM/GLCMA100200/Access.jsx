@@ -51,15 +51,14 @@ const AccessTable = () => {
     container: {
       width: "100%",
       maxHeight: "100%",
-      borderRadius: "8px",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     },
     table: { minWidth: "100%" },
     headerCell: {
       fontWeight: "bold",
       fontSize: "0.75rem",
-      backgroundColor: "#f5f5f5",
-      color: "#333",
+      backgroundColor: '#4c5bb5',
+      color: "#fff",
       textAlign: "center",
       padding: "8px",
       whiteSpace: "nowrap",     
@@ -74,6 +73,7 @@ const AccessTable = () => {
       textAlign: "center",
       fontSize: "0.65rem",
       padding: "6px",
+      fontWeight:"bold",
       whiteSpace: "nowrap",      
       overflow: "hidden",       
       textOverflow: "ellipsis",  
@@ -81,7 +81,7 @@ const AccessTable = () => {
   };
   
   return (
-    <TableContainer component={Paper} style={tableStyles.container}>
+    <TableContainer  style={tableStyles.container}>
       <Table size="small" stickyHeader style={tableStyles.table}>
         <TableHead>
           <TableRow>

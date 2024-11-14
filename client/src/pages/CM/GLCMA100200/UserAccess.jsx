@@ -10,9 +10,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 
-import { InputFieldComponent } from "../../../components/CustomFormComponents";
+// import { InputFieldComponent } from "../../../components/CustomFormComponents";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +22,8 @@ import {
   createUserData,
 } from "../../../features/userCreationSlice";
 import ProfilePhoto from "../../../assets/profilepic2.jpg";
-import Access from "./Access";
+import AccessTable from "./Access";
+
 
 const UserAccess = () => {
   const dispatch = useDispatch();
@@ -122,8 +124,7 @@ const UserAccess = () => {
         height: "100vh",
         p: 1,
         // backgroundColor: "#e0e0e0",
-        // backgroundColor: "#fafafa",
-        background: "yellow",
+        backgroundColor: "#fafafa",
       }}
     >
       {/* Header with Action Buttons */}
@@ -150,10 +151,9 @@ const UserAccess = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          gap: 2,
-          backgroundColor: "red",
+          gap: 1,
           borderRadius: 1,
-          p: 2,
+          p: 1,
           boxShadow: 2,
           height: "calc(100vh - 150px)",
         }}
@@ -242,15 +242,14 @@ const UserAccess = () => {
         <Box
           sx={{
             flex: 1,
-            // backgroundColor: "white",
-background:"pink",
+            backgroundColor: "white",
             borderRadius: 2,
             boxShadow: 3,
             p: 1,
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 1,
           }}
         >
           <Box
@@ -259,90 +258,204 @@ background:"pink",
               gap: 2,
               height: "40%",
               width: "100%",
-              background:"yellow",
             }}
           >
             {/* Left Section */}
             <Box
               sx={{
-                width: "60%",
+                width: "70%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
-                background:"green"
               }}
             >
-              <Grid
-               
-                spacing={1}
-                sx={{ "& > .MuiGrid-item": { mb: "-30px" }, background:"orange", height:"100%" , display:"flex", flexWrap:"wrap", justifyContent:"space-between"}}
-              >
-                {[
-                  { label: "EMP ID", name: "EMP_CD", value: userData.EMP_CD },
-                  {
-                    label: "MOB NO",
-                    name: "MOB_NO_01",
-                    value: userData.MOB_NO_01,
-                  },
-                  { label: "Name", name: "EMP_FNM", value: userData.EMP_FNM },
-                  {
-                    label: "Landline",
-                    name: "MOB_PER_01",
-                    value: userData.MOB_PER_01,
-                  },
-                  {
-                    label: "Department",
-                    name: "DEPT_CD",
-                    value: userData.DEPT_CD,
-                  },
-                  { label: "Position", name: "POS_CD", value: userData.POS_CD },
-                  { label: "Email", name: "EMAIL", value: userData.EMAIL },
-                ].map((field, index) => (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <InputFieldComponent
-                      label={field.label}
-                      placeholder={field.label}
-                      name={field.name}
-                      value={field.value}
-                      readOnly={!!selectedEmployee}
-                      required
-                    />
-                  </Grid>
-                ))}
-              </Grid>
+              <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": {
+              m: 0.6,
+              width: "calc(100% - 10px)",
+              "& .MuiInputBase-root": {
+                fontSize: "0.65rem",
+              },
+              "& .MuiInputLabel-root": {
+                fontSize: "0.65rem",
+              },
+            },
+
+            maxHeight: "100%",
+            overflowY:"auto",
+            width: "100%%",
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <Grid container>
+            <Grid item xs={6}>
+              <TextField
+                label="User ID"
+                variant="outlined"
+                name="EMP_CD"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.EMP_CD : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Contact No"
+                variant="outlined"
+                name="MOB_NO_01"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.MOB_NO_01 : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Name"
+                variant="outlined"
+                name="EMP_NM"
+                required
+                fullWidth
+                size="small"
+                // value={user ? `${user.EMP_FNM} ${user.EMP_LNM}` : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Landline"
+                variant="outlined"
+                name="MOB_NO_02"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.MOB_NO_02 : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Department"
+                variant="outlined"
+                name="DEPT_CD"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.DEPT_CD : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Ext"
+                variant="outlined"
+                name="EXT"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.EXT : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Position"
+                variant="outlined"
+                name="POS_CD"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.POS_CD : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                name="EMAIL"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.EMAIL : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
             </Box>
 
             {/* Right Section */}
             <Box
               sx={{
-                width: "40%",
+                width: "30%",
                 borderRadius: 1,
-                padding: "10px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "center",
+                maxHeight: "100%",
+                overflowY: "auto",
               }}
             >
-              <img src={ProfilePhoto} alt="" style={{ width: "30%" }} />
-
-              <Box sx={{ width: "65%" }}>
-                <Stack spacing={1}>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "40%",
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "5px",
+                }}
+              >
+                <img src={ProfilePhoto} alt="" style={{ height: "100%" }} />
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height:"60%",
+                  maxHeight: "60%",
+                  overflowY: "auto",
+                  padding: "5px",
+                }}
+              >
+                <Stack spacing={0.5}>
                   <Button
                     variant="contained"
-                    sx={{ flexGrow: 1, fontSize: "10px", padding: "5px 10px" }}
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
                   >
                     Password reset
                   </Button>
                   <Button
                     variant="contained"
-                    sx={{ flexGrow: 1, fontSize: "11px", padding: "5px 10px" }}
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
                     color="error"
                   >
                     Block
                   </Button>
                   <Button
                     variant="contained"
-                    sx={{ flexGrow: 1, fontSize: "11px", padding: "5px 10px" }}
+                    sx={{fontSize: "0.65rem", padding: "3px 10px" }}
                     color="success"
                   >
                     Activate
@@ -354,13 +467,13 @@ background:"pink",
 
           <Box
             sx={{
-              width: { xs: "100%", md: "700px" },
-              height: "100%",
-              // backgroundColor: "#e3f2fd",
-              background: "red",
+              width: "calc(100vw - 550px)",
+              maxHeight: "60%",
+              overflowY: "auto",
+              background:"white"
             }}
           >
-            <Access />
+            <AccessTable />
           </Box>
         </Box>
       </Box>

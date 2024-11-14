@@ -10,6 +10,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 
 import { InputFieldComponent } from "../../../components/CustomFormComponents";
@@ -122,8 +123,7 @@ const CommonCode = () => {
         height: "100vh",
         p: 1,
         // backgroundColor: "#e0e0e0",
-        // backgroundColor: "#fafafa",
-        background: "yellow",
+        backgroundColor: "#fafafa",
       }}
     >
       {/* Header with Action Buttons */}
@@ -151,7 +151,6 @@ const CommonCode = () => {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           gap: 1,
-          backgroundColor: "red",
           borderRadius: 1,
           p: 1,
           boxShadow: 2,
@@ -242,8 +241,7 @@ const CommonCode = () => {
         <Box
           sx={{
             flex: 1,
-            // backgroundColor: "white",
-            background: "pink",
+            backgroundColor: "white",
             borderRadius: 2,
             boxShadow: 3,
             p: 1,
@@ -259,71 +257,158 @@ const CommonCode = () => {
               gap: 2,
               height: "40%",
               width: "100%",
-              background: "yellow",
             }}
           >
             {/* Left Section */}
             <Box
               sx={{
-                width: "80%",
+                width: "70%",
                 display: "flex",
                 flexDirection: "column",
-                background: "green",
               }}
             >
-              <Grid
-                container
-                spacing={1}
-                sx={{
-                  "& > .MuiGrid-item": { mb: "-17px", p: "4px" },
-                  background: "orange",
-                  maxHeight: "100%",
-                  overflowY: "auto",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                  margin: "0px",
+              <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": {
+              m: 0.6,
+              width: "calc(100% - 10px)",
+              "& .MuiInputBase-root": {
+                fontSize: "0.65rem",
+              },
+              "& .MuiInputLabel-root": {
+                fontSize: "0.65rem",
+              },
+            },
+
+            maxHeight: "100%",
+            overflowY:"auto",
+            width: "100%%",
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <Grid container>
+            <Grid item xs={6}>
+              <TextField
+                label="User ID"
+                variant="outlined"
+                name="EMP_CD"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.EMP_CD : ""}
+                InputProps={{
+                  readOnly: true,
                 }}
-              >
-                {[
-                  { label: "EMP ID", name: "EMP_CD", value: userData.EMP_CD },
-                  {
-                    label: "MOB NO",
-                    name: "MOB_NO_01",
-                    value: userData.MOB_NO_01,
-                  },
-                  { label: "Name", name: "EMP_FNM", value: userData.EMP_FNM },
-                  {
-                    label: "Landline",
-                    name: "MOB_PER_01",
-                    value: userData.MOB_PER_01,
-                  },
-                  {
-                    label: "Department",
-                    name: "DEPT_CD",
-                    value: userData.DEPT_CD,
-                  },
-                  { label: "Position", name: "POS_CD", value: userData.POS_CD },
-                  { label: "Email", name: "EMAIL", value: userData.EMAIL },
-                ].map((field, index) => (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <InputFieldComponent
-                      label={field.label}
-                      placeholder={field.label}
-                      name={field.name}
-                      value={field.value}
-                      readOnly={!!selectedEmployee}
-                      required
-                    />
-                  </Grid>
-                ))}
-              </Grid>
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Contact No"
+                variant="outlined"
+                name="MOB_NO_01"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.MOB_NO_01 : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Name"
+                variant="outlined"
+                name="EMP_NM"
+                required
+                fullWidth
+                size="small"
+                // value={user ? `${user.EMP_FNM} ${user.EMP_LNM}` : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Landline"
+                variant="outlined"
+                name="MOB_NO_02"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.MOB_NO_02 : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Department"
+                variant="outlined"
+                name="DEPT_CD"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.DEPT_CD : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Ext"
+                variant="outlined"
+                name="EXT"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.EXT : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Position"
+                variant="outlined"
+                name="POS_CD"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.POS_CD : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                name="EMAIL"
+                required
+                fullWidth
+                size="small"
+                // value={user ? user.EMAIL : ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
             </Box>
 
             {/* Right Section */}
             <Box
               sx={{
-                width: "20%",
+                width: "30%",
                 borderRadius: 1,
                 display: "flex",
                 flexDirection: "column",
@@ -335,7 +420,6 @@ const CommonCode = () => {
             >
               <Box
                 sx={{
-                  background: "red",
                   width: "100%",
                   height: "40%",
                   display: "flex",
@@ -351,7 +435,6 @@ const CommonCode = () => {
                   height:"60%",
                   maxHeight: "60%",
                   overflowY: "auto",
-                  background: "blue",
                   padding: "5px",
                 }}
               >
@@ -386,7 +469,7 @@ const CommonCode = () => {
               width: "calc(100vw - 550px)",
               maxHeight: "60%",
               overflowY: "auto",
-              background: "red",
+              background:"white"
             }}
           >
             <AccessTable />
