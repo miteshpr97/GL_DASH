@@ -13,7 +13,7 @@ import {
   TextField,
 } from "@mui/material";
 
-// import { InputFieldComponent } from "../../../components/CustomFormComponents";
+import { InputFieldComponent } from "../../../components/CustomFormComponents";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -143,7 +143,7 @@ const UserAccess = () => {
           // top: "0",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
+        <CommonBtn PAGE_CD="GLCMA100200" SAVE_CLICK={Save_Click} />
       </Box>
 
       <Box
@@ -289,118 +289,43 @@ const UserAccess = () => {
                 autoComplete="off"
               >
                 <Grid container>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="User ID"
-                      variant="outlined"
-                      name="EMP_CD"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.EMP_CD : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Contact No"
-                      variant="outlined"
-                      name="MOB_NO_01"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.MOB_NO_01 : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Name"
-                      variant="outlined"
-                      name="EMP_NM"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? `${user.EMP_FNM} ${user.EMP_LNM}` : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Landline"
-                      variant="outlined"
-                      name="MOB_NO_02"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.MOB_NO_02 : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Department"
-                      variant="outlined"
-                      name="DEPT_CD"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.DEPT_CD : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Ext"
-                      variant="outlined"
-                      name="EXT"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.EXT : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Position"
-                      variant="outlined"
-                      name="POS_CD"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.POS_CD : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Email"
-                      variant="outlined"
-                      name="EMAIL"
-                      required
-                      fullWidth
-                      size="small"
-                      // value={user ? user.EMAIL : ""}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Grid>
+                  {[
+                    { label: "EMP ID", name: "EMP_CD", value: userData.EMP_CD },
+                    {
+                      label: "MOB NO",
+                      name: "MOB_NO_01",
+                      value: userData.MOB_NO_01,
+                    },
+                    { label: "Name", name: "EMP_FNM", value: userData.EMP_FNM },
+                    {
+                      label: "Landline",
+                      name: "MOB_PER_01",
+                      value: userData.MOB_PER_01,
+                    },
+                    {
+                      label: "Department",
+                      name: "DEPT_CD",
+                      value: userData.DEPT_CD,
+                    },
+                    {
+                      label: "Position",
+                      name: "POS_CD",
+                      value: userData.POS_CD,
+                    },
+                    { label: "Email", name: "EMAIL", value: userData.EMAIL },
+                  ].map((field, index) => (
+                    <Grid item xs={12} sm={6} key={index}>
+                      <TextField
+                        label={field.label}
+                        placeholder={field.label}
+                        name={field.name}
+                        value={field.value}
+                        readOnly={!!selectedEmployee}
+                        size="small"
+                        required
+                      />
+                    </Grid>
+                  ))}
                 </Grid>
               </Box>
             </Box>
@@ -416,6 +341,12 @@ const UserAccess = () => {
                 justifyContent: "center",
                 maxHeight: "100%",
                 overflowY: "auto",
+
+
+
+
+
+                
               }}
             >
               <Box
@@ -472,7 +403,7 @@ const UserAccess = () => {
               background: "white",
             }}
           >
-            <AccessTable />
+            <AccessTable EMP_CD={userData.EMP_CD} />
           </Box>
         </Box>
       </Box>

@@ -1,86 +1,4 @@
 
-// import React from 'react';
-// import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-
-// // Standard style for form components
-// const standardStyles = {
-//   '& .MuiOutlinedInput-root': {
-//     height: '30px',  // Uniform height for all inputs
-//     // textAlign: 'center',
-//     fontSize: '14px',  // Uniform font size for input text
-//     marginTop: '10px',
-//   },
-//   '& .MuiInputBase-input::placeholder': {
-//     fontSize: '14px',  // Uniform placeholder font size
-//   },
-//   '& .MuiInputLabel-root': {
-//     fontSize: '14px',  // Uniform label font size
-//   },
-// };
-
-// // InputFieldComponent
-// export const InputFieldComponent = ({ label, placeholder, name, value, onChange, error, helperText,  required = false, }) => {
-//   return (
-//     <TextField
-//       label={label}
-//       placeholder={placeholder}
-//       name={name}
-//       value={value}
-//       onChange={onChange}
-//       variant="outlined"
-//       fullWidth
-//       margin="normal"
-//       error={error}
-//       helperText={helperText}
-//       sx={standardStyles}
-//       required 
-//     />
-//   );
-// };
-
-// // SelectComponent
-// export const SelectComponent = ({ label, options, name, value, onChange, error, helperText }) => {
-//   return (
-//     <FormControl fullWidth variant="outlined" margin="normal" error={error} sx={standardStyles}>
-//       <InputLabel>{label}</InputLabel>
-//       <Select
-//         name={name}
-//         value={value}
-//         onChange={onChange}
-//         label={label}
-//       >
-//         {options.map((option) => (
-//           <MenuItem key={option.value} value={option.value}>
-//             {option.label}
-//           </MenuItem>
-//         ))}
-//       </Select>
-//       {helperText && <p style={{ color: '#d32f2f', fontSize: '0.75rem', marginTop: '4px' }}>{helperText}</p>}
-//     </FormControl>
-//   );
-// };
-
-// // DateInputComponent
-// export const DateInputComponent = ({ label, name, value, onChange }) => {
-//   return (
-//     <TextField
-//       label={label}
-//       type="date"
-//       name={name}
-//       value={value}
-//       onChange={onChange}
-//       fullWidth
-//       InputLabelProps={{ shrink: true }}
-//       variant="outlined"
-//       sx={standardStyles}
-//     />
-//   );
-// };
-
-// export default DateInputComponent;
-
-
-
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -91,7 +9,7 @@ const standardStyles = {
   '& .MuiOutlinedInput-root': {
     height: '30px',  // Uniform height for all inputs
     fontSize: '14px',  // Uniform font size for input text
-    marginTop: '10px',
+    marginTop: '6px',
     fontWeight: 400, 
    
   },
@@ -124,6 +42,7 @@ export const InputFieldComponent = ({ label, placeholder, name, value, onChange,
       error={error}
       helperText={helperText}
       sx={standardStyles}
+      size="small"
       required={required}
       InputProps={{ readOnly }} 
       {...props}

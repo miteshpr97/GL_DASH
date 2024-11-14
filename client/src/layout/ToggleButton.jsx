@@ -84,6 +84,37 @@ export default ToggleButton;
 
 
 
+// import React from "react";
+// import { MdMenuOpen, MdOutlineMenu } from "react-icons/md";
+// import { useSidebar } from "../context/SidebarContext";
+// import { IconButton } from "@mui/material";
+
+// const ToggleButton = () => {
+//   const { isSidebarOpen, toggleSidebar } = useSidebar();
+
+//   return (
+//     <div>
+//       <IconButton
+//         onClick={toggleSidebar}
+//         variant="outlined"
+//         color="neutral"
+//         size="md"
+//         aria-label="Toggle sidebar"
+//         sx={{
+//           display: { xs: "flex" },
+//           color: "white",
+//           transition: "background-color 0.2s",
+//           fontSize: "8px",
+//           borderRadius: "0",
+//         }}
+//       >
+//         {isSidebarOpen ? <MdMenuOpen /> : <MdOutlineMenu />}
+//       </IconButton>
+//     </div>
+//   );
+// };
+
+// export default ToggleButton;
 
 
 

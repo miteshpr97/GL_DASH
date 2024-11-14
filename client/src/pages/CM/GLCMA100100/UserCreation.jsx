@@ -277,7 +277,7 @@ const UserCreation = () => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "600",
               }}
             >

@@ -44,7 +44,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
         <CustomButton
           variant="solid"
           onClick={() => handleClick("INQUIRY")}
-          sx={{ backgroundColor: "#1976d2", color:"white", padding: "1px 4px", }} // Blue for Inquiry
+          sx={{ backgroundColor: "#1976d2", color:"white", padding: "1px 4px", fontSize: "12px",   }} // Blue for Inquiry
         >
           INQUIRY
         </CustomButton>
@@ -54,7 +54,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
         <CustomButton
           variant=""
           onClick={() => SAVE_CLICK()}
-          sx={{ backgroundColor: "#388e3c",color:"white", padding: "1px 4px" }} // Green for Save
+          sx={{ backgroundColor: "#388e3c",color:"white", padding: "1px 4px",fontSize: "12px", }} // Green for Save
         >
           SAVE
         </CustomButton>
@@ -64,7 +64,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
         <CustomButton
           variant="solid"
           onClick={() => handleClick("UPDATE")}
-          sx={{ backgroundColor: "#ff9800", color: "white", padding: "1px 4px" }} // Orange for Update
+          sx={{ backgroundColor: "#ff9800", color: "white", padding: "1px 4px", fontSize: "12px", }} // Orange for Update
         >
           UPDATE
         </CustomButton>
@@ -74,7 +74,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
         <CustomButton
           variant="solid"
           onClick={() => handleClick("DELETE")}
-          sx={{ backgroundColor: "#d32f2f", color: "white", padding: "1px 4px" }} // Red for Delete
+          sx={{ backgroundColor: "#d32f2f", color: "white", padding: "1px 4px", fontSize: "12px", }} // Red for Delete
         >
           DELETE
         </CustomButton>
@@ -84,7 +84,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
         <CustomButton
           variant="solid"
           onClick={() => handleClick("EXCEL")}
-          sx={{ backgroundColor: "#6a1b9a", color: "white", padding: "1px 4px" }} // Purple for Excel
+          sx={{ backgroundColor: "#6a1b9a", color: "white", padding: "1px 4px", fontSize: "12px", }} // Purple for Excel
         >
           EXCEL
         </CustomButton>

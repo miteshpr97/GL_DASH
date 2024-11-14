@@ -7,21 +7,18 @@ import {
   TableCell,
   TableBody,
   Checkbox,
-  Paper,
 } from "@mui/material";
 import {
   _getAll_WithoutToken,
   _update_WithoutToken,
 } from "../../../CommonUtilAPI/GLApiClient";
 
-const AccessTable = () => {
+const AccessTable = ({EMP_CD}) => {
 
-
-  const [userAccess, setUserAccess] = useState('')
+  
+  const [userAccess, setUserAccess] = useState("");
 
   console.log(userAccess);
-  
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,18 +87,7 @@ const AccessTable = () => {
     };
 
     fetchData();
-  },);
-
-
-
-
-
-
-
-
-
-
-
+  });
 
   // Sample Data
   const dummyData = Array.from({ length: 20 }, (_, index) => ({
@@ -149,13 +135,13 @@ const AccessTable = () => {
     headerCell: {
       fontWeight: "bold",
       fontSize: "0.75rem",
-      backgroundColor: '#4c5bb5',
+      backgroundColor: "#4c5bb5",
       color: "#fff",
       textAlign: "center",
       padding: "8px",
-      whiteSpace: "nowrap",     
-      overflow: "hidden",       
-      textOverflow: "ellipsis",  
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
     row: {
       "&:nth-of-type(odd)": { backgroundColor: "#fafafa" },
@@ -165,17 +151,17 @@ const AccessTable = () => {
       textAlign: "center",
       fontSize: "0.65rem",
       padding: "6px",
-      fontWeight:"bold",
-      whiteSpace: "nowrap",      
-      overflow: "hidden",       
-      textOverflow: "ellipsis",  
+      fontWeight: "bold",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
   };
-  
+
   return (
-    <TableContainer  style={tableStyles.container}>
+    <TableContainer style={tableStyles.container}>
       <Table size="small" stickyHeader style={tableStyles.table}>
-        <TableHead>
+        <TableHead >
           <TableRow>
             {[
               "Module",
@@ -231,6 +217,13 @@ const AccessTable = () => {
                     checked={permissions[index]?.[field] || false}
                     onChange={() => handleCheckboxChange(index, field)}
                     size="small"
+                    sx={{
+                      '& .MuiSvgIcon-root': {
+                        color: '#007bff', // Set custom color
+                        fontSize: '0.85rem', // Set custom size if needed
+                      },
+                    }}
+                   
                   />
                 </TableCell>
               ))}
