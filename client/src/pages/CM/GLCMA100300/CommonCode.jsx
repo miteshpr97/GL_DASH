@@ -22,11 +22,10 @@ import {
   fetchUserCreationData,
   createUserData,
 } from "../../../features/userCreationSlice";
-import { useSidebar } from "../../../context/SidebarContext";
+
 
 const CommonCode = () => {
   const dispatch = useDispatch();
-  const { isSidebarOpen } = useSidebar();
 
   const userColumns = [
     { id: "EMP_CD", label: "EMP_CD", minWidth: 70 },
@@ -72,6 +71,7 @@ const CommonCode = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [Module, setModule] = useState("");
+
   const [tableData, setTableData] = useState([
     {
       Module: "Module1",
@@ -109,102 +109,8 @@ const CommonCode = () => {
       extraField2: "Extra2",
       extraField3: "Extra3",
     },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
+   
+  
   ]);
 
   const {
@@ -394,7 +300,7 @@ const CommonCode = () => {
               p: 1,
             }}
           >
-            <FormControl size="small" sx={{ minWidth: 150 }}>
+            <FormControl size="small" sx={{ minWidth: 200 }}>
               <InputLabel id="Module-select-label">Module</InputLabel>
               <Select
                 labelId="Module-select-label"
@@ -403,11 +309,9 @@ const CommonCode = () => {
                 label="Module"
                 onChange={handleModuleChange}
               >
-                {[...Array(5).keys()].map((num) => (
-                  <MenuItem key={num} value={num + 1}>
-                    {num + 1}
-                  </MenuItem>
-                ))}
+                <MenuItem value="AM">AM</MenuItem>
+                <MenuItem value="CM">CM</MenuItem>
+                
               </Select>
             </FormControl>
             <Button
@@ -416,7 +320,7 @@ const CommonCode = () => {
               color="primary"
               sx={{
                 fontSize: "11px",
-                padding: "8px 12px",
+                padding: "3px 8px",
               }}
             >
               Add New Row
