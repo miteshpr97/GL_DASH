@@ -11,6 +11,7 @@ const standardStyles = {
     fontSize: '14px',  // Uniform font size for input text
     marginTop: '6px',
     fontWeight: 400, 
+    
    
   },
   '& .MuiInputBase-input::placeholder': {

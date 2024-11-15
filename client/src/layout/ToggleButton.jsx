@@ -1,49 +1,15 @@
-
 import React from "react";
-import IconButton from "@mui/material/IconButton";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import { MdMenuOpen, MdOutlineMenu } from "react-icons/md";
+import { useSidebar } from "../context/SidebarContext";
+import { IconButton } from "@mui/material";
 
 const ToggleButton = () => {
-
-  function openSidebar() {
-    console.log("open sidbar");
-
-    if (typeof document !== "undefined") {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.setProperty(
-        "--SideNavigation-slideIn",
-        "1"
-      );
-    }
-  }
-
-  function closeSidebar() {
-    console.log("close");
-
-    if (typeof document !== "undefined") {
-      document.documentElement.style.removeProperty("--SideNavigation-slideIn");
-      document.body.style.removeProperty("overflow");
-    }
-  }
-
-  function toggleSidebar() {
-    console.log("Toggle Sidebar triggered");
-    if (typeof window !== "undefined" && typeof document !== "undefined") {
-      const slideIn = window
-        .getComputedStyle(document.documentElement)
-        .getPropertyValue("--SideNavigation-slideIn");
-      if (slideIn) {
-        closeSidebar();
-      } else {
-        openSidebar();
-      }
-    }
-  }
+  const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   return (
     <div>
       <IconButton
-        onClick={() => toggleSidebar()}
+        onClick={toggleSidebar}
         variant="outlined"
         color="neutral"
         size="md"
@@ -51,71 +17,19 @@ const ToggleButton = () => {
         sx={{
           display: { xs: "flex" },
           color: "white",
-          transition: "background-color 0.2s",
-          fontSize: "8px",
-          borderRadius: "0",
+          transition: "background-color 0.3s ease, transform 0.3s ease", // Added smooth transition
+          fontSize: "20px",
+          borderRadius: "50%",
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.1)', // Smooth hover effect
+            transform: 'scale(1.1)', // Slight zoom effect on hover
+          },
         }}
       >
-        <MenuRoundedIcon />
+        {isSidebarOpen ? <MdOutlineMenu /> : <MdMenuOpen />}
       </IconButton>
     </div>
   );
 };
 
 export default ToggleButton;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from "react";
-// import { MdMenuOpen, MdOutlineMenu } from "react-icons/md";
-// import { useSidebar } from "../context/SidebarContext";
-// import { IconButton } from "@mui/material";
-
-// const ToggleButton = () => {
-//   const { isSidebarOpen, toggleSidebar } = useSidebar();
-
-//   return (
-//     <div>
-//       <IconButton
-//         onClick={toggleSidebar}
-//         variant="outlined"
-//         color="neutral"
-//         size="md"
-//         aria-label="Toggle sidebar"
-//         sx={{
-//           display: { xs: "flex" },
-//           color: "white",
-//           transition: "background-color 0.2s",
-//           fontSize: "8px",
-//           borderRadius: "0",
-//         }}
-//       >
-//         {isSidebarOpen ? <MdMenuOpen /> : <MdOutlineMenu />}
-//       </IconButton>
-//     </div>
-//   );
-// };
-
-// export default ToggleButton;
-
-
-
-

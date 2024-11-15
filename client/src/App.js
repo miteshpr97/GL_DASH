@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, Outlet, redirect, useNavigate } from 'react-router-dom';
-import { CssBaseline, Box, ThemeProvider, createTheme } from '@mui/material'; // Import MUI components
+import React, { useContext, useEffect,} from 'react';
+import { useLocation, redirect,  } from 'react-router-dom';
+import { CssBaseline, Box, ThemeProvider,} from '@mui/material'; // Import MUI components
 import userContext from './context/userContext/userContext';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
@@ -10,6 +10,7 @@ import configServ from './services/config';
 import Alert from './components/Alert';
 import theme from './themes/theme';
 import { SidebarProvider } from "./context/SidebarContext"
+import MainContent from './layout/main';
 
 
 
@@ -19,6 +20,9 @@ function App() {
     // const navigate = useNavigate();
     const token = Cookies.get('authToken');
     let decodedToken;
+
+
+
 
 
     const getAdmin = async (id) => {
@@ -41,35 +45,12 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <SidebarProvider>
-
                 <CssBaseline />
                 <Alert />
                 <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
-
-
                     {location.pathname !== '/login' && <Header />}
                     {location.pathname !== '/login' && <Sidebar />}
-                    <Box
-                        component="main"
-                        className="MainContent"
-                        sx={{
-                            pt: { xs: 'calc(12px + var(--Header-height))' },
-                            pb: { xs: 2, sm: 2, md: 0 },
-                            flex: 1,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            minWidth: 0,
-                            height: '100vh',
-                            gap: 1,
-                            background: "#F3F4F6",
-                            marginLeft: { xs: 0, md: 'var(--Sidebar-width)' },
-                            padding: '10px',
-                            zIndex: 1000,
-                            overflow: "auto"
-                        }}
-                    >
-                        <Outlet />
-                    </Box>
+                    <MainContent />
                 </Box>
 
             </SidebarProvider>

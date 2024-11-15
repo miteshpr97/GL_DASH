@@ -20,7 +20,7 @@ export default function MuiLogo(props) {
     >
       <img
         src={Logo}
-        alt="Custom Logo"
+        alt="Loading ..."
         style={{ width: "100%", height: "100%", objectFit: "cover" }} // Maintain aspect ratio with cover
       />
     </Box>

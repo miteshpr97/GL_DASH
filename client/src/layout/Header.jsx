@@ -1,10 +1,12 @@
 import * as React from "react";
-
 import { AppBar, Box } from "@mui/material";
 import ColorSchemeToggle from "../components/ColorSchemeToggle";
 import ToggleButton from "./ToggleButton";
+import { useSidebar } from "../context/SidebarContext";
 
 export default function Header({ onToggleTheme, mode }) {
+  const { isSidebarOpen } = useSidebar();
+
   return (
     <AppBar
       sx={{
@@ -12,11 +14,11 @@ export default function Header({ onToggleTheme, mode }) {
         alignItems: "center",
         position: "fixed",
         top: 0,
-        width: {
-          xs: "100%",
-          sm: "calc(100% - var(--Sidebar-width, 220px))",
-         
-        },
+        width: isSidebarOpen 
+          ? { xs: "100%", sm: "calc(100% - var(--Sidebar-width, 220px))" } 
+          : "100%",  // Ensure it fills the width when sidebar is closed
+          transition: "transform 0.4s ease, width 0.4s ease",
+
         height: "var(--Header-height)",
         zIndex: 9998,
         padding: "4px 16px",
@@ -24,7 +26,6 @@ export default function Header({ onToggleTheme, mode }) {
         borderBottom: "1px solid",
         borderColor: "background.level1",
         boxShadow: "none",
-       
       }}
     >
       <Box
@@ -33,71 +34,11 @@ export default function Header({ onToggleTheme, mode }) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-       
         }}
       >
-
-        <ToggleButton/>
-        
-
+        <ToggleButton />
         <ColorSchemeToggle onClick={onToggleTheme} mode={mode} />
-
-      
       </Box>
     </AppBar>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { AppBar, Box, IconButton } from '@mui/material';
-// import MenuIcon from '@mui/icons-material/Menu'; // Use Material UI's Menu icon
-
-// export default function Header({ toggleSidebar }) {
-//   return (
-//     <AppBar
-//       sx={{
-//         display: "flex",
-//         alignItems: "center",
-//         position: "fixed",
-//         top: 0,
-//         width: {
-//           xs: "100%",
-//           sm: "calc(100% - var(--Sidebar-width, 220px))",
-//         },
-//         height: "var(--Header-height)",
-//         zIndex: 9998,
-//         padding: "4px 16px",
-//         gap: 1,
-//         borderBottom: "1px solid",
-//         borderColor: "background.level1",
-//         boxShadow: "none",
-//       }}
-//     >
-//       <Box
-//         sx={{
-//           width: "100%",
-//           display: "flex",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//         }}
-//       >
-//         {/* Add a button or icon to toggle the sidebar */}
-//         <IconButton color="inherit" onClick={toggleSidebar}>
-//           <MenuIcon />
-//         </IconButton>
-//       </Box>
-//     </AppBar>
-//   );
-// }
