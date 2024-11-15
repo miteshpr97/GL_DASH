@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  Grid,
-  Stack,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +15,6 @@ import {
   TextField,
 } from "@mui/material";
 
-import { InputFieldComponent } from "../../../components/CustomFormComponents";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,11 +22,11 @@ import {
   fetchUserCreationData,
   createUserData,
 } from "../../../features/userCreationSlice";
-import ProfilePhoto from "../../../assets/profilepic2.jpg";
-import AccessTable from "../GLCMA100200/Access";
+import { useSidebar } from "../../../context/SidebarContext";
 
 const CommonCode = () => {
   const dispatch = useDispatch();
+  const { isSidebarOpen } = useSidebar();
 
   const userColumns = [
     { id: "EMP_CD", label: "EMP_CD", minWidth: 70 },
@@ -70,8 +71,141 @@ const CommonCode = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  //userData as userDataList use because of  clashing
+  const [Module, setModule] = useState("");
+  const [tableData, setTableData] = useState([
+    {
+      Module: "Module1",
+      codeDvn: "Dvn1",
+      codeNo: "001",
+      codeNm: "Name1",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module2",
+      codeDvn: "Dvn2",
+      codeNo: "002",
+      codeNm: "Name2",
+      codeNmh: "NMH2",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+    {
+      Module: "Module3",
+      codeDvn: "Dvn3",
+      codeNo: "003",
+      codeNm: "Name3",
+      codeNmh: "NMH1",
+      codeNma: "NMA1",
+      codeNmo: "NMO1",
+      extraField1: "Extra1",
+      extraField2: "Extra2",
+      extraField3: "Extra3",
+    },
+  ]);
 
   const {
     userData: userDataList,
@@ -95,7 +229,6 @@ const CommonCode = () => {
   };
 
   const handleUserSelect = (user) => {
-    console.log("Selected employee data:", user);
     setUserData(user);
     setSelectedEmployee(user.EMP_CD);
   };
@@ -104,10 +237,15 @@ const CommonCode = () => {
     setPage(newPage);
   };
 
-  // // Conditional rendering for loading, error, and data
-  // if (status === "loading") {
-  //   return <p>Loading...</p>;
-  // }
+  const handleModuleChange = (event) => {
+    setModule(event.target.value);
+  };
+
+  const handleTableChange = (event, index, field) => {
+    const newData = [...tableData];
+    newData[index][field] = event.target.value;
+    setTableData(newData);
+  };
 
   if (status === "failed") {
     return <p>Error: {error}</p>;
@@ -122,8 +260,9 @@ const CommonCode = () => {
         width: "100%",
         height: "100vh",
         p: 1,
-        // backgroundColor: "#e0e0e0",
         backgroundColor: "#fafafa",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Header with Action Buttons */}
@@ -134,13 +273,10 @@ const CommonCode = () => {
           alignItems: "center",
           p: 1,
           backgroundColor: "#ffffff",
-
           boxShadow: 2,
           borderRadius: 1,
           mb: 2,
           justifyContent: "flex-start",
-          // position: "sticky",
-          // top: "0",
         }}
       >
         <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
@@ -148,27 +284,24 @@ const CommonCode = () => {
 
       <Box
         sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "250px 1fr" },
           gap: 1,
           borderRadius: 1,
           p: 1,
           boxShadow: 2,
           height: "calc(100vh - 150px)",
+          transition: "transform 0.4s ease, width 0.4s ease",
         }}
       >
-        {/*  User List */}
+        {/* User List */}
         <Box
           sx={{
-            width: { xs: "100%", md: "250px" },
-            flexShrink: 0,
-
             borderRadius: 1,
             boxShadow: 2,
             background: "#ffffff",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-between",
           }}
         >
           <TableContainer sx={{ height: "90%" }}>
@@ -182,7 +315,6 @@ const CommonCode = () => {
                         minWidth: column.minWidth,
                         padding: "4px 18px",
                         fontWeight: "600",
-                        // background:"#1976d2",
                         backgroundColor: (theme) => theme.palette.primary.main,
                         color: "white",
                         fontSize: "12px",
@@ -205,7 +337,6 @@ const CommonCode = () => {
                         selectedEmployee === user.EMP_CD
                           ? "#e3eefa"
                           : "inherit",
-
                       transition: "background-color 0.3s ease",
                       "& .MuiTableCell-root": {
                         padding: "8px 18px",
@@ -240,8 +371,7 @@ const CommonCode = () => {
         {/* Main Box */}
         <Box
           sx={{
-            flex: 1,
-            backgroundColor: "white",
+            background: "white",
             borderRadius: 2,
             boxShadow: 3,
             p: 1,
@@ -249,230 +379,103 @@ const CommonCode = () => {
             display: "flex",
             flexDirection: "column",
             gap: 1,
+            overflowX: "auto",
+            transition: "width 0.4s ease",
+            width: "100%",
           }}
         >
+          {/* Pink Box with Dropdown and Create Button */}
           <Box
             sx={{
+              height: "50px",
               display: "flex",
-              gap: 2,
-              height: "40%",
-              width: "100%",
+              alignItems: "center",
+              justifyContent: "space-between",
+              p: 1,
             }}
           >
-            {/* Left Section */}
-            <Box
+            <FormControl size="small" sx={{ minWidth: 150 }}>
+              <InputLabel id="Module-select-label">Module</InputLabel>
+              <Select
+                labelId="Module-select-label"
+                id="Module-select"
+                value={Module}
+                label="Module"
+                onChange={handleModuleChange}
+              >
+                {[...Array(5).keys()].map((num) => (
+                  <MenuItem key={num} value={num + 1}>
+                    {num + 1}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
               sx={{
-                width: "70%",
-                display: "flex",
-                flexDirection: "column",
+                fontSize: "11px",
+                padding: "8px 12px",
               }}
             >
-              <Box
-          component="form"
-          sx={{
-            "& .MuiTextField-root": {
-              m: 0.6,
-              width: "calc(100% - 10px)",
-              "& .MuiInputBase-root": {
-                fontSize: "0.65rem",
-              },
-              "& .MuiInputLabel-root": {
-                fontSize: "0.65rem",
-              },
-            },
-
-            maxHeight: "100%",
-            overflowY:"auto",
-            width: "100%%",
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <Grid container>
-            <Grid item xs={6}>
-              <InputFieldComponent
-                label="User ID"
-                variant="outlined"
-                name="EMP_CD"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.EMP_CD : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Contact No"
-                variant="outlined"
-                name="MOB_NO_01"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.MOB_NO_01 : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Name"
-                variant="outlined"
-                name="EMP_NM"
-                required
-                fullWidth
-                size="small"
-                // value={user ? `${user.EMP_FNM} ${user.EMP_LNM}` : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Landline"
-                variant="outlined"
-                name="MOB_NO_02"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.MOB_NO_02 : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Department"
-                variant="outlined"
-                name="DEPT_CD"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.DEPT_CD : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Ext"
-                variant="outlined"
-                name="EXT"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.EXT : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Position"
-                variant="outlined"
-                name="POS_CD"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.POS_CD : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Email"
-                variant="outlined"
-                name="EMAIL"
-                required
-                fullWidth
-                size="small"
-                // value={user ? user.EMAIL : ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
-          </Grid>
-        </Box>
-            </Box>
-
-            {/* Right Section */}
-            <Box
-              sx={{
-                width: "30%",
-                borderRadius: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                maxHeight: "100%",
-                overflowY: "auto",
-              }}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "40%",
-                  display: "flex",
-                  justifyContent: "center",
-                  padding: "5px",
-                }}
-              >
-                <img src={ProfilePhoto} alt="" style={{ height: "100%" }} />
-              </Box>
-              <Box
-                sx={{
-                  width: "100%",
-                  height:"60%",
-                  maxHeight: "60%",
-                  overflowY: "auto",
-                  padding: "5px",
-                }}
-              >
-                <Stack spacing={0.5}>
-                  <Button
-                    variant="contained"
-                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
-                  >
-                    Password reset
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
-                    color="error"
-                  >
-                    Block
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{fontSize: "0.65rem", padding: "3px 10px" }}
-                    color="success"
-                  >
-                    Activate
-                  </Button>
-                </Stack>
-              </Box>
-            </Box>
+              Add New Row
+            </Button>
           </Box>
 
+          {/* Table in Light Blue Box */}
           <Box
             sx={{
-              width: "calc(100vw - 550px)",
-              maxHeight: "60%",
-              overflowY: "auto",
-              background:"white"
+              flex: 1,
+              pt:1,
+              maxHeight:"calc(100% - 60px)",
+              overflowX: "auto",
             }}
           >
-            <AccessTable />
+            <TableContainer sx={{ maxHeight: "100%" }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead >
+                  <TableRow>
+                    {Object.keys(tableData[0]).map((header, idx) => (
+                      <TableCell
+                        key={idx}
+                        sx={{
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          background: "#4c5bb5",
+                          color: "#fff",
+                          padding: "8px 20px",
+                        }}
+                      >
+                        {header}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tableData.map((row, index) => (
+                  <TableRow key={index}>
+                  {Object.keys(row).map((field, idx) => (
+                    <TableCell key={idx}>
+                      <TextField
+                        value={row[field]}
+                        variant="standard"
+                        onChange={(event) => handleTableChange(event, index, field)}
+                        size="small"
+                        inputProps={{
+                          style: {
+                            fontSize: '11px', // Set your desired font size for the text here
+                          },
+                        }}
+                      />
+                    </TableCell>
+                  ))}
+                </TableRow>
+                
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
         </Box>
       </Box>
@@ -481,103 +484,3 @@ const CommonCode = () => {
 };
 
 export default CommonCode;
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// const  CommonCode = () => {
-//   const [countries, setCountries] = useState([]);
-//   const [states, setStates] = useState([]);
-//   const [cities, setCities] = useState([]);
-//   const [selectedCountry, setSelectedCountry] = useState('');
-//   const [selectedState, setSelectedState] = useState('');
-//   const [selectedCity, setSelectedCity] = useState('');
-
-//   // Fetch all countries
-//   useEffect(() => {
-//     axios.get('https://restcountries.com/v3.1/all')
-//       .then((response) => {
-//         setCountries(response.data);
-//       })
-//       .catch((error) => {
-//         console.error('Error fetching countries:', error);
-//       });
-//   }, []);
-
-//   // Fetch states when a country is selected
-//   useEffect(() => {
-//     if (selectedCountry) {
-//       axios.get(`https://api.example.com/states?country=${selectedCountry}`)
-//         .then((response) => {
-//           setStates(response.data);
-//           setSelectedState('');
-//           setCities([]);
-//         })
-//         .catch((error) => {
-//           console.error('Error fetching states:', error);
-//         });
-//     }
-//   }, [selectedCountry]);
-
-//   // Fetch cities when a state is selected
-//   useEffect(() => {
-//     if (selectedState) {
-//       axios.get(`https://api.example.com/cities?state=${selectedState}`)
-//         .then((response) => {
-//           setCities(response.data);
-//         })
-//         .catch((error) => {
-//           console.error('Error fetching cities:', error);
-//         });
-//     }
-//   }, [selectedState]);
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log('Selected Location:', { selectedCountry, selectedState, selectedCity });
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <div>
-//         <label>Country</label>
-//         <select value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
-//           <option value="">Select Country</option>
-//           {countries.map((country) => (
-//             <option key={country.cca3} value={country.cca3}>
-//               {country.name.common}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       <div>
-//         <label>State</label>
-//         <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)} disabled={!selectedCountry}>
-//           <option value="">Select State</option>
-//           {states.map((state) => (
-//             <option key={state.id} value={state.name}>
-//               {state.name}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       <div>
-//         <label>City</label>
-//         <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} disabled={!selectedState}>
-//           <option value="">Select City</option>
-//           {cities.map((city) => (
-//             <option key={city.id} value={city.name}>
-//               {city.name}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
-// };
-
-// export default  CommonCode;
