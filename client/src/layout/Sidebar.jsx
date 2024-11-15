@@ -23,45 +23,21 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
-import { closeSidebar } from "../utils";
 import { _post } from "../CommonUtilAPI/GLApiClient";
 import MuiLogo from "../components/MuiLogo";
 import { useSidebar } from "../context/SidebarContext";
 
 export default function Sidebar() {
-  const { isSidebarOpen, closeSidebar } = useSidebar();
-
   const theme = useTheme();
   const location = useLocation();
+  const { user } = React.useContext(userContext);
+  const { isSidebarOpen, closeSidebar } = useSidebar();
 
+  const [menuData, setMenuData] = React.useState([]);
   const [openModules, setOpenModules] = React.useState(() => {
     const storedState = sessionStorage.getItem("openModules");
     return storedState ? JSON.parse(storedState) : {};
   });
-
-  const { user } = React.useContext(userContext);
-
-  function getInitials(name) {
-    if (!name) {
-      return "...";
-    }
-    const words = name.split(" ");
-    let initials = "";
-    for (let i = 0; i < words.length; i++) {
-      initials += words[i].charAt(0).toUpperCase();
-    }
-    return initials;
-  }
-
-  const logout = async () => {
-    const isOkay = window.confirm("You are about to be logged out");
-    if (isOkay) {
-      Cookies.remove("authToken");
-      window.location.reload();
-    }
-  };
-
-  const [menuData, setMenuData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchMenuData = async () => {
@@ -168,7 +144,26 @@ export default function Sidebar() {
     </List>
   );
 
-  // let abc = true
+  function getInitials(name) {
+    if (!name) {
+      return "...";
+    }
+    const words = name.split(" ");
+    let initials = "";
+    for (let i = 0; i < words.length; i++) {
+      initials += words[i].charAt(0).toUpperCase();
+    }
+    return initials;
+  }
+
+  const logout = async () => {
+    const isOkay = window.confirm("You are about to be logged out");
+    if (isOkay) {
+      Cookies.remove("authToken");
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       <GlobalStyles
@@ -180,33 +175,33 @@ export default function Sidebar() {
         }}
       />
       <Drawer
-   className="Sidebar"
-   variant="permanent"
-   anchor="left"
-   sx={{
-     position: "fixed",
-     left: 0,
-     width: "var(--Sidebar-width)",
-     display: "flex",
-     flexDirection: "column",
-     zIndex: 9999,
-     borderRight: "1px solid #ddd",
-     [`& .MuiDrawer-paper`]: {
-       width: "220px",
-       boxSizing: "border-box",
-       backgroundColor: (theme) => theme.palette.secondary.main,
-       color: "white",
-       top: "unset",
-       height: "100vh",
-       transform: {
-         // Toggle sidebar visibility based on screen size and `isSidebarOpen` state
-         xs: isSidebarOpen ? "translateX(0)" : "translateX(-100%)", // For small screens, toggle based on state
-         sm: isSidebarOpen ? "translateX(0)" : "translateX(-100%)", // For medium screens
-         md: isSidebarOpen ? "translateX(0)" : "translateX(-100%)", // For larger screens
-       },
-       transition: "transform 0.4s ease, width 0.4s ease",
-     },
-   }}
+        className="Sidebar"
+        variant="permanent"
+        anchor="left"
+        sx={{
+          position: "fixed",
+          left: 0,
+          width: "var(--Sidebar-width)",
+          display: "flex",
+          flexDirection: "column",
+          zIndex: 9999,
+          borderRight: "1px solid #ddd",
+          [`& .MuiDrawer-paper`]: {
+            width: "220px",
+            boxSizing: "border-box",
+            backgroundColor: (theme) => theme.palette.secondary.main,
+            color: "white",
+            top: "unset",
+            height: "100vh",
+            transform: {
+              // Toggle sidebar visibility based on screen size and `isSidebarOpen` state
+              xs: isSidebarOpen ? "translateX(0)" : "translateX(-100%)", // For small screens, toggle based on state
+              sm: isSidebarOpen ? "translateX(0)" : "translateX(-100%)", // For medium screens
+              md: isSidebarOpen ? "translateX(0)" : "translateX(-100%)", // For larger screens
+            },
+            transition: "transform 0.4s ease, width 0.4s ease",
+          },
+        }}
       >
         <Box
           className="Sidebar-overlay"
@@ -227,7 +222,7 @@ export default function Sidebar() {
           }}
           onClick={() => closeSidebar()} // Close sidebar when overlay is clicked
         />
-        
+
         <span style={{ marginLeft: "20px", marginTop: "10px" }}>
           <MuiLogo />
         </span>

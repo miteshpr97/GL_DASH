@@ -475,3 +475,182 @@ export default function Sidebar() {
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import * as React from "react";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Box,
+  useTheme,
+} from "@mui/material";
+import { NavLink, useLocation } from "react-router-dom";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import MuiLogo from "../components/MuiLogo";
+import { useSidebar } from "../context/SidebarContext";
+
+export default function Sidebar() {
+  const { isSidebarOpen, closeSidebar } = useSidebar();
+  const theme = useTheme();
+  const location = useLocation();
+
+  return (
+    <>
+      {/* Global styles for CSS variables */}
+      <GlobalStyles
+        styles={{
+          ":root": {
+            "--Sidebar-width": isSidebarOpen ? "220px" : "80px", // Sidebar width adjusts based on open state
+            "--Header-height": "55px",
+          },
+        }}
+      />
+
+      {/* Sidebar Drawer */}
+      <Drawer
+        className="Sidebar"
+        variant="permanent"
+        anchor="left"
+        sx={{
+          position: "fixed",
+          left: 0,
+          width: "var(--Sidebar-width)",
+          display: "flex",
+          flexDirection: "column",
+          zIndex: 1200,
+          borderRight: `1px solid ${theme.palette.divider}`,
+          [`& .MuiDrawer-paper`]: {
+            width: "var(--Sidebar-width)",
+            boxSizing: "border-box",
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.common.white,
+            top: 0,
+            height: "100vh",
+            transition: "transform 0.4s ease, width 0.4s ease",
+            overflowX: "hidden",
+          },
+        }}
+      >
+        {/* Overlay for mobile view */}
+        <Box
+          className="Sidebar-overlay"
+          sx={{
+            position: "fixed",
+            zIndex: 1100,
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            opacity: isSidebarOpen ? 0.5 : 0,
+            visibility: isSidebarOpen ? "visible" : "hidden",
+            transition: "opacity 0.4s ease",
+          }}
+          onClick={closeSidebar}
+        />
+
+        {/* Logo Section */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            padding: isSidebarOpen ? "20px" : "10px",
+            justifyContent: isSidebarOpen ? "flex-start" : "center",
+          }}
+        >
+          <MuiLogo />
+        </Box>
+
+        {/* Navigation Links */}
+        <Box
+          sx={{
+            flexGrow: 1,
+            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "8px",
+          }}
+        >
+          <List
+            sx={{
+              padding: "0px",
+              "--List-nestedInsetStart": isSidebarOpen ? "20px" : "0px",
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton
+                component={NavLink}
+                to="/"
+                selected={location.pathname === "/"}
+                sx={{
+                  px: 2,
+                  py: 1,
+                  "&.active": {
+                    backgroundColor: theme.palette.action.selected,
+                    color: theme.palette.common.white,
+                    borderRadius: `${theme.shape.borderRadius}px`,
+                  },
+                }}
+              >
+                <DashboardRoundedIcon
+                  sx={{
+                    fontSize: 24,
+                    mr: isSidebarOpen ? 1 : 0,
+                    color: theme.palette.common.white,
+                  }}
+                />
+                {isSidebarOpen && (
+                  <ListItemText
+                    primary="Dashboard"
+                    sx={{
+                      "& .MuiListItemText-primary": {
+                        fontSize: "0.875rem",
+                        fontFamily: "'Roboto', sans-serif",
+                        color: "white",
+                      },
+                    }}
+                  />
+                )}
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+    </>
+  );
+}

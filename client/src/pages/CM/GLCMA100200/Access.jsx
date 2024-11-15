@@ -13,7 +13,15 @@ import {
   _update_WithoutToken,
 } from "../../../CommonUtilAPI/GLApiClient";
 
+
+
 const AccessTable = ({EMP_CD}) => {
+
+  const apiUrl = process.env.REACT_APP_API_URL;
+
+  console.log(apiUrl);
+  
+
 
   
   const [userAccess, setUserAccess] = useState("");
@@ -23,7 +31,7 @@ const AccessTable = ({EMP_CD}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await _getAll_WithoutToken("/api/GLCMA100200/");
+        const response = await _getAll_WithoutToken("/userData");
         setUserAccess(response.data);
 
         // if (USER_CD) {

@@ -20,6 +20,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
+    "json-server": "^1.0.0-beta.3",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
