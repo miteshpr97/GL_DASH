@@ -11,14 +11,9 @@ import {
   useTheme,
   Divider,
   Typography,
-  Avatar,
-  IconButton,
 } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import Cookies from "js-cookie";
-import userContext from "../context/userContext/userContext";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ListAltIcon from "@mui/icons-material/ListAlt";
@@ -30,7 +25,7 @@ import { useSidebar } from "../context/SidebarContext";
 export default function Sidebar() {
   const theme = useTheme();
   const location = useLocation();
-  const { user } = React.useContext(userContext);
+
   const { isSidebarOpen, closeSidebar } = useSidebar();
 
   const [menuData, setMenuData] = React.useState([]);
@@ -144,26 +139,6 @@ export default function Sidebar() {
     </List>
   );
 
-  function getInitials(name) {
-    if (!name) {
-      return "...";
-    }
-    const words = name.split(" ");
-    let initials = "";
-    for (let i = 0; i < words.length; i++) {
-      initials += words[i].charAt(0).toUpperCase();
-    }
-    return initials;
-  }
-
-  const logout = async () => {
-    const isOkay = window.confirm("You are about to be logged out");
-    if (isOkay) {
-      Cookies.remove("authToken");
-      window.location.reload();
-    }
-  };
-
   return (
     <>
       <GlobalStyles
@@ -223,7 +198,7 @@ export default function Sidebar() {
           onClick={() => closeSidebar()} // Close sidebar when overlay is clicked
         />
 
-        <span style={{ marginLeft: "20px", marginTop: "10px" }}>
+        <span style={{ marginLeft: "10px", marginTop: "10px" }}>
           <MuiLogo />
         </span>
 
@@ -325,31 +300,8 @@ export default function Sidebar() {
         {/* User section */}
         <Divider />
 
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center", padding: 2 }}>
-          <Avatar sx={{ width: 32, height: 32 }}>
-            {user && getInitials(user.name)}
-          </Avatar>
-          <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: "bold",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {user ? user.name : "Guest"}
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
-            >
-              {user ? user.email : ""}
-            </Typography>
-          </Box>
-          <IconButton onClick={logout} size="small">
-            <LogoutRoundedIcon fontSize="small" />
-          </IconButton>
+        <Box sx={{ display: "flex",  alignItems: "center", padding: 2 , justifyContent:"center"}}>
+          <Typography >Visiwms</Typography>
         </Box>
       </Drawer>
     </>

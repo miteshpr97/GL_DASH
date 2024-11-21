@@ -191,7 +191,7 @@ export default function DataTable() {
         sx={{
           "& .MuiDataGrid-columnHeaders": {
             color: "black",
-            fontSize: "16px",
+            fontSize: "14px",
           },
           width: "100%", // Ensures DataGrid takes full width
         }}

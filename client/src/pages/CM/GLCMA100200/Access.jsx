@@ -156,7 +156,7 @@ const AccessTable = ({EMP_CD}) => {
       textAlign: "center",
       fontSize: "0.65rem",
       padding: "6px",
-      fontWeight: "bold",
+      // fontWeight: "bold",
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",

@@ -4,10 +4,11 @@ import {
 import Dashboard from "../pages/Dashboard";
 import App, { AppLoader } from "../App";
 import Login, { LoginLoader } from "../auth/Login";
-import RegTrans from "../pages/AM/GLAMT100100/RegTrans";
-import UserCreation from "../pages/CM/GLCMA100100/UserCreation";
+
 import UserAccess from "../pages/CM/GLCMA100200/UserAccess";
 import CommonCode from "../pages/CM/GLCMA100300/CommonCode";
+import GLAMT100100 from "../pages/AM/GLAMT100100";
+import GLCMA100100 from "../pages/CM/GLCMA100100";
 
 
 const router = createBrowserRouter([
@@ -23,11 +24,11 @@ const router = createBrowserRouter([
 
             {
                 path: 'GLAMT100100',
-                element: <RegTrans/>
+                element: <GLAMT100100/>
             },
             {
                 path: 'UserCreation',
-                element: <UserCreation/>
+                element: <GLCMA100100/>
             },
             {
                 path: 'UserAccess',

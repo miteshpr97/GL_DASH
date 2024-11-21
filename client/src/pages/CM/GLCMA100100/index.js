@@ -26,7 +26,7 @@ import {
   createUserData,
 } from "../../../features/userCreationSlice";
 
-const UserCreation = () => {
+const GLCMA100100 = () => {
   const dispatch = useDispatch();
 
   const userColumns = [
@@ -596,4 +596,4 @@ const UserCreation = () => {
   );
 };
 
-export default UserCreation;
+export default GLCMA100100;

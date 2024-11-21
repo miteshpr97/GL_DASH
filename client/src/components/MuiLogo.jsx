@@ -10,8 +10,8 @@ export default function MuiLogo(props) {
       {...other}
       sx={[
         {
-          width: 46,
-          height: 46, // Maintain a square aspect ratio
+          width: 50,
+          height: 50, // Maintain a square aspect ratio
           borderRadius: "4px", // You can adjust the border radius as needed
           overflow: "hidden", // To ensure the image doesn't overflow
         },
