@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  Grid,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -14,17 +12,16 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserCreationData,
-  createUserData,
 } from "../../../features/userCreationSlice";
+import ProfilePhoto from "../../../assets/profilepic2.jpg";
+import AccessTable from "./Access";
 
-
-const CommonCode = () => {
+const GLCMA100200 = () => {
   const dispatch = useDispatch();
 
   const userColumns = [
@@ -70,48 +67,8 @@ const CommonCode = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [Module, setModule] = useState("");
 
-  const [tableData, setTableData] = useState([
-    {
-      Module: "Module1",
-      codeDvn: "Dvn1",
-      codeNo: "001",
-      codeNm: "Name1",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module2",
-      codeDvn: "Dvn2",
-      codeNo: "002",
-      codeNm: "Name2",
-      codeNmh: "NMH2",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-    {
-      Module: "Module3",
-      codeDvn: "Dvn3",
-      codeNo: "003",
-      codeNm: "Name3",
-      codeNmh: "NMH1",
-      codeNma: "NMA1",
-      codeNmo: "NMO1",
-      extraField1: "Extra1",
-      extraField2: "Extra2",
-      extraField3: "Extra3",
-    },
-   
-  
-  ]);
+  //userData as userDataList use because of  clashing
 
   const {
     userData: userDataList,
@@ -129,12 +86,13 @@ const CommonCode = () => {
     if (event) {
       event.preventDefault();
     }
-    dispatch(createUserData(userData));
-    setUserData(initialUserData);
-    dispatch(fetchUserCreationData(userData));
+  alert("dhdhdh")
+   
   };
 
+
   const handleUserSelect = (user) => {
+    console.log("Selected employee data:", user);
     setUserData(user);
     setSelectedEmployee(user.EMP_CD);
   };
@@ -143,15 +101,10 @@ const CommonCode = () => {
     setPage(newPage);
   };
 
-  const handleModuleChange = (event) => {
-    setModule(event.target.value);
-  };
-
-  const handleTableChange = (event, index, field) => {
-    const newData = [...tableData];
-    newData[index][field] = event.target.value;
-    setTableData(newData);
-  };
+  // // Conditional rendering for loading, error, and data
+  // if (status === "loading") {
+  //   return <p>Loading...</p>;
+  // }
 
   if (status === "failed") {
     return <p>Error: {error}</p>;
@@ -166,9 +119,8 @@ const CommonCode = () => {
         width: "100%",
         height: "100vh",
         p: 1,
+        // backgroundColor: "#e0e0e0",
         backgroundColor: "#fafafa",
-        display: "flex",
-        flexDirection: "column",
       }}
     >
       {/* Header with Action Buttons */}
@@ -179,35 +131,41 @@ const CommonCode = () => {
           alignItems: "center",
           p: 1,
           backgroundColor: "#ffffff",
+
           boxShadow: 2,
           borderRadius: 1,
           mb: 2,
           justifyContent: "flex-start",
+          // position: "sticky",
+          // top: "0",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
+        <CommonBtn PAGE_CD="GLCMA100200" SAVE_CLICK={Save_Click} />
       </Box>
 
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "250px 1fr" },
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           gap: 1,
           borderRadius: 1,
           p: 1,
           boxShadow: 2,
           height: "calc(100vh - 150px)",
-          transition: "transform 0.4s ease, width 0.4s ease",
         }}
       >
-        {/* User List */}
+        {/*  User List */}
         <Box
           sx={{
+            width: { xs: "100%", md: "250px" },
+            flexShrink: 0,
+
             borderRadius: 1,
             boxShadow: 2,
             background: "#ffffff",
             display: "flex",
             flexDirection: "column",
+            justifyContent: "space-between",
           }}
         >
           <TableContainer sx={{ height: "90%" }}>
@@ -221,6 +179,7 @@ const CommonCode = () => {
                         minWidth: column.minWidth,
                         padding: "4px 18px",
                         fontWeight: "600",
+                        // background:"#1976d2",
                         backgroundColor: (theme) => theme.palette.primary.main,
                         color: "white",
                         fontSize: "12px",
@@ -243,6 +202,7 @@ const CommonCode = () => {
                         selectedEmployee === user.EMP_CD
                           ? "#e3eefa"
                           : "inherit",
+
                       transition: "background-color 0.3s ease",
                       "& .MuiTableCell-root": {
                         padding: "8px 18px",
@@ -277,7 +237,8 @@ const CommonCode = () => {
         {/* Main Box */}
         <Box
           sx={{
-            background: "white",
+            flex: 1,
+            backgroundColor: "white",
             borderRadius: 2,
             boxShadow: 3,
             p: 1,
@@ -285,101 +246,159 @@ const CommonCode = () => {
             display: "flex",
             flexDirection: "column",
             gap: 1,
-            overflowX: "auto",
-            transition: "width 0.4s ease",
-            width: "100%",
           }}
         >
-          {/* Pink Box with Dropdown and Create Button */}
           <Box
             sx={{
-              height: "50px",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              p: 1,
+              gap: 2,
+              height: "40%",
+              width: "100%",
             }}
           >
-            <FormControl size="small" sx={{ minWidth: 200 }}>
-              <InputLabel id="Module-select-label">Module</InputLabel>
-              <Select
-                labelId="Module-select-label"
-                id="Module-select"
-                value={Module}
-                label="Module"
-                onChange={handleModuleChange}
-              >
-                <MenuItem value="AM">AM</MenuItem>
-                <MenuItem value="CM">CM</MenuItem>
-                
-              </Select>
-            </FormControl>
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
+            {/* Left Section */}
+            <Box
               sx={{
-                fontSize: "11px",
-                padding: "3px 8px",
+                width: "70%",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              Add New Row
-            </Button>
+              <Box
+                component="form"
+                sx={{
+                  "& .MuiTextField-root": {
+                    m: 0.6,
+                    width: "calc(100% - 10px)",
+                    "& .MuiInputBase-root": {
+                      fontSize: "0.65rem",
+                    },
+                    "& .MuiInputLabel-root": {
+                      fontSize: "0.65rem",
+                    },
+                  },
+                  paddingTop: "5px",
+                  maxHeight: "100%",
+                  overflowY: "auto",
+                  width: "100%%",
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <Grid container>
+                  {[
+                    { label: "EMP ID", name: "EMP_CD", value: userData.EMP_CD },
+                    {
+                      label: "MOB NO",
+                      name: "MOB_NO_01",
+                      value: userData.MOB_NO_01,
+                    },
+                    { label: "Name", name: "EMP_FNM", value: userData.EMP_FNM },
+                    {
+                      label: "Landline",
+                      name: "MOB_PER_01",
+                      value: userData.MOB_PER_01,
+                    },
+                    {
+                      label: "Department",
+                      name: "DEPT_CD",
+                      value: userData.DEPT_CD,
+                    },
+                    {
+                      label: "Position",
+                      name: "POS_CD",
+                      value: userData.POS_CD,
+                    },
+                    { label: "Email", name: "EMAIL", value: userData.EMAIL },
+                  ].map((field, index) => (
+                    <Grid item xs={12} sm={6} key={index}>
+                      <TextField
+                        label={field.label}
+                        placeholder={field.label}
+                        name={field.name}
+                        value={field.value}
+                        readOnly={!!selectedEmployee}
+                        size="small"
+                        required
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </Box>
+
+            {/* Right Section */}
+            <Box
+              sx={{
+                width: "30%",
+                borderRadius: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                maxHeight: "100%",
+                overflowY: "auto",
+                
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "40%",
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "5px",
+                }}
+              >
+                <img src={ProfilePhoto} alt="" style={{ height: "100%" }} />
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "60%",
+                  maxHeight: "60%",
+                  overflowY: "auto",
+                  padding: "5px",
+                }}
+              >
+                <Stack spacing={0.5}>
+                  <Button
+                    variant="contained"
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
+                  >
+                    Password reset
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
+                    color="error"
+                  >
+                    Block
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ fontSize: "0.65rem", padding: "3px 10px" }}
+                    color="success"
+                  >
+                    Activate
+                  </Button>
+                </Stack>
+              </Box>
+            </Box>
           </Box>
 
-          {/* Table in Light Blue Box */}
           <Box
             sx={{
-              flex: 1,
-              pt:1,
-              maxHeight:"calc(100% - 60px)",
-              overflowX: "auto",
+              width: "calc(100vw - 550px)",
+              maxHeight: "60%",
+              overflowY: "auto",
+              background: "white",
             }}
           >
-            <TableContainer sx={{ maxHeight: "100%" }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead >
-                  <TableRow>
-                    {Object.keys(tableData[0]).map((header, idx) => (
-                      <TableCell
-                        key={idx}
-                        sx={{
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                          background: "#4c5bb5",
-                          color: "#fff",
-                          padding: "8px 20px",
-                        }}
-                      >
-                        {header}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tableData.map((row, index) => (
-                  <TableRow key={index}>
-                  {Object.keys(row).map((field, idx) => (
-                    <TableCell key={idx}>
-                      <TextField
-                        value={row[field]}
-                        variant="standard"
-                        onChange={(event) => handleTableChange(event, index, field)}
-                        size="small"
-                        inputProps={{
-                          style: {
-                            fontSize: '11px', // Set your desired font size for the text here
-                          },
-                        }}
-                      />
-                    </TableCell>
-                  ))}
-                </TableRow>
-                
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <AccessTable EMP_CD={userData.EMP_CD}
+            // Save_Click={SAVE_CLICK}
+           
+            />
           </Box>
         </Box>
       </Box>
@@ -387,4 +406,4 @@ const CommonCode = () => {
   );
 };
 
-export default CommonCode;
+export default GLCMA100200

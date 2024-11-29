@@ -21,8 +21,12 @@ async function Select_SP(strSP_name, strParameter) {
 
     let pool = await sql.connect(config);
     let reqObj = pool.request();
+    console.log(strParameter);
+    
 
     if (strParameter != "") {
+    console.log(strParameter);
+
       let entries = Object.entries(strParameter).forEach((entry) => {
         const [key, value] = entry;
         console.log("Key :" + key);

@@ -32,7 +32,7 @@ const columns = [
               ? "error"
               : "default"
         }
-        variant="outlined"
+        // variant="outlined"
       />
     ),
   },

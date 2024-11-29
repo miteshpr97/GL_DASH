@@ -35,7 +35,7 @@ router.get("/",async(req,res) => {
   console.log("GettingUserAccessPageTemplate");
 
   try {
-    const result  = await dbUtil.dbUtil_Temp.Select_SP("SP_GLCMA100200_06");
+    const result  = await dbUtil.dbUtil_Temp.Select_SP("SP_GLCMA100200_06", "");
     res.status(200).send(result);
   } catch (error) {
     console.log(error);
@@ -49,8 +49,8 @@ router.get("/:USER_CD",async(req,res) => {
   const strParaMeter = {
     USER_CD : req.params.USER_CD
   }; 
-  try {
-    const result = await dbUtil.dbUtil_Temp.Select_SP("SP_GLCMA100200_05" , strParaMeter);
+  try {    
+    const result = await dbUtil.dbUtil_Temp.Select_SP("SP_GLCMA100200_05" , strParaMeter,);
     res.status(200).send(result);
   } catch (error) {
     console.log(error);
