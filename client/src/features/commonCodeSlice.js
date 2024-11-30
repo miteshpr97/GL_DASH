@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setAlert } from './alertSlice';
+
 
 // Async thunk to fetch module data
 export const fetchmoduleData = createAsyncThunk(
     'commonCode/fetchmoduleData',
     async (selectedModule, { rejectWithValue }) => {
-
-        console.log(selectedModule);
-        
         try {
             const response = await axios.post('api/GLCMA100300/data', {
                 MODULE_CD: selectedModule.M_DVN,
@@ -20,6 +19,23 @@ export const fetchmoduleData = createAsyncThunk(
         }
     }
 );
+
+
+export const updateModuleData = createAsyncThunk(
+    'commonCode/updateModuleData',
+    async (moduleData, { rejectWithValue, dispatch }) => {
+        try {
+            const response = await axios.post('/api/GLCMA100300/', moduleData);
+            dispatch(setAlert({ msg: 'Update common code successfully!', alertType: 'success' }));
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(
+                error.response?.data?.message || 'Failed to update module data'
+            );
+        }
+    }
+);
+
 
 // Slice to manage common code data
 const commonCodeSlice = createSlice({
@@ -41,9 +57,25 @@ const commonCodeSlice = createSlice({
             })
             .addCase(fetchmoduleData.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload; // Use payload for better error details
+                state.error = action.payload; 
+            })
+            // Update module data
+            .addCase(updateModuleData.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(updateModuleData.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.commonModuleData = action.payload;
+            })
+            .addCase(updateModuleData.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload;
             });
     }
 });
+
+
+
+
 
 export default commonCodeSlice.reducer;

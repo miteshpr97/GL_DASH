@@ -237,7 +237,7 @@
 //         <MuiLogo />
 //       </span>
 
-     
+
 
 //       <Box
 //         sx={{
@@ -654,3 +654,123 @@ export default function Sidebar() {
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+// for use standard input field 
+                {/* <TableBody>
+                  {tableData.map((data, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {Object.entries(data).map(([key, value]) => (
+                        <TableCell
+                          key={key}
+                          sx={{
+                            padding: "8px 10px",
+                            fontSize: "12px",
+                          }}
+                        >
+                          <TextField
+                            fullWidth
+                            value={value}
+                            onChange={(event) =>
+                              handleTableChange(event, rowIndex, key)
+                            }
+                            sx={{
+                              "& .MuiInputBase-input": {
+                                fontSize: "11px",
+                                padding: "2px 5px",
+                              },
+                            }}
+                          />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody> */}
+
+
+
+
+
+
+
+
+
+                  
+                <TableBody>
+                  {tableData.map((data, rowIndex) => (
+                    <TableRow key={rowIndex}>
+                      {moduleName.map((column, colIndex) => (
+                        <TableCell key={colIndex} style={tableStyles.cell}>
+                          {column.readonly ? (
+                            data[column.id] // Display the value if readonly
+                          ) : (
+                            <TextField
+                              fullWidth
+                              value={data[column.id]}
+                              // variant="standard"
+                              onChange={(event) =>
+                                handleTableChange(event, rowIndex, column.id)
+                              }
+                              size="small"
+                              sx={{
+                                "& .MuiInputBase-input": {
+                                  fontSize: "11px",
+                                  padding: "2px 5px",
+                                },
+                              }}
+                            />
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

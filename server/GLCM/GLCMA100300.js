@@ -78,6 +78,7 @@ router.post("/", async (req, res) => {
   console.log("AddOrUpdateDetails");
 
   const records = req.body; // Assuming req.body is an array of objects
+  console.log(records)
   const results = [];
 
   try {

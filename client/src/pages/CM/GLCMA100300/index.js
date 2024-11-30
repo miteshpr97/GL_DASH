@@ -17,7 +17,7 @@ import {
 
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
-import { fetchmoduleData } from "../../../features/commonCodeSlice";
+import { fetchmoduleData, updateModuleData } from "../../../features/commonCodeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -30,15 +30,17 @@ const GLCMA100300 = () => {
   const [selectedModule, setSelectedModule] = useState(null);
   const [tableData, setTableData] = useState([]);
 
-  const [newrows, setNewRows] = useState([]); // State to store rows
-
-
   // Extract data and state from Redux
   const { commonModuleData, status, error } = useSelector((state) => state.commonCode);
 
+
+
+  console.log(tableData);
+  
+
   const moduleName = [
-    { id: "M_DVN", label: "M_DVN", minWidth: 70 },
-    { id: "C_DVN", label: "C_DVN", minWidth: 70 },
+    { id: "M_DVN", label: "M_DVN", minWidth: 70, readonly: true },
+    { id: "C_DVN", label: "C_DVN", minWidth: 70, readonly: true },
     { id: "CODE_NO", label: "CODE_NO", minWidth: 70 },
     { id: "CODE_NM", label: "CODE_NM", minWidth: 70 },
     { id: "CODE_NMH", label: "CODE_NMH", minWidth: 70 },
@@ -52,6 +54,8 @@ const GLCMA100300 = () => {
     { id: "SORT_BY", label: "SORT_BY", minWidth: 70 },
     { id: "RMKS", label: "RMKS", minWidth: 70 },
   ];
+
+
 
 
   useEffect(() => {
@@ -80,11 +84,20 @@ const GLCMA100300 = () => {
     fectchModuleDate()
   }, [module])
 
+
+
   const Save_Click = (event) => {
     if (event) {
       event.preventDefault();
+      if (moduleData && moduleData.length > 0) {
+        dispatch(updateModuleData(moduleData));
+      } else {
+        console.error("No data available to update.");
+        // Optionally, display an alert to the user
+      }
     }
   };
+
 
   const handleModuleSelect = (module) => {
     setSelectedModule(module);
@@ -101,41 +114,43 @@ const GLCMA100300 = () => {
   };
 
 
-  // if any changes requare change
+  // // if any changes requare change
+  // const handleTableChange = (event, index, field) => {
+  //   const newData = [...tableData];
+  //   newData[index][field] = event.target.value;
+  //   setTableData(newData);
+  // };
+
+
   const handleTableChange = (event, index, field) => {
-    const newData = [...tableData];
-    newData[index][field] = event.target.value;
-    setTableData(newData);
+    setTableData((prevData) =>
+      prevData.map((row, i) =>
+        i === index ? { ...row, [field]: event.target.value } : row
+      )
+    );
   };
 
 
 
-  // const addnewmoduleRow = ()=>{
-  //   const newRow = {
-  //     M_DVN: selectedModule?.M_DVN || "",
-  //     C_DVN: selectedModule?.C_DVN || "",
-  //     CODE_NO: "",
-  //     CODE_NM: "",
-  //     CODE_NMH: "",
-  //     CODE_NMA: "",
-  //     CODE_NMO: "",
-  //     SUB_GUN1: "",
-  //     SUB_GUN2: "",
-  //     SUB_GUN3: "",
-  //     SUB_GUN4: "",
-  //     SUB_GUN5: "",
-  //     SORT_BY: "",
-  //     RMKS: "",
-  //   };
+  const addnewmoduleRow = () => {
+    const newRow = {
+      M_DVN: selectedModule?.M_DVN || "",
+      C_DVN: selectedModule?.C_DVN || "",
+      CODE_NO: "",
+      CODE_NM: "",
+      CODE_NMH: "",
+      CODE_NMA: "",
+      CODE_NMO: "",
+      SUB_GUN1: "",
+      SUB_GUN2: "",
+      SUB_GUN3: "",
+      SUB_GUN4: "",
+      SUB_GUN5: "",
+      SORT_BY: "",
+      RMKS: "",
+    };
 
-  // }
-
-
-  const handleAddRow = () => {
-    setNewRows((prevRows) => [
-      ...prevRows,
-      { id: prevRows.length + 1, module: module, otherData: "" }, // Add a new row with default values
-    ]);
+    setTableData((prevData) => [...prevData, newRow]);
   };
 
 
@@ -143,20 +158,25 @@ const GLCMA100300 = () => {
   const startIndex = (page - 1) * rowsPerPage;
   const currentData = moduleData.slice(startIndex, startIndex + rowsPerPage);
 
+
   // Styles
   const tableStyles = {
     cell: {
       textAlign: "center",
-      padding: "6px",
+      padding: "8px 10px",
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",
     },
   };
 
+
+
   if (status === "failed") {
     return <p>Error: {error}</p>;
   }
+
+
 
   return (
     <Box
@@ -183,7 +203,7 @@ const GLCMA100300 = () => {
           justifyContent: "space-between",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
+        <CommonBtn PAGE_CD="GLCMA100300" SAVE_CLICK={Save_Click} />
 
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel id="Module-select-label">Module</InputLabel>
@@ -228,7 +248,7 @@ const GLCMA100300 = () => {
             <Table stickyHeader aria-label="user table">
               <TableHead>
                 <TableRow>
-                  {moduleName.slice(0, 3).map((column) => (
+                  {moduleName.slice(0, 4).map((column) => (
                     <TableCell
                       key={column.id}
                       sx={{
@@ -344,7 +364,7 @@ const GLCMA100300 = () => {
                 fontSize: "11px",
                 padding: "3px 8px",
               }}
-              onClick={handleAddRow}
+              onClick={addnewmoduleRow}
             >
               Add New Row
             </Button>
@@ -372,7 +392,7 @@ const GLCMA100300 = () => {
                             fontWeight: "bold",
                             background: "#4c5bb5",
                             color: "#fff",
-                            padding: "8px 20px",
+                            padding: "4px 8px",
                           }}
                         >
                           {column.label}
@@ -381,59 +401,40 @@ const GLCMA100300 = () => {
                   </TableRow>
                 </TableHead>
 
-                {/* <TableBody>
-                  {tableData.map((row, index) => (
-                    <TableRow key={index}>
-                      {Object.keys(row).map((field, idx) => (
-                        <TableCell key={idx}>
-                          <TextField
-                            value={row[field]}
-                            variant="standard"
-                            onChange={(event) =>
-                              handleTableChange(event, index, field)
-                            }
-                            size="small"
-                            inputProps={{
-                              style: {
-                                fontSize: "11px", // Set your desired font size for the text here
-                              },
-                            }}
-                          />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody> */}
-
+                
                 <TableBody>
                   {tableData.map((data, rowIndex) => (
                     <TableRow key={rowIndex}>
-                      {Object.entries(data).map(([key, value]) => (
-                        <TableCell
-                          key={key}
-                          sx={{
-                            padding: "8px 10px",
-                            fontSize: "12px",
-                          }}
-                        >
-                          <TextField
-                            fullWidth
-                            value={value}
-                            onChange={(event) =>
-                              handleTableChange(event, rowIndex, key)
-                            }
-                            sx={{
-                              "& .MuiInputBase-input": {
-                                fontSize: "11px",
-                                padding: "2px 5px",
-                              },
-                            }}
-                          />
+                      {moduleName.map((column, colIndex) => (
+                        <TableCell key={colIndex} style={tableStyles.cell}>
+                          {column.readonly ? (
+                            data[column.id] // Display the value if readonly
+                          ) : (
+                            <TextField
+                              fullWidth
+                              value={data[column.id]}
+                              // variant="standard"
+                              onChange={(event) =>
+                                handleTableChange(event, rowIndex, column.id)
+                              }
+                              size="small"
+                              sx={{
+                                "& .MuiInputBase-input": {
+                                  fontSize: "11px",
+                                  padding: "2px 5px",
+                                },
+                              }}
+                            />
+                          )}
                         </TableCell>
                       ))}
                     </TableRow>
                   ))}
                 </TableBody>
+
+
+              
+
               </Table>
             </TableContainer>
           </Box>
@@ -445,3 +446,18 @@ const GLCMA100300 = () => {
 };
 
 export default GLCMA100300;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
