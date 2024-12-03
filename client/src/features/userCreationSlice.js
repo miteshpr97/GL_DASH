@@ -2,14 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { setAlert } from './alertSlice';
 
-// Async thunk to fetch user creation data
-export const fetchUserCreationData = createAsyncThunk(
-  'userCreation/fetchUserCreationData',
-  async () => {
-    const response = await axios.get('api/UserCreation');
-    return response.data.reverse();
-  }
-);
 
 export const createUserData = createAsyncThunk(
   'userCreation/createUserData',
@@ -24,6 +16,18 @@ export const createUserData = createAsyncThunk(
     }
   }
 );
+
+
+// Async thunk to fetch user creation data
+export const fetchUserCreationData = createAsyncThunk(
+  'userCreation/fetchUserCreationData',
+  async () => {
+    const response = await axios.get('api/UserCreation');
+    return response.data.reverse();
+  }
+);
+
+
 
 const userCreationSlice = createSlice({
   name: 'userCreation',

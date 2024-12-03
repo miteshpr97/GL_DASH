@@ -6,6 +6,10 @@ import { _post_WithoutToken } from "../../CommonUtilAPI/GLApiClient";
 const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
   const [permissions, setPermissions] = useState(null);
   console.log(PAGE_CD, "page btn code");
+  console.log(SAVE_CLICK, "save click");
+
+
+  
 
   useEffect(() => {
     const fetchPermissions = async () => {
@@ -53,7 +57,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
       {permissions.PAGE_SAVE === "Y" && (
         <CustomButton
           variant=""
-          onClick={() => SAVE_CLICK()}
+          onClick={(event) => SAVE_CLICK(event)}
           sx={{ backgroundColor: "#388e3c",color:"white", padding: "1px 4px",fontSize: "12px", }} // Green for Save
         >
           SAVE

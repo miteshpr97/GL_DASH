@@ -105,7 +105,9 @@ export default function Header() {
   const logout = async () => {
     const isOkay = window.confirm("You are about to be logged out");
     if (isOkay) {
-      Cookies.remove("authToken");
+      // Cookies.remove("authToken");
+      sessionStorage.removeItem("authToken");
+
       window.location.reload();
     }
   };

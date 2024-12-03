@@ -62,7 +62,7 @@ function App() {
 export default App;
 
 export const AppLoader = () => {
-    const token = Cookies.get('authToken');
+    const token = sessionStorage.getItem('authToken');
     if (!token) {
         return redirect('/login')
     }

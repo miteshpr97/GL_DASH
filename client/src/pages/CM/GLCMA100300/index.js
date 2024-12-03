@@ -17,7 +17,7 @@ import {
 
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
-import { fetchmoduleData, updateModuleData } from "../../../features/commonCodeSlice";
+import { fetchmoduleData } from "../../../features/commonCodeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -86,17 +86,21 @@ const GLCMA100300 = () => {
 
 
 
-  const Save_Click = (event) => {
-    if (event) {
-      event.preventDefault();
-      if (moduleData && moduleData.length > 0) {
-        dispatch(updateModuleData(moduleData));
+  const Save_Click = async (event) => {  
+    if (event) event.preventDefault();
+    try {
+      const response = await axios.post('/api/GLCMA100300/', moduleData);
+      if (response.status === 200) {
+        alert('Data saved successfully');
       } else {
-        console.error("No data available to update.");
-        // Optionally, display an alert to the user
+        alert('Failed to save data');
       }
+    } catch (error) {
+      console.error('Error saving data:', error);
+      alert('Failed to save data');
     }
   };
+
 
 
   const handleModuleSelect = (module) => {
@@ -461,3 +465,19 @@ export default GLCMA100300;
 
 
 
+
+
+
+
+
+  // const Save_Click = (event) => {
+  //   if (event) {
+  //     event.preventDefault();
+  //     if (moduleData && moduleData.length > 0) {
+  //       dispatch(updateModuleData(moduleData));
+  //     } else {
+  //       console.error("No data available to update.");
+  //       // Optionally, display an alert to the user
+  //     }
+  //   }
+  // };

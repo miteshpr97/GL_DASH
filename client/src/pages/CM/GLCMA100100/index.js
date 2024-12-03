@@ -25,6 +25,7 @@ import {
   fetchUserCreationData,
   createUserData,
 } from "../../../features/userCreationSlice";
+import { setAlert } from "../../../features/alertSlice";
 
 const GLCMA100100 = () => {
   const dispatch = useDispatch();
@@ -97,13 +98,43 @@ const GLCMA100100 = () => {
     { label: "Female", value: "Female" },
   ];
 
-  const Save_Click = (event) => {
+  const Save_Click =async (event) => {
     if (event) {
       event.preventDefault();
     }
+    // Basic validation
+    if (!userData.EMP_FNM ||
+      !userData.EMP_SNM ||
+      !userData.EMP_LNM ||
+      !userData.EMAIL ||
+      !userData.MOB_NO_01 ||
+      !userData.POS_CD ||
+      !userData.DEPT_CD ||
+      !userData.EMAIL_PER ||
+      !userData.MOB_NO_02 ||
+      !userData.EMP_TP ||
+      !userData.REF_NO ||
+      !userData.STATUS ||
+      !userData.DATE_JOIN ||
+      !userData.DATE_BIRTH ||
+      !userData.GENDER ||
+      !userData.RELIGION ||
+      !userData.ADD_01 ||
+      !userData.ADD_STATE ||
+      !userData.ADD_LANDMARK ||
+      !userData.ADD_CITY ||
+      !userData.ADD_PIN ||
+      !userData.PAN_CARD ||
+      !userData.NATION_ID
+
+    ) {
+      dispatch(setAlert({ msg: 'Please fill all required fields', alertType: 'danger' }));
+      return;
+    }
     dispatch(createUserData(userData));
+    dispatch(fetchUserCreationData());
     setUserData(initialUserData);
-    dispatch(fetchUserCreationData(userData));
+
   };
 
   const handleUserSelect = (user) => {

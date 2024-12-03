@@ -395,10 +395,7 @@ const GLCMA100200 = () => {
               background: "white",
             }}
           >
-            <AccessTable EMP_CD={userData.EMP_CD}
-            // Save_Click={SAVE_CLICK}
-           
-            />
+            <AccessTable EMP_CD={userData.EMP_CD} />
           </Box>
         </Box>
       </Box>

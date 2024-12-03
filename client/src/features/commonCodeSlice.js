@@ -23,7 +23,10 @@ export const fetchmoduleData = createAsyncThunk(
 
 export const updateModuleData = createAsyncThunk(
     'commonCode/updateModuleData',
+  
+    
     async (moduleData, { rejectWithValue, dispatch }) => {
+        console.log(moduleData, "mitesh");
         try {
             const response = await axios.post('/api/GLCMA100300/', moduleData);
             dispatch(setAlert({ msg: 'Update common code successfully!', alertType: 'success' }));
