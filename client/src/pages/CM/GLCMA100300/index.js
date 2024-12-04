@@ -17,7 +17,7 @@ import {
 
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
-import { fetchmoduleData } from "../../../features/commonCodeSlice";
+import { fetchmoduleData, updateModuleData } from "../../../features/commonCodeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -29,13 +29,12 @@ const GLCMA100300 = () => {
   const [moduleData, setModuleData] = useState([]);
   const [selectedModule, setSelectedModule] = useState(null);
   const [tableData, setTableData] = useState([]);
+  const [hasChanges, setHasChanges] = useState(false);
+
 
   // Extract data and state from Redux
   const { commonModuleData, status, error } = useSelector((state) => state.commonCode);
 
-
-
-  console.log(tableData);
   
 
   const moduleName = [
@@ -57,16 +56,18 @@ const GLCMA100300 = () => {
 
 
 
-
   useEffect(() => {
     if (selectedModule) {
       dispatch(fetchmoduleData(selectedModule));
     }
   }, [selectedModule, dispatch]);
 
+
   useEffect(() => {
     setTableData(commonModuleData || []);
   }, [commonModuleData]);
+
+
 
   useEffect(() => {
     const fectchModuleDate = async () => {
@@ -86,27 +87,35 @@ const GLCMA100300 = () => {
 
 
 
-  const Save_Click = async (event) => {  
-    if (event) event.preventDefault();
+  const Save_Click = async (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    if (!hasChanges) {
+      alert("No changes detected. Please make changes before saving.");
+      return;
+    }
+  
+    
     try {
-      const response = await axios.post('/api/GLCMA100300/', moduleData);
-      if (response.status === 200) {
-        alert('Data saved successfully');
-      } else {
-        alert('Failed to save data');
-      }
+      await dispatch(updateModuleData(tableData));
+      if (selectedModule) {
+        dispatch(fetchmoduleData(selectedModule));
+      }  
+      alert("Data saved successfully!");
     } catch (error) {
-      console.error('Error saving data:', error);
-      alert('Failed to save data');
+      console.error("Error saving data:", error);
+      alert("Failed to save data. Please try again.");
     }
   };
-
-
+  
 
   const handleModuleSelect = (module) => {
     setSelectedModule(module);
     // setSelectedEmployee(user.EMP_CD);
   };
+
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -117,23 +126,14 @@ const GLCMA100300 = () => {
     setModule(event.target.value);
   };
 
-
-  // // if any changes requare change
-  // const handleTableChange = (event, index, field) => {
-  //   const newData = [...tableData];
-  //   newData[index][field] = event.target.value;
-  //   setTableData(newData);
-  // };
-
-
   const handleTableChange = (event, index, field) => {
     setTableData((prevData) =>
       prevData.map((row, i) =>
         i === index ? { ...row, [field]: event.target.value } : row
       )
     );
+    setHasChanges(true);
   };
-
 
 
   const addnewmoduleRow = () => {
@@ -157,10 +157,9 @@ const GLCMA100300 = () => {
     setTableData((prevData) => [...prevData, newRow]);
   };
 
-
-
   const startIndex = (page - 1) * rowsPerPage;
   const currentData = moduleData.slice(startIndex, startIndex + rowsPerPage);
+
 
 
   // Styles
