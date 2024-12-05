@@ -138,8 +138,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from "react";
-import { Box, Tabs, Tab, Fade, CircularProgress } from "@mui/material";
+import { Box, Tabs, Tab, Fade, CircularProgress, Slide, Collapse, Grow } from "@mui/material";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import DataTable from "../../../components/DataTable";
 import RegTrans from "./RegTrans";
@@ -147,20 +162,25 @@ import axios from "axios";
 
 function TabPanel({ children, value, index }) {
   return (
-    <Fade in={value === index} timeout={500}>
+    <Collapse in={value === index} timeout={500}>
       <Box sx={{ p: 3 }}>{children}</Box>
-    </Fade>
+    </Collapse>
   );
 }
 
 
+// function TabPanel({ children, value, index }) {
+//   return value === index && <Box sx={{ p: 3 }}>{children}</Box>;
+// }
+
+
 const GLAMT100100 = () => {
   const [value, setValue] = useState(0);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [regisData, setRegisData] = useState({
-    REG_DATE: new Date().toISOString().split("T")[0], 
+    REG_DATE: new Date().toISOString().split("T")[0],
     REF_TNO: null,
-    YEAR_CD:"",
+    YEAR_CD: "",
     POST_DTE: "",
     DOC_DTE: "",
     REF_TYPE: "",
@@ -251,7 +271,7 @@ const GLAMT100100 = () => {
               label="Transaction"
               sx={{
                 textTransform: "none",
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "bold",
               }}
             />
@@ -259,7 +279,7 @@ const GLAMT100100 = () => {
               label="Add Transaction"
               sx={{
                 textTransform: "none",
-                fontSize: "16px",
+                fontSize: "14px",
                 fontWeight: "bold",
               }}
             />
@@ -269,10 +289,11 @@ const GLAMT100100 = () => {
           <DataTable />
         </TabPanel>
         <TabPanel value={value} index={1} sx={{ backgroundColor: "blue" }}>
-       
-            <RegTrans regisData={regisData} handleChange={handleChange} />
-         
+          <RegTrans regisData={regisData} handleChange={handleChange} />
         </TabPanel>
+
+
+
       </Box>
     </Box>
 
@@ -280,3 +301,4 @@ const GLAMT100100 = () => {
 };
 
 export default GLAMT100100;
+
