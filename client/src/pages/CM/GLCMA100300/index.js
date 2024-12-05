@@ -96,8 +96,6 @@ const GLCMA100300 = () => {
       alert("No changes detected. Please make changes before saving.");
       return;
     }
-  
-    
     try {
       await dispatch(updateModuleData(tableData));
       if (selectedModule) {
