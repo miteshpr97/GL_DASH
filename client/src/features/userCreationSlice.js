@@ -16,8 +16,6 @@ export const createUserData = createAsyncThunk(
     }
   }
 );
-
-
 // Async thunk to fetch user creation data
 export const fetchUserCreationData = createAsyncThunk(
   'userCreation/fetchUserCreationData',
@@ -26,8 +24,6 @@ export const fetchUserCreationData = createAsyncThunk(
     return response.data.reverse();
   }
 );
-
-
 
 const userCreationSlice = createSlice({
   name: 'userCreation',

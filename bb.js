@@ -1197,37 +1197,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import { Box, Tabs, Tab, Fade, CircularProgress } from "@mui/material";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
@@ -1329,9 +1298,6 @@ const GLAMT100100 = () => {
 
       {/* Tabs */}
       <Box sx={{ width: "100%" }}>
-
-
-
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
