@@ -33,10 +33,12 @@ const GLCMA100300 = () => {
 
 
 
-
   // Extract data and state from Redux
   const { commonModuleData, status, error } = useSelector((state) => state.commonCode);
 
+
+  console.log(commonModuleData, "data is the data");
+  
 
 
 
@@ -104,7 +106,7 @@ const GLCMA100300 = () => {
     try {
       await dispatch(updateModuleData(tableData));
       if (selectedModule) {
-        dispatch(fetchmoduleData(selectedModule));
+       await dispatch(fetchmoduleData(selectedModule));
       }
       alert("Data saved successfully!");
     } catch (error) {
