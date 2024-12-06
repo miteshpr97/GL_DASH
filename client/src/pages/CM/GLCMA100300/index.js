@@ -32,10 +32,13 @@ const GLCMA100300 = () => {
   const [hasChanges, setHasChanges] = useState(false);
 
 
+
+
   // Extract data and state from Redux
   const { commonModuleData, status, error } = useSelector((state) => state.commonCode);
 
-  
+
+
 
   const moduleName = [
     { id: "M_DVN", label: "M_DVN", minWidth: 70, readonly: true },
@@ -69,8 +72,10 @@ const GLCMA100300 = () => {
 
 
 
+
+  // module base data fetch from select 
   useEffect(() => {
-    const fectchModuleDate = async () => {
+    const fectchModuleData = async () => {
       try {
         const res = await axios.post("/api/GLCMA100300/codeNo", { MODULE_CD: module });
         if (res.status === 200 && Array.isArray(res.data)) {
@@ -82,7 +87,7 @@ const GLCMA100300 = () => {
       }
 
     }
-    fectchModuleDate()
+    fectchModuleData()
   }, [module])
 
 
@@ -100,39 +105,17 @@ const GLCMA100300 = () => {
       await dispatch(updateModuleData(tableData));
       if (selectedModule) {
         dispatch(fetchmoduleData(selectedModule));
-      }  
+      }
       alert("Data saved successfully!");
     } catch (error) {
       console.error("Error saving data:", error);
       alert("Failed to save data. Please try again.");
     }
   };
-  
-  // const Save_Click = async (event) => {
-  //   if (event) {
-  //     event.preventDefault();
-  //   }
-  
-  //   if (!hasChanges) {
-  //     alert("No changes detected. Please make changes before saving.");
-  //     return;
-  //   }
-  
-  //   try {
-  //     // Dispatch the update
-  //     await dispatch(updateModuleData(tableData));
-      
-  //     // Update local state to reflect the changes instantly
-  //     setModuleData([...tableData]);
-      
-  //     alert("Data saved successfully!");
-  //   } catch (error) {
-  //     console.error("Error saving data:", error);
-  //     alert("Failed to save data. Please try again.");
-  //   }
-  // };
-  
 
+
+
+  //select M_dvn and code_no
   const handleModuleSelect = (module) => {
     setSelectedModule(module);
     // setSelectedEmployee(user.EMP_CD);
@@ -144,6 +127,8 @@ const GLCMA100300 = () => {
   };
 
 
+
+  // module base data fetch from select 
   const handleModuleChange = (event) => {
     setModule(event.target.value);
   };
@@ -158,10 +143,11 @@ const GLCMA100300 = () => {
   };
 
 
+
   const addnewmoduleRow = () => {
     const newRow = {
-      M_DVN: selectedModule?.M_DVN || "",
-      C_DVN: selectedModule?.C_DVN || "",
+      M_DVN: commonModuleData[0]?.M_DVN || "",
+      C_DVN: commonModuleData[0]?.C_DVN || "",
       CODE_NO: "",
       CODE_NM: "",
       CODE_NMH: "",
@@ -178,6 +164,10 @@ const GLCMA100300 = () => {
 
     setTableData((prevData) => [...prevData, newRow]);
   };
+
+
+
+
 
   const startIndex = (page - 1) * rowsPerPage;
   const currentData = moduleData.slice(startIndex, startIndex + rowsPerPage);
@@ -426,7 +416,7 @@ const GLCMA100300 = () => {
                   </TableRow>
                 </TableHead>
 
-                
+
                 <TableBody>
                   {tableData.map((data, rowIndex) => (
                     <TableRow key={rowIndex}>
@@ -458,7 +448,7 @@ const GLCMA100300 = () => {
                 </TableBody>
 
 
-              
+
 
               </Table>
             </TableContainer>
@@ -491,14 +481,14 @@ export default GLCMA100300;
 
 
 
-  // const Save_Click = (event) => {
-  //   if (event) {
-  //     event.preventDefault();
-  //     if (moduleData && moduleData.length > 0) {
-  //       dispatch(updateModuleData(moduleData));
-  //     } else {
-  //       console.error("No data available to update.");
-  //       // Optionally, display an alert to the user
-  //     }
-  //   }
-  // };
+// const Save_Click = (event) => {
+//   if (event) {
+//     event.preventDefault();
+//     if (moduleData && moduleData.length > 0) {
+//       dispatch(updateModuleData(moduleData));
+//     } else {
+//       console.error("No data available to update.");
+//       // Optionally, display an alert to the user
+//     }
+//   }
+// };

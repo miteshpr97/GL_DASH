@@ -4,7 +4,6 @@ import {
 import Dashboard from "../pages/Dashboard";
 import App, { AppLoader } from "../App";
 import Login, { LoginLoader } from "../auth/Login";
-
 import GLAMT100100 from "../pages/AM/GLAMT100100";
 import GLCMA100100 from "../pages/CM/GLCMA100100";
 import GLCMA100200 from "../pages/CM/GLCMA100200";
@@ -37,11 +36,7 @@ const router = createBrowserRouter([
             {
                 path: 'GLCMA100300',
                 element: <GLCMA100300/>
-            },
-           
-
-          
-               
+            },               
 
         ]
     },
@@ -53,6 +48,8 @@ const router = createBrowserRouter([
 ])
 
 export default router
+
+
 
 
 
