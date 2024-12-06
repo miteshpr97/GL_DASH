@@ -108,6 +108,30 @@ const GLCMA100300 = () => {
     }
   };
   
+  // const Save_Click = async (event) => {
+  //   if (event) {
+  //     event.preventDefault();
+  //   }
+  
+  //   if (!hasChanges) {
+  //     alert("No changes detected. Please make changes before saving.");
+  //     return;
+  //   }
+  
+  //   try {
+  //     // Dispatch the update
+  //     await dispatch(updateModuleData(tableData));
+      
+  //     // Update local state to reflect the changes instantly
+  //     setModuleData([...tableData]);
+      
+  //     alert("Data saved successfully!");
+  //   } catch (error) {
+  //     console.error("Error saving data:", error);
+  //     alert("Failed to save data. Please try again.");
+  //   }
+  // };
+  
 
   const handleModuleSelect = (module) => {
     setSelectedModule(module);

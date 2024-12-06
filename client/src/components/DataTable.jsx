@@ -1,4 +1,3 @@
-// src/DataTable.js
 import * as React from "react";
 import {
   Box,
@@ -14,48 +13,33 @@ import {
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { DataGrid } from "@mui/x-data-grid";
 import { debounce } from "lodash";
+import { fetchTransData } from "../features/tranSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const columns = [
-  { field: "invoice", headerName: "Invoice", width: 150 },
-  { field: "date", headerName: "Date", width: 150 },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 130,
-    renderCell: (params) => (
-      <Chip
-        label={params.value}
-        color={
-          params.value === "Paid"
-            ? "success"
-            : params.value === "Cancelled"
-              ? "error"
-              : "default"
-        }
-        // variant="outlined"
-      />
-    ),
-  },
-  { field: "customer", headerName: "Customer", width: 200 },
-  { field: "email", headerName: "Email", width: 250 },
+  { field: "REF_TNO", headerName: "Reference No", width: 150 },
+  { field: "REF_TYPE", headerName: "Reference Type", width: 150 },
+  { field: "REF_NO", headerName: "Invoice No", width: 150 },
+  { field: "REF_DESC", headerName: "Description", width: 250 },
+  { field: "RMKS", headerName: "Remarks", width: 200 },
+  { field: "LCURR_CD", headerName: "Local Currency", width: 150 },
+  { field: "LAMT", headerName: "Local Amount", width: 150 },
+  { field: "EXCHANGE_RATE", headerName: "Exchange Rate", width: 150 },
+  { field: "FCURR_CD", headerName: "Foreign Currency", width: 150 },
+  { field: "FAMT", headerName: "Foreign Amount", width: 150 },
+  { field: "DOC_DTE", headerName: "Document Date", width: 150 },
+  { field: "POST_DTE", headerName: "Posting Date", width: 150 },
+  { field: "REG_DATE", headerName: "Registration Date", width: 200 },
+  { field: "REG_BY", headerName: "Registered By", width: 150 },
+  { field: "DOC_STATUS", headerName: "Document Status", width: 150 },
+  { field: "YEAR_CD", headerName: "Year", width: 150 },
   {
     field: "action",
     headerName: "Action",
     width: 100,
     renderCell: (params) => <ActionMenu rowData={params.row} />,
   },
-];
-
-const initialRows = [
-  {
-    id: 1,
-    invoice: "INV-1234",
-    date: "Feb 3, 2023",
-    status: "Refunded",
-    customer: "Anjali Sharma",
-    email: "anjali.sharma@email.com",
-  },
-  // Additional rows here...
 ];
 
 function ActionMenu({ rowData }) {
@@ -103,16 +87,31 @@ function ActionMenu({ rowData }) {
 }
 
 export default function DataTable() {
-  const [rows, setRows] = React.useState(initialRows);
+  const dispatch = useDispatch();
+  const [rows, setRows] = React.useState([]);
   const [searchText, setSearchText] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState("");
 
+  const {
+    TransData,
+    status,
+    error,
+  } = useSelector((state) => state.TransCreation);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchTransData());
+    }
+  }, [dispatch, status]);
+
+  console.log(TransData, "TransData");
+
   const handleSearch = debounce((value) => {
     setRows(
-      initialRows.filter(
+      TransData.filter(
         (row) =>
-          row.invoice.toLowerCase().includes(value.toLowerCase()) ||
-          row.customer.toLowerCase().includes(value.toLowerCase())
+          row.REF_NO.toLowerCase().includes(value.toLowerCase()) ||
+          row.REF_DESC.toLowerCase().includes(value.toLowerCase())
       )
     );
   }, 300);
@@ -125,19 +124,23 @@ export default function DataTable() {
   const handleStatusFilter = (event) => {
     const value = event.target.value;
     setStatusFilter(value);
-    setRows(initialRows.filter((row) => !value || row.status === value));
+    setRows(TransData.filter((row) => !value || row.DOC_STATUS === value));
   };
 
   const handleClearFilters = () => {
     setSearchText("");
     setStatusFilter("");
-    setRows(initialRows);
+    setRows(TransData);
   };
 
+  // Ensure unique `id` for each row
+  const rowsWithIds = TransData.map((row) => ({
+    ...row,
+    id: row.REF_TNO, // Use REF_TNO as unique identifier for each row
+  }));
+
   return (
-    <Box sx={{ width: "100%" }}>
-      {" "}
-      {/* Added width: "100%" */}
+    <Box sx={{ width: "100%"}}>
       <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
         <TextField
           label="Search for order"
@@ -155,45 +158,45 @@ export default function DataTable() {
           sx={{ width: 200 }}
         >
           <MenuItem value="">Filter by status</MenuItem>
-          <MenuItem value="Paid">Paid</MenuItem>
-          <MenuItem value="Cancelled">Cancelled</MenuItem>
-          <MenuItem value="Refunded">Refunded</MenuItem>
+          <MenuItem value="A">Active</MenuItem>
+          <MenuItem value="I">Inactive</MenuItem>
         </Select>
         <Button
           variant="outlined"
           onClick={handleClearFilters}
           sx={{
-            color: "#374151", // Neutral gray for text
-            backgroundColor: "white", // Matches body background
-            borderColor: "#CBD5E1", // Light blue-gray border
+            color: "#374151", 
+            backgroundColor: "white", 
+            borderColor: "#CBD5E1", 
             "&:hover": {
-              borderColor: "#1D4ED8", // Rich blue for hover effect
-              backgroundColor: "#E0F2FE", // Light blue for hover background
-              color: "#1D4ED8", // Matches border hover color
+              borderColor: "#1D4ED8", 
+              backgroundColor: "#E0F2FE", 
+              color: "#1D4ED8", 
             },
             padding: "6px 12px",
             borderRadius: "8px",
-            fontWeight: "500", // Medium weight for elegance
+            fontWeight: "500", 
             fontSize: "14px",
             transition: "all 0.3s ease",
-           
           }}
         >
           Clear Filters
         </Button>
       </Box>
+
       <DataGrid
-        rows={rows}
+        rows={rowsWithIds}  // Use the transformed rows with unique `id`
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        getRowId={(row) => row.REF_TNO} // Alternatively, you can use this method
         sx={{
           "& .MuiDataGrid-columnHeaders": {
             color: "black",
             fontSize: "14px",
           },
-          width: "100%", // Ensures DataGrid takes full width
+          width: "100%",
         }}
       />
     </Box>
