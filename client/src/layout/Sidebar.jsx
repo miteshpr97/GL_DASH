@@ -27,10 +27,9 @@ export default function Sidebar() {
   const location = useLocation();
 
   const { isSidebarOpen, closeSidebar } = useSidebar();
-
   const [menuData, setMenuData] = React.useState([]);
   const [openModules, setOpenModules] = React.useState(() => {
-    const storedState = sessionStorage.getItem("openModules");
+  const storedState = sessionStorage.getItem("openModules");
     return storedState ? JSON.parse(storedState) : {};
   });
 
@@ -43,7 +42,7 @@ export default function Sidebar() {
         if (response.status === 200) {
           // Update the state with the fetched menu data
           setMenuData(response.data);
-          console.log("Menu data fetched successfully:", response.data);
+          // console.log("Menu data fetched successfully:", response.data);
         } else {
           console.error("Failed to fetch menu data", response.status);
         }
@@ -255,7 +254,7 @@ export default function Sidebar() {
               </ListItemButton>
             </ListItem>
 
-            {Object.entries(groupedMenuData).map(([moduleName, menuItems]) => (
+            {Object?.entries(groupedMenuData).map(([moduleName, menuItems]) => (
               <div key={moduleName}>
                 <ListItemButton
                   onClick={() => handleToggle(moduleName)}

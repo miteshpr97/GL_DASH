@@ -3,10 +3,9 @@ import CustomButton from "./CustomButton";
 import { Stack } from "@mui/material";
 import { _post_WithoutToken } from "../../CommonUtilAPI/GLApiClient";
 
-const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
+const CommonBtn = ({ PAGE_CD, SAVE_CLICK, INQUERY_CLICK }) => {
   const [permissions, setPermissions] = useState(null);
-  console.log(PAGE_CD, "page btn code");
-  console.log(SAVE_CLICK, "save click");
+
 
 
   
@@ -21,7 +20,6 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
 
         if (response.status === 200) {
           const data = response.data;
-          console.log(data, "data 12345");
           const pagePermissions = data.find((page) => page.PAGE_CD === PAGE_CD);
           setPermissions(pagePermissions);
         }
@@ -33,6 +31,8 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
     fetchPermissions();
     console.log("after fetch permissions");
   }, [PAGE_CD]);
+
+
 
   const handleClick = (action) => {
     alert(`${action} button clicked!`);
@@ -47,7 +47,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK }) => {
       {permissions.PAGE_INQUIRY === "Y" && (
         <CustomButton
           variant="solid"
-          onClick={() => handleClick("INQUIRY")}
+          onClick={(event) => INQUERY_CLICK(event)}
           sx={{ backgroundColor: "#1976d2", color:"white", padding: "1px 4px", fontSize: "12px",   }} // Blue for Inquiry
         >
           INQUIRY

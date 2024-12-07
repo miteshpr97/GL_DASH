@@ -1,54 +1,46 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { _post_WithoutToken } from "../CommonUtilAPI/GLApiClient";
-import { setAlert } from "./alertSlice";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-// Async thunk to handle API call
-export const addTranData = createAsyncThunk(
-  "commonCode/updateModuleData",
-  async (regisData, { rejectWithValue, dispatch }) => {
-    console.log("nnn");
-    
+// Fetch transaction data using POST method
+export const fetchTransData = createAsyncThunk('TransCreation/fetchTransData',
+  async () => {
     try {
-      const response = await _post_WithoutToken("/api/GLAMT100100/", regisData);
-      dispatch(setAlert({ msg: "Update common code successfully!", alertType: "success" }));
+      // Example of sending an empty body in the POST request
+      const response = await axios.post('/api/GLAMT100100/details', {});
+
+      // If there's data to be sent in the body, you can add it here, like:
+      // const response = await axios.post('/api/GLAMT100100/details', { key: 'value' });
+
       return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to update module data"
-      );
+      console.error('Error fetching data:', error);
+      throw error;
     }
   }
 );
 
-// Slice definition
-const tranSlice = createSlice({
-  name: "trans",
+const TransCreationSlice = createSlice({
+  name: 'TransCreation',
   initialState: {
-    transData: [],
-    status: "idle", // Can be 'idle', 'loading', 'succeeded', or 'failed'
+    TransData: [],
+    status: "idle",
     error: null,
   },
   reducers: {},
-
   extraReducers: (builder) => {
     builder
-      // Pending state
-      .addCase(addTranData.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+      .addCase(fetchTransData.pending, (state) => {
+        state.status = 'loading';
       })
-      // Fulfilled state
-      .addCase(addTranData.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.transData = action.payload; // Assuming the API returns the updated data
+      .addCase(fetchTransData.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.TransData = action.payload;
       })
-      // Rejected state
-      .addCase(addTranData.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload; // Error message from the rejected thunk
+      .addCase(fetchTransData.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
       });
-  },
+  }
 });
 
-// Export the reducer
-export default tranSlice.reducer;
+export default TransCreationSlice.reducer;
