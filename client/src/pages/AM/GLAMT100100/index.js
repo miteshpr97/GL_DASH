@@ -157,7 +157,7 @@ const GLAMT100100 = () => {
 
       {/* Tabs */}
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider"}}>
           <Tabs
             value={value}
             onChange={handleTabChange}
@@ -183,6 +183,12 @@ const GLAMT100100 = () => {
             />
           </Tabs>
         </Box>
+        <Box sx={{
+           "& .css-19kzrtu": {
+            padding: "10px", 
+          },
+
+        }}> 
         <TabPanel value={value} index={0}>
           <DataTable
             rows={TransData?.length > 0 ? TransData : []}
@@ -196,6 +202,7 @@ const GLAMT100100 = () => {
         <TabPanel value={value} index={1} sx={{ backgroundColor: "blue" }}>
           <RegTrans regisData={regisData} handleChange={handleChange} />
         </TabPanel>
+        </Box>
       </Box>
     </Box>
 

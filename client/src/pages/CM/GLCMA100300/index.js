@@ -14,12 +14,16 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-
+import AddIcon from '@mui/icons-material/Add';
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import CustomPagination from "../../../components/CustomPagination";
-import { fetchmoduleData, updateModuleData } from "../../../features/commonCodeSlice";
+import {
+  fetchmoduleData,
+  updateModuleData,
+} from "../../../features/commonCodeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import Add from "@mui/icons-material/Add";
 
 const GLCMA100300 = () => {
   const dispatch = useDispatch();
@@ -31,16 +35,12 @@ const GLCMA100300 = () => {
   const [tableData, setTableData] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
 
-
-
   // Extract data and state from Redux
-  const { commonModuleData, status, error } = useSelector((state) => state.commonCode);
-
+  const { commonModuleData, status, error } = useSelector(
+    (state) => state.commonCode
+  );
 
   console.log(commonModuleData, "data is the data");
-  
-
-
 
   const moduleName = [
     { id: "M_DVN", label: "M_DVN", minWidth: 70, readonly: true },
@@ -59,40 +59,33 @@ const GLCMA100300 = () => {
     { id: "RMKS", label: "RMKS", minWidth: 70 },
   ];
 
-
-
   useEffect(() => {
     if (selectedModule) {
       dispatch(fetchmoduleData(selectedModule));
     }
   }, [selectedModule, dispatch]);
 
-
   useEffect(() => {
     setTableData(commonModuleData || []);
   }, [commonModuleData]);
 
-
-
-
-  // module base data fetch from select 
+  // module base data fetch from select
   useEffect(() => {
     const fectchModuleData = async () => {
       try {
-        const res = await axios.post("/api/GLCMA100300/codeNo", { MODULE_CD: module });
+        const res = await axios.post("/api/GLCMA100300/codeNo", {
+          MODULE_CD: module,
+        });
         if (res.status === 200 && Array.isArray(res.data)) {
-          setModuleData(res.data)
+          setModuleData(res.data);
         }
       } catch (error) {
         console.error("Error fetching permissions:", error);
         setModuleData([]);
       }
-
-    }
-    fectchModuleData()
-  }, [module])
-
-
+    };
+    fectchModuleData();
+  }, [module]);
 
   const Save_Click = async (event) => {
     if (event) {
@@ -106,7 +99,7 @@ const GLCMA100300 = () => {
     try {
       await dispatch(updateModuleData(tableData));
       if (selectedModule) {
-       await dispatch(fetchmoduleData(selectedModule));
+        await dispatch(fetchmoduleData(selectedModule));
       }
       alert("Data saved successfully!");
     } catch (error) {
@@ -115,22 +108,17 @@ const GLCMA100300 = () => {
     }
   };
 
-
-
   //select M_dvn and code_no
   const handleModuleSelect = (module) => {
     setSelectedModule(module);
     // setSelectedEmployee(user.EMP_CD);
   };
 
-
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
-
-
-  // module base data fetch from select 
+  // module base data fetch from select
   const handleModuleChange = (event) => {
     setModule(event.target.value);
   };
@@ -143,8 +131,6 @@ const GLCMA100300 = () => {
     );
     setHasChanges(true);
   };
-
-
 
   const addnewmoduleRow = () => {
     const newRow = {
@@ -167,33 +153,23 @@ const GLCMA100300 = () => {
     setTableData((prevData) => [...prevData, newRow]);
   };
 
-
-
-
-
   const startIndex = (page - 1) * rowsPerPage;
   const currentData = moduleData.slice(startIndex, startIndex + rowsPerPage);
-
-
 
   // Styles
   const tableStyles = {
     cell: {
       textAlign: "center",
-      padding: "8px 10px",
+      padding: "8px 5px",
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",
     },
   };
 
-
-
   if (status === "failed") {
     return <p>Error: {error}</p>;
   }
-
-
 
   return (
     <Box
@@ -218,24 +194,65 @@ const GLCMA100300 = () => {
           borderRadius: 1,
           mb: 2,
           justifyContent: "space-between",
+          flexWrap: "wrap",
         }}
       >
         <CommonBtn PAGE_CD="GLCMA100300" SAVE_CLICK={Save_Click} />
 
-        <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel id="Module-select-label">Module</InputLabel>
-          <Select
-            labelId="Module-select-label"
-            id="Module-select"
-            value={module}
-            label="Module"
-            onChange={handleModuleChange}
+        <Box
+          sx={{
+            height: "30px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            p: 1,
+          }}
+        >
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            sx={{
+              fontSize: "12px",
+              padding: "3px 8px",
+              marginRight: "10px",
+            }}
+            onClick={addnewmoduleRow}
+            disabled={!selectedModule}
           >
-            <MenuItem value="AM">AM</MenuItem>
-            <MenuItem value="CM">CM</MenuItem>
-          </Select>
-        </FormControl>
+            <Add style={{ color: "#f7bd1d" , fontSize:"16px" }} />
+             New Row
+          </Button>
 
+          <FormControl size="small" sx={{ minWidth: 200 }}>
+            <InputLabel id="Module-select-label">Module</InputLabel>
+            <Select
+              labelId="Module-select-label"
+              id="Module-select"
+              value={module}
+              label="Module"
+              onChange={handleModuleChange}
+              sx={{
+                height: "30px",
+                fontSize: "11px",
+              }}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    maxHeight: 200, // Optional: Adjust menu height if needed
+                  },
+                },
+              }}
+            >
+              <MenuItem value="AM" sx={{ fontSize: "11px", height: "30px" }}>
+                AM
+              </MenuItem>
+              <MenuItem value="CM" sx={{ fontSize: "11px", height: "30px" }}>
+                CM
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
 
       <Box
@@ -260,8 +277,7 @@ const GLCMA100300 = () => {
             flexDirection: "column",
           }}
         >
-
-          <TableContainer sx={{ height: "90%" }}>
+          <TableContainer sx={{ height: "93%" }}>
             <Table stickyHeader aria-label="user table">
               <TableHead>
                 <TableRow>
@@ -272,8 +288,7 @@ const GLCMA100300 = () => {
                         minWidth: column.minWidth,
                         padding: "4px 18px",
                         fontWeight: "600",
-                        backgroundColor: (theme) =>
-                          theme.palette.primary.main,
+                        backgroundColor: (theme) => theme.palette.primary.main,
                         color: "white",
                         fontSize: "12px",
                       }}
@@ -318,11 +333,7 @@ const GLCMA100300 = () => {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={moduleName.length}>
-                      <span>
-                        No data available. Please select a module.
-                      </span>
-
-
+                      <span>No data available. Please select a module.</span>
                     </TableCell>
                   </TableRow>
                 )}
@@ -353,6 +364,7 @@ const GLCMA100300 = () => {
             borderRadius: 2,
             boxShadow: 3,
             p: 1,
+            pt:0.5,
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -362,37 +374,10 @@ const GLCMA100300 = () => {
             width: "100%",
           }}
         >
-          {/* Pink Box with Dropdown and Create Button */}
-          <Box
-            sx={{
-              height: "30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              p: 1,
-
-            }}
-          >
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              sx={{
-                fontSize: "11px",
-                padding: "3px 8px",
-              }}
-              onClick={addnewmoduleRow}
-            >
-              Add New Row
-            </Button>
-          </Box>
-
-          {/* Table in Light Blue Box */}
           <Box
             sx={{
               flex: 1,
-              pt: 1,
-              maxHeight: "calc(100% - 60px)",
+              maxHeight: "100%",
               overflowX: "auto",
             }}
           >
@@ -418,14 +403,13 @@ const GLCMA100300 = () => {
                   </TableRow>
                 </TableHead>
 
-
                 <TableBody>
                   {tableData.map((data, rowIndex) => (
                     <TableRow key={rowIndex}>
                       {moduleName.map((column, colIndex) => (
                         <TableCell key={colIndex} style={tableStyles.cell}>
                           {column.readonly ? (
-                            data[column.id] // Display the value if readonly
+                            data[column.id]
                           ) : (
                             <TextField
                               fullWidth
@@ -439,7 +423,8 @@ const GLCMA100300 = () => {
                                 "& .MuiInputBase-input": {
                                   fontSize: "11px",
                                   padding: "2px 5px",
-                                },
+          
+                                },                           
                               }}
                             />
                           )}
@@ -448,49 +433,13 @@ const GLCMA100300 = () => {
                     </TableRow>
                   ))}
                 </TableBody>
-
-
-
-
               </Table>
             </TableContainer>
           </Box>
         </Box>
-
       </Box>
     </Box>
   );
 };
 
 export default GLCMA100300;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const Save_Click = (event) => {
-//   if (event) {
-//     event.preventDefault();
-//     if (moduleData && moduleData.length > 0) {
-//       dispatch(updateModuleData(moduleData));
-//     } else {
-//       console.error("No data available to update.");
-//       // Optionally, display an alert to the user
-//     }
-//   }
-// };

@@ -4,11 +4,15 @@ import { Box, TextField, Select, MenuItem, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { debounce } from "lodash";
 
-
-
-
-export default function DataTable({ rows: initialRows, columns,inputRef, onEdit, onRename, onDelete,}) {
-console.log(inputRef, "searrarssfcs");
+export default function DataTable({
+  rows: initialRows,
+  columns,
+  inputRef,
+  onEdit,
+  onRename,
+  onDelete,
+}) {
+  console.log(inputRef, "searrarssfcs");
 
   const [rows, setRows] = React.useState(initialRows);
   const [searchText, setSearchText] = React.useState("");
@@ -24,7 +28,6 @@ console.log(inputRef, "searrarssfcs");
   //   );
   // }, 300);
 
-
   const handleSearch = debounce((value) => {
     setRows(
       rows.filter(
@@ -34,8 +37,6 @@ console.log(inputRef, "searrarssfcs");
       )
     );
   }, 300);
-
-
 
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
@@ -54,62 +55,97 @@ console.log(inputRef, "searrarssfcs");
     setRows(initialRows);
   };
 
-
   const rowsWithIds = initialRows.map((row) => ({
     ...row,
-    id: row.REF_TNO, 
+    id: row.REF_TNO,
   }));
 
-
-
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
-        <TextField
-          label="Search for order"
-          variant="outlined"
-          value={searchText}
-          onChange={handleSearchTextChange}
-          size="small"
-          ref={inputRef} 
-         
-        />
+    <Box sx={{ width: "100%",}}>
+    <Box
+  sx={{
+    display: "flex",
+    gap: 2,
+    mb: 2,
+    alignItems: "center",
+  }}
+>
+  <TextField
+    label="Search for order"
+    variant="outlined"
+    value={searchText}
+    onChange={handleSearchTextChange}
+    size="small"
+    ref={inputRef}
+    sx={{
+      "& .MuiOutlinedInput-root": {
+        height: "30px", // Reduced height further
+      },
+      "& .MuiInputBase-input": {
+        padding: "4px 8px", // Adjust padding for inner text
+        fontSize: "14px", // Optional: Adjust font size for better appearance
+      },
+      "& .MuiInputLabel-root": {
+        fontSize: "12px", // Optional: Adjust label font size
+      },
+    }}
+  />
 
-        <Select
-          value={statusFilter}
-          onChange={handleStatusFilter}
-          displayEmpty
-          variant="outlined"
-          size="small"
-          sx={{ width: 200 }}
-        >
-          <MenuItem value="">Filter by status</MenuItem>
-          <MenuItem value="Paid">Paid</MenuItem>
-          <MenuItem value="Cancelled">Cancelled</MenuItem>
-          <MenuItem value="Refunded">Refunded</MenuItem>
-        </Select>
-        <Button
-          variant="outlined"
-          onClick={handleClearFilters}
-          sx={{
-            color: "#374151", 
-            backgroundColor: "white",
-            borderColor: "#CBD5E1", 
-            "&:hover": {
-              borderColor: "#1D4ED8", 
-              backgroundColor: "#E0F2FE", 
-              color: "#1D4ED8", 
-            },
-            padding: "6px 12px",
-            borderRadius: "8px",
-            fontWeight: "500", 
-            fontSize: "14px",
-            transition: "all 0.3s ease",
-          }}
-        >
-          Clear Filters
-        </Button>
-      </Box>
+  <Select
+    value={statusFilter}
+    onChange={handleStatusFilter}
+    displayEmpty
+    variant="outlined"
+    size="small"
+    sx={{
+      width: 200,
+      "& .MuiOutlinedInput-root": {
+        height: "30px", // Reduced dropdown height
+      },
+      "& .MuiSelect-select": {
+        padding: "4px 8px", // Adjust padding inside dropdown
+        fontSize: "14px", // Optional: Adjust font size
+      },
+    }}
+  >
+    <MenuItem value="" sx={{ fontSize: "14px" }}>
+      Filter by status
+    </MenuItem>
+    <MenuItem value="Paid" sx={{ fontSize: "14px" }}>
+      Paid
+    </MenuItem>
+    <MenuItem value="Cancelled" sx={{ fontSize: "14px" }}>
+      Cancelled
+    </MenuItem>
+    <MenuItem value="Refunded" sx={{ fontSize: "14px" }}>
+      Refunded
+    </MenuItem>
+  </Select>
+
+  <Button
+    variant="outlined"
+    onClick={handleClearFilters}
+    sx={{
+      color: "#374151",
+      backgroundColor: "white",
+      borderColor: "#CBD5E1",
+      "&:hover": {
+        borderColor: "#1D4ED8",
+        backgroundColor: "#E0F2FE",
+        color: "#1D4ED8",
+      },
+      padding: "4px 12px",
+      borderRadius: "8px",
+      fontWeight: "500",
+      fontSize: "13px",
+      transition: "all 0.3s ease",
+    }}
+  >
+    Clear Filters
+  </Button>
+</Box>
+
+
       <DataGrid
         rows={rowsWithIds}
         columns={columns}
@@ -119,7 +155,12 @@ console.log(inputRef, "searrarssfcs");
         sx={{
           "& .MuiDataGrid-columnHeaders": {
             color: "black",
-            fontSize: "14px",
+            fontSize: "13px",
+            padding:"5px",
+           
+          },
+          "& .MuiDataGrid-columnHeaderDraggableContainer ":{
+ height:"30px"
           },
           "& .MuiDataGrid-cell": {
             fontSize: "12px",

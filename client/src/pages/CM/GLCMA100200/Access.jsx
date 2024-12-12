@@ -163,6 +163,7 @@
 // export default AccessTable;
 
 import {
+  Box,
   Checkbox,
   Table,
   TableBody,
@@ -180,7 +181,7 @@ const AccessTable = ({ userAccess, permissions, handleCheckboxChange }) => {
       maxHeight: "100%",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     },
-    table: { minWidth: "100%" },
+    table: { minWidth: "100" },
     headerCell: {
       fontWeight: "bold",
       fontSize: "0.75rem",
@@ -208,7 +209,7 @@ const AccessTable = ({ userAccess, permissions, handleCheckboxChange }) => {
   };
 
   return (
-    <div>
+    <>
       <TableContainer style={tableStyles.container}>
         <Table size="small" stickyHeader style={tableStyles.table}>
           <TableHead>
@@ -287,7 +288,7 @@ const AccessTable = ({ userAccess, permissions, handleCheckboxChange }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </>
   );
 };
 

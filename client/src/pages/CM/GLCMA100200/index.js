@@ -27,8 +27,10 @@ import {
 } from "../../../features/userCreationSlice";
 import ProfilePhoto from "../../../assets/profilepic2.jpg";
 import AccessTable from "./Access";
+import { useSidebar } from "../../../context/SidebarContext";
 
 const GLCMA100200 = () => {
+  const { isSidebarOpen} = useSidebar();
   const dispatch = useDispatch();
   const userColumns = [
     { id: "EMP_CD", label: "EMP_CD", minWidth: 70 },
@@ -180,7 +182,6 @@ const GLCMA100200 = () => {
           sx={{
             width: { xs: "100%", md: "250px" },
             flexShrink: 0,
-
             borderRadius: 1,
             boxShadow: 2,
             background: "#ffffff",
@@ -410,7 +411,9 @@ const GLCMA100200 = () => {
 
           <Box
             sx={{
-              width: "calc(100vw - 550px)",
+              width: isSidebarOpen ? "calc(100vw - var(--Sidebar-width) - 330px)" : "calc(100vw - 330px) ",
+              transition: "width 0.3s ease-in-out",
+              // width: "calc(100vw - 550px)",
               maxHeight: "60%",
               overflowY: "auto",
               background: "white",
