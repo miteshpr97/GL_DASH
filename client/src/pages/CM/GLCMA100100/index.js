@@ -352,7 +352,8 @@ const GLCMA100100 = () => {
           <Grid
             container
             spacing={1}
-            sx={{ "& > .MuiGrid-item": { marginBottom: "-17px" } }}
+            sx={{ "& > .MuiGrid-item": { marginBottom: "-17px" }
+          }}
           >
             <Grid item xs={12} sm={4}>
               <InputFieldComponent

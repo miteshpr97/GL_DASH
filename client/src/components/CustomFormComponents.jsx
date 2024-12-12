@@ -9,10 +9,9 @@ const standardStyles = {
   '& .MuiOutlinedInput-root': {
     height: '30px',  // Uniform height for all inputs
     fontSize: '14px',  // Uniform font size for input text
-    marginTop: '6px',
+    marginTop: '4px',
     fontWeight: 400, 
     
-   
   },
   '& .MuiInputBase-input::placeholder': {
     fontSize: '14px',
@@ -21,6 +20,11 @@ const standardStyles = {
     
     
   },
+
+  '& .css-1aojskj-MuiFormLabel-root-MuiInputLabel-root':{
+top:-7
+  },
+  
   '& .MuiInputLabel-root': {
     fontSize: '0.85rem',  // Uniform label font size
     fontWeight: 500, 

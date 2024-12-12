@@ -160,11 +160,12 @@ export default function DataTable({
            
           },
           "& .MuiDataGrid-columnHeaderDraggableContainer ":{
- height:"30px"
+ height:"30px",
+
           },
           "& .MuiDataGrid-cell": {
             fontSize: "12px",
-          },
+                 },
           "& .MuiCheckbox-root": {
             size: "small", // Set checkbox size to small
             "& .MuiSvgIcon-root": {
@@ -172,6 +173,7 @@ export default function DataTable({
             },
           },
           width: "100%",
+       
         }}
       />
     </Box>
