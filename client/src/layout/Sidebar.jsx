@@ -112,7 +112,7 @@ export default function Sidebar() {
                       marginLeft: "27px",
                       marginRight: "16px",
                       "&.active": {
-                        backgroundColor: theme.palette.action.selected,
+                        backgroundColor: "#1c2845",
                         // color: theme.palette.primary.main,
                         color: theme.palette.common.white,
                         borderRadius: `${theme.shape.borderRadius}px`,
