@@ -163,7 +163,6 @@
 // export default AccessTable;
 
 import {
-  Box,
   Checkbox,
   Table,
   TableBody,

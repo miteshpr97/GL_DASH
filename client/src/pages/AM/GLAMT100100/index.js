@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Box, Tabs, Tab, CircularProgress, Collapse, Chip } from "@mui/material";
+import { Box, Tabs, Tab, CircularProgress, Collapse } from "@mui/material";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import DataTable from "../../../components/DataTable";
 import RegTrans from "./RegTrans";
