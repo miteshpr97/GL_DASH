@@ -87,6 +87,8 @@ export default function Header() {
         borderBottom: "1px solid",
         borderColor: "background.level1",
         boxShadow: "none",
+        // background:"red",
+        zIndex: 10000,      
       }}
     >
       <Box
