@@ -318,8 +318,6 @@ const GLCMA100300 = () => {
                       <span>
                         No data available. Please select a module.
                       </span>
-
-
                     </TableCell>
                   </TableRow>
                 )}

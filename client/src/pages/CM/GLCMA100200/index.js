@@ -28,6 +28,7 @@ import {
 import ProfilePhoto from "../../../assets/profilepic2.jpg";
 import AccessTable from "./Access";
 import { useSidebar } from "../../../context/SidebarContext";
+import SearchTextField from "../../../components/SearchTextField";
 
 const GLCMA100200 = () => {
   const { isSidebarOpen} = useSidebar();
@@ -118,6 +119,18 @@ const GLCMA100200 = () => {
   };
 
 
+  
+  const Inquery_Click = (event) =>{
+    const firstInput = document.querySelector('input[name="search"]');
+    console.log(firstInput);
+    
+    if (firstInput) {
+      firstInput.focus();
+    }
+  }
+
+
+
   const handleUserSelect = (user) => {
     console.log("Selected employee data:", user);
     setUserData(user);
@@ -158,12 +171,15 @@ const GLCMA100200 = () => {
           boxShadow: 2,
           borderRadius: 1,
           mb: 2,
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
           // position: "sticky",
           // top: "0",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100200" SAVE_CLICK={Save_Click} />
+        <CommonBtn PAGE_CD="GLCMA100200" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click}  />
+        <SearchTextField placeholder="Search for items..."/>
+
+
       </Box>
 
       <Box

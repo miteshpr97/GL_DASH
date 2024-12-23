@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -26,6 +27,7 @@ import {
   createUserData,
 } from "../../../features/userCreationSlice";
 import { setAlert } from "../../../features/alertSlice";
+import SearchTextField from "../../../components/SearchTextField";
 
 const GLCMA100100 = () => {
   const dispatch = useDispatch();
@@ -137,6 +139,16 @@ const GLCMA100100 = () => {
 
   };
 
+
+  const Inquery_Click = (event) =>{
+    const firstInput = document.querySelector('input[name="search"]');
+    console.log(firstInput);
+    
+    if (firstInput) {
+      firstInput.focus();
+    }
+  }
+
   const handleUserSelect = (user) => {
     console.log("Selected employee data:", user);
     setUserData(user);
@@ -186,11 +198,15 @@ const GLCMA100100 = () => {
           boxShadow: 2,
           borderRadius: 1,
           mb: 2,
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} />
+      
+        <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click} />
+      <SearchTextField placeholder="Search for items..."/>
+
       </Box>
+   
 
       <Box
         sx={{

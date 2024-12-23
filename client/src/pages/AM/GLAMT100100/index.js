@@ -8,6 +8,7 @@ import ActionMenu from "../../../components/ActionMenu";
 import { fetchTransData } from "../../../features/tranSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import SearchTextField from "../../../components/SearchTextField";
 
 const columns = [
   { field: "REF_TNO", headerName: "Transaction No", width: 150 },
@@ -108,11 +109,14 @@ const GLAMT100100 = () => {
     }
   };
 
-  const Inqury_Click = async (event) => {
-    event.preventDefault(); 
-    inputRef.current.focus();
-  };
+  const Inquery_Click = (event) => {
+    const firstInput = document.querySelector('input[name="search"]');
+    console.log(firstInput);
 
+    if (firstInput) {
+      firstInput.focus();
+    }
+  }
 
   useEffect(() => {
     if (status === "idle") {
@@ -149,15 +153,16 @@ const GLAMT100100 = () => {
           width: "100%",
         }}
       >
-        <Box sx={{ flex: 7 }}>
-          <CommonBtn PAGE_CD="GLAMT100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inqury_Click} />
-        </Box>
+       
+          <CommonBtn PAGE_CD="GLAMT100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click} />
+          <SearchTextField placeholder="Search for items..." />
+
         {loading && <CircularProgress size={24} />}
       </Box>
 
       {/* Tabs */}
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider"}}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
             onChange={handleTabChange}
@@ -184,24 +189,24 @@ const GLAMT100100 = () => {
           </Tabs>
         </Box>
         <Box sx={{
-           "& .css-19kzrtu": {
-            padding: "10px", 
+          "& .css-19kzrtu": {
+            padding: "10px",
           },
 
-        }}> 
-        <TabPanel value={value} index={0}>
-          <DataTable
-            rows={TransData?.length > 0 ? TransData : []}
-            columns={columns}
-            inputRef={inputRef}
-            onEdit={(row) => console.log("Edit", row)}
-            onRename={(row) => console.log("Rename", row)}
-            onDelete={(row) => console.log("Delete", row)}
-          />
-        </TabPanel>
-        <TabPanel value={value} index={1} sx={{ backgroundColor: "blue" }}>
-          <RegTrans regisData={regisData} handleChange={handleChange} />
-        </TabPanel>
+        }}>
+          <TabPanel value={value} index={0}>
+            <DataTable
+              rows={TransData?.length > 0 ? TransData : []}
+              columns={columns}
+              inputRef={inputRef}
+              onEdit={(row) => console.log("Edit", row)}
+              onRename={(row) => console.log("Rename", row)}
+              onDelete={(row) => console.log("Delete", row)}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1} sx={{ backgroundColor: "blue" }}>
+            <RegTrans regisData={regisData} handleChange={handleChange} />
+          </TabPanel>
         </Box>
       </Box>
     </Box>
