@@ -24,7 +24,7 @@ export const fetchUserPermissions = createAsyncThunk(
 // New async thunk to update permissions
 export const updateUserPermissions = createAsyncThunk(
   "userAccess/updatePermissions",
-  async ({ EMP_CD, updatedPermissions, userAccess }, { rejectWithValue }) => {
+  async ({ EMP_CD, updatedPermissions, userAccess }, { rejectWithValue, dispatch }) => {
     try {
       const updateRequests = userAccess.map((row, index) => {
         const permissionData = updatedPermissions[index];
@@ -55,8 +55,12 @@ export const updateUserPermissions = createAsyncThunk(
 
       // Wait for all update requests to complete
       await Promise.all(updateRequests);
+      // Dispatch success alert
+      dispatch(setAlert({ msg: "updated successfully!", alertType: "success" }));
+
       return { success: true };
     } catch (error) {
+      dispatch(setAlert({ message: `Failed to update permissions: ${error.message}`, alertType: "danger" }));
       return rejectWithValue(error.message);
     }
   }
