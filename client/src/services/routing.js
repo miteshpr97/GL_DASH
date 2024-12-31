@@ -8,6 +8,7 @@ import GLAMT100100 from "../pages/AM/GLAMT100100";
 import GLCMA100100 from "../pages/CM/GLCMA100100";
 import GLCMA100200 from "../pages/CM/GLCMA100200";
 import GLCMA100300 from "../pages/CM/GLCMA100300";
+import GLCMA100400 from "../pages/CM/GLCMA100400";
 
 
 const router = createBrowserRouter([
@@ -37,7 +38,10 @@ const router = createBrowserRouter([
                 path: 'GLCMA100300',
                 element: <GLCMA100300/>
             },               
-
+            {
+                path: 'GLCMA100400',
+                element: <GLCMA100400/>
+            },    
         ]
     },
     {

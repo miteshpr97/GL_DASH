@@ -176,8 +176,8 @@ const GLCMA100200 = () => {
           // top: "0",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100200" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click}  />
         <SearchTextField placeholder="Search for items..."/>
+        <CommonBtn PAGE_CD="GLCMA100200" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click}  />
 
 
       </Box>

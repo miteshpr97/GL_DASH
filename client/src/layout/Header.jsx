@@ -21,7 +21,6 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import Cookies from "js-cookie";
 import userContext from "../context/userContext/userContext";
 
-
 export default function Header() {
   const { isSidebarOpen } = useSidebar();
   const { user } = React.useContext(userContext);
@@ -41,9 +40,6 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-
-
-  
   function getInitials(name) {
     if (!name) {
       return "...";
@@ -55,7 +51,6 @@ export default function Header() {
     }
     return initials;
   }
-
 
   const logout = async () => {
     const isOkay = window.confirm("You are about to be logged out");
@@ -88,7 +83,7 @@ export default function Header() {
         borderColor: "background.level1",
         boxShadow: "none",
         // // background:"red",
-        // zIndex: 10000,      
+        // zIndex: 10000,
       }}
     >
       <Box
@@ -109,6 +104,7 @@ export default function Header() {
               height: "38px",
               alignItems: "center",
               borderRadius: "27px",
+             
               transition: "all .2s ease-in-out",
               "&:hover": {
                 backgroundColor: "primary.light",

@@ -153,9 +153,9 @@ const GLAMT100100 = () => {
           width: "100%",
         }}
       >
-       
+        <SearchTextField placeholder="Search for items..." />
           <CommonBtn PAGE_CD="GLAMT100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click} />
-          <SearchTextField placeholder="Search for items..." />
+         
 
         {loading && <CircularProgress size={24} />}
       </Box>
