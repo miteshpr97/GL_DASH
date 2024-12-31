@@ -7,6 +7,7 @@ const apiAccessRight = require("../GLCM/GLCM1004");
 const apiUserCreation = require("../GLCM/GLCMA100100");
 const apiPageGLCMA100200 = require("../GLCM/GLCMA100200");
 const apiPageGLCMA100300 = require("../GLCM/GLCMA100300");
+const apiPageGLCMA100400 = require("../GLCM/GLCMA100400");
 const apiPageGLAMT100100 = require("../GLCM/GLAMT100100");
 const apiPageGLAMA100100 = require("../GLCM/GLAMA100100");
 const apiOfCommonDropdown = require("../GLCM/GLCWP100100");
@@ -21,6 +22,7 @@ module.exports = function (app) {
   app.use("/api/UserCreation", apiUserCreation);
   app.use("/api/GLCMA100200", apiPageGLCMA100200);
   app.use("/api/GLCMA100300", apiPageGLCMA100300);
+  app.use("/api/GLCMA100400", apiPageGLCMA100400);
   app.use("/api/GLAMT100100", apiPageGLAMT100100);
   app.use("/api/GLAMA100100", apiPageGLAMA100100);
   app.use("/api/GLCWP100100", apiOfCommonDropdown);
