@@ -100,7 +100,7 @@ const GLCMA100100 = () => {
     { label: "Female", value: "Female" },
   ];
 
-  const Save_Click =async (event) => {
+  const Save_Click = async (event) => {
     if (event) {
       event.preventDefault();
     }
@@ -140,10 +140,10 @@ const GLCMA100100 = () => {
   };
 
 
-  const Inquery_Click = (event) =>{
+  const Inquery_Click = (event) => {
     const firstInput = document.querySelector('input[name="search"]');
     console.log(firstInput);
-    
+
     if (firstInput) {
       firstInput.focus();
     }
@@ -201,12 +201,12 @@ const GLCMA100100 = () => {
           justifyContent: "space-between",
         }}
       >
-      
+        <SearchTextField placeholder="Search for items..." />
         <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click} />
-      <SearchTextField placeholder="Search for items..."/>
+
 
       </Box>
-   
+
 
       <Box
         sx={{
@@ -368,8 +368,9 @@ const GLCMA100100 = () => {
           <Grid
             container
             spacing={1}
-            sx={{ "& > .MuiGrid-item": { marginBottom: "-17px" }
-          }}
+            sx={{
+              "& > .MuiGrid-item": { marginBottom: "-17px" }
+            }}
           >
             <Grid item xs={12} sm={4}>
               <InputFieldComponent
