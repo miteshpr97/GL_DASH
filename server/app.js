@@ -8,7 +8,7 @@ const msSqlUtility = require("./DBCall/SqlServerUtility");
 const winston = require("winston/lib/winston/config");
 
 if (!config.glJWTPriveteKey) {
-  console.log("Fatal error: Jwe not defined" + config.glJWTPriveteKey);
+  console.log("Fatal error: Jwt not defined" + config.glJWTPriveteKey);
   process.exit(1);
 }
 
