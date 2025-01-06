@@ -90,6 +90,31 @@ const GLCMA100100 = () => {
     }
   }, [dispatch, status]);
 
+
+  useEffect(() => {
+    if (userDataList.length > 0) {
+      // const lastEmployeeCD = userDataList[userDataList.length - 1].EMP_CD;
+      const lastEmployeeCD = userDataList[0].EMP_CD;;
+      // Extract the prefix and numeric part
+      const prefixMatch = lastEmployeeCD.match(/^[A-Za-z]+/);
+      const numberMatch = lastEmployeeCD.match(/\d+$/);
+
+      if (prefixMatch && numberMatch) {
+        const prefix = prefixMatch[0];
+        const number = parseInt(numberMatch[0], 10);
+
+        // Increment the number and format it
+        const nextId = `${prefix}${String(number + 1).padStart(6, "0")}`;
+        setUserData((prev) => ({ ...prev, EMP_CD: nextId }));
+      } else {
+        console.error("Invalid EMP_CD format:", lastEmployeeCD);
+      }
+    } else {
+      // Initialize EMP_CD if list is empty
+      setUserData((prev) => ({ ...prev, EMP_CD: "GLA100001" }));
+    }
+  }, [userDataList]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
@@ -156,8 +181,14 @@ const GLCMA100100 = () => {
   };
 
   const handleRefresh = () => {
-    setUserData(initialUserData);
-    setSelectedEmployee(null);
+    // setUserData(initialUserData)
+    if(selectedEmployee){
+      setUserData(initialUserData);
+      setSelectedEmployee(null);
+    }else{
+      alert("select Employee")
+      
+    }
   };
 
   const handlePageChange = (newPage) => {
@@ -194,7 +225,6 @@ const GLCMA100100 = () => {
           alignItems: "center",
           p: 1,
           backgroundColor: "#ffffff",
-
           boxShadow: 2,
           borderRadius: 1,
           mb: 2,
@@ -203,11 +233,7 @@ const GLCMA100100 = () => {
       >
         <SearchTextField placeholder="Search for items..." />
         <CommonBtn PAGE_CD="GLCMA100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click} />
-
-
       </Box>
-
-
       <Box
         sx={{
           display: "flex",
@@ -225,7 +251,6 @@ const GLCMA100100 = () => {
           sx={{
             width: { xs: "100%", md: "250px" },
             flexShrink: 0,
-
             borderRadius: 1,
             boxShadow: 2,
             background: "#ffffff",
@@ -372,6 +397,18 @@ const GLCMA100100 = () => {
               "& > .MuiGrid-item": { marginBottom: "-17px" }
             }}
           >
+            <Grid item xs={12} sm={4}>
+              <InputFieldComponent
+                label="Employee ID"
+                placeholder="Employee ID"
+                name="EMP_CD"
+                value={userData.EMP_CD}
+                onChange={handleInputChange}
+                readOnly={!!selectedEmployee}
+                disabled={true}
+                required
+              />
+            </Grid>
             <Grid item xs={12} sm={4}>
               <InputFieldComponent
                 label="First Name"
