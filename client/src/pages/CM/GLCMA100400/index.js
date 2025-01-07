@@ -15,10 +15,6 @@ import {
   TextField,
 } from "@mui/material";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
-import {
-  fetchmoduleData,
-  updateModuleData,
-} from "../../../features/commonCodeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
@@ -53,11 +49,6 @@ const GLCMA100400 = () => {
     { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
   ];
 
-  useEffect(() => {
-    if (selectedModule) {
-      dispatch(fetchmoduleData(selectedModule));
-    }
-  }, [selectedModule, dispatch]);
 
   useEffect(() => {
     setTableData(commonModuleData || []);
@@ -67,7 +58,7 @@ const GLCMA100400 = () => {
   useEffect(() => {
     const fectchModuleData = async () => {
       try {
-        const res = await axios.post("/api/GLCMA100400/get", {});
+        const res = await axios.post("/api/GLCMA100400/get");
         if (res.status === 200 && Array.isArray(res.data)) {
           setModuleData(res.data);
         }
@@ -77,7 +68,7 @@ const GLCMA100400 = () => {
       }
     };
     fectchModuleData();
-  }, [module]);
+  }, []);
 
   const Save_Click = async (event) => {
     if (event) {
@@ -89,10 +80,7 @@ const GLCMA100400 = () => {
       return;
     }
     try {
-      await dispatch(updateModuleData(tableData));
-      if (selectedModule) {
-        await dispatch(fetchmoduleData(selectedModule));
-      }
+   
       alert("Data saved successfully!");
     } catch (error) {
       console.error("Error saving data:", error);
@@ -115,8 +103,8 @@ const GLCMA100400 = () => {
 
   const addnewmoduleRow = () => {
     const newRow = {
-      MODULE_CD: module === "AM" ? "AM" : "CM", // Default Module Code based on selection
-      MODULE_NM: module === "AM" ? " " : " ", // Default Module Name based on selection
+      MODULE_CD: commonModuleData[0]?.MODULE_CD || "",
+      MODULE_NM: commonModuleData[0]?.MODULE_NM || "", 
       MENU_CD: "",
       MENU_NM: "",
       PAGE_CD: "",
