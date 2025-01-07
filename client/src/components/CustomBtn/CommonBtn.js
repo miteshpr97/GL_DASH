@@ -4,10 +4,10 @@ import { Stack } from "@mui/material";
 import { _post_WithoutToken } from "../../CommonUtilAPI/GLApiClient";
 
 const CommonBtn = ({ PAGE_CD, SAVE_CLICK, INQUERY_CLICK }) => {
+
   const [permissions, setPermissions] = useState(null);
 
-
-
+  console.log(permissions, "permisions data");
   
 
   useEffect(() => {
@@ -93,6 +93,16 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK, INQUERY_CLICK }) => {
           EXCEL
         </CustomButton>
       )}
+
+{permissions.PAGE_PRINT === "Y" && (
+        <CustomButton
+          variant="solid"
+          onClick={() => handleClick("PRINT")}
+          sx={{ backgroundColor: "#7C444F", color: "white", padding: "1px 4px", fontSize: "12px", }} // Purple for Excel
+        >
+          PRINT
+        </CustomButton>
+         )}
     </Stack>
   );
 };
