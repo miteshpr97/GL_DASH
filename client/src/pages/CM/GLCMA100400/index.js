@@ -15,28 +15,15 @@ import {
   TextField,
 } from "@mui/material";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
-import {
-  fetchmoduleData,
-  updateModuleData,
-} from "../../../features/commonCodeSlice";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
 
 const GLCMA100400 = () => {
-  const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [module, setModule] = useState("AM");
   const [moduleData, setModuleData] = useState([]);
-  const [selectedModule, setSelectedModule] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Extract data and state from Redux
-  const { commonModuleData, status, error } = useSelector(
-    (state) => state.commonCode
-  );
 
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
@@ -53,17 +40,7 @@ const GLCMA100400 = () => {
     { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
   ];
 
-  useEffect(() => {
-    if (selectedModule) {
-      dispatch(fetchmoduleData(selectedModule));
-    }
-  }, [selectedModule, dispatch]);
-
-  useEffect(() => {
-    setTableData(commonModuleData || []);
-  }, [commonModuleData]);
-
-  // module base data fetch from select
+  // Fetch module data on mount or when module changes
   useEffect(() => {
     const fectchModuleData = async () => {
       try {
@@ -79,30 +56,35 @@ const GLCMA100400 = () => {
     fectchModuleData();
   }, [module]);
 
-  const Save_Click = async (event) => {
-    if (event) {
-      event.preventDefault();
-    }
 
+  // Filter module data based on selected module
+  const filteredModuleData = moduleData.filter(
+    (data) => data.MODULE_CD === module
+  );
+
+
+
+
+  useEffect(() => {
+    // Initialize `tableData` only if it hasn't been manually modified
     if (!hasChanges) {
-      alert("No changes detected. Please make changes before saving.");
-      return;
+      setTableData(filteredModuleData || []);
     }
-    try {
-      await dispatch(updateModuleData(tableData));
-      if (selectedModule) {
-        await dispatch(fetchmoduleData(selectedModule));
-      }
-      alert("Data saved successfully!");
-    } catch (error) {
-      console.error("Error saving data:", error);
-      alert("Failed to save data. Please try again.");
-    }
+  }, [filteredModuleData, hasChanges]);
+
+
+
+
+  const Save_Click = async () => {
+    console.log("Save button clicked");
+    // Add save logic here
   };
 
+  
   const handleModuleChange = (event) => {
     setModule(event.target.value);
   };
+
 
   const handleTableChange = (event, index, field) => {
     setTableData((prevData) =>
@@ -113,10 +95,12 @@ const GLCMA100400 = () => {
     setHasChanges(true);
   };
 
+
+
   const addnewmoduleRow = () => {
     const newRow = {
-      MODULE_CD: module === "AM" ? "AM" : "CM", // Default Module Code based on selection
-      MODULE_NM: module === "AM" ? " " : " ", // Default Module Name based on selection
+      MODULE_CD: filteredModuleData[0]?.MODULE_CD || "",
+      MODULE_NM: filteredModuleData[0]?.MODULE_NM || "",
       MENU_CD: "",
       MENU_NM: "",
       PAGE_CD: "",
@@ -128,33 +112,10 @@ const GLCMA100400 = () => {
       ICON_MENU: "",
       PAGE_LNK: "",
     };
-  
+
     setTableData((prevData) => [...prevData, newRow]);
     setHasChanges(true);
   };
-  
-
-  const startIndex = (page - 1) * rowsPerPage;
-
-  // Styles
-  const tableStyles = {
-    cell: {
-      textAlign: "center",
-      padding: "8px 5px",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-  };
-
-  if (status === "failed") {
-    return <p>Error: {error}</p>;
-  }
-
-  // Filter moduleData based on selected module
-  const filteredModuleData = moduleData.filter(
-    (data) => data.MODULE_CD === module
-  );
 
   return (
     <Box
@@ -193,21 +154,6 @@ const GLCMA100400 = () => {
             p: 1,
           }}
         >
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            sx={{
-              fontSize: "12px",
-              padding: "3px 8px",
-              marginRight: "10px",
-            }}
-            onClick={addnewmoduleRow}
-        
-          >
-            <Add style={{ color: "#f7bd1d" , fontSize:"16px" }} />
-            New Row
-          </Button>
 
           <FormControl size="small" sx={{ minWidth: 200 }}>
             <InputLabel id="Module-select-label">Module</InputLabel>
@@ -237,6 +183,23 @@ const GLCMA100400 = () => {
               </MenuItem>
             </Select>
           </FormControl>
+
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            sx={{
+              fontSize: "12px",
+              padding: "3px 8px",
+              marginLeft: "5px",
+            }}
+            onClick={addnewmoduleRow}
+
+          >
+            <Add style={{ color: "#f7bd1d", fontSize: "16px" }} />
+            New Row
+          </Button>
+
         </Box>
       </Box>
 
@@ -259,7 +222,7 @@ const GLCMA100400 = () => {
             borderRadius: 2,
             boxShadow: 3,
             p: 1,
-            pt:0.5,
+            pt: 0.5,
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -300,7 +263,7 @@ const GLCMA100400 = () => {
                 </TableHead>
 
                 <TableBody>
-                  {filteredModuleData.map((data, rowIndex) => (
+                  {tableData.map((data, rowIndex) => (
                     <TableRow key={rowIndex}>
                       {moduleName.map((column, colIndex) => (
                         <TableCell key={colIndex} style={tableStyles.cell}>
@@ -327,29 +290,7 @@ const GLCMA100400 = () => {
                     </TableRow>
                   ))}
 
-                  {/* Add New Row */}
-                  {tableData.map((newRow, rowIndex) => (
-                    <TableRow key={rowIndex}>
-                      {moduleName.map((column, colIndex) => (
-                        <TableCell key={colIndex} style={tableStyles.cell}>
-                          <TextField
-                            fullWidth
-                            value={newRow[column.id]}
-                            onChange={(event) =>
-                              handleTableChange(event, rowIndex, column.id)
-                            }
-                            size="small"
-                            sx={{
-                              "& .MuiInputBase-input": {
-                                fontSize: "11px",
-                                padding: "2px 5px",
-                              },
-                            }}
-                          />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
+
                 </TableBody>
               </Table>
             </TableContainer>
@@ -359,5 +300,19 @@ const GLCMA100400 = () => {
     </Box>
   );
 };
+
+
+// Styles
+const tableStyles = {
+  cell: {
+    textAlign: "center",
+    padding: "8px 5px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+};
+
+
 
 export default GLCMA100400;

@@ -34,6 +34,9 @@ const GLCMA100300 = () => {
   const [tableData, setTableData] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
 
+
+  console.log(tableData, "jjjjj");
+  
   // Extract data and state from Redux
   const { commonModuleData, status, error } = useSelector(
     (state) => state.commonCode
@@ -207,21 +210,7 @@ const GLCMA100300 = () => {
             p: 1,
           }}
         >
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            sx={{
-              fontSize: "12px",
-              padding: "3px 8px",
-              marginRight: "10px",
-            }}
-            onClick={addnewmoduleRow}
-            disabled={!selectedModule}
-          >
-            <Add style={{ color: "#f7bd1d" , fontSize:"16px" }} />
-             New Row
-          </Button>
+       
 
           <FormControl size="small" sx={{ minWidth: 200 }}>
             <InputLabel id="Module-select-label">Module</InputLabel>
@@ -251,6 +240,24 @@ const GLCMA100300 = () => {
               </MenuItem>
             </Select>
           </FormControl>
+
+
+
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            sx={{
+              fontSize: "12px",
+              padding: "3px 8px",
+              marginLeft: "5px",
+            }}
+            onClick={addnewmoduleRow}
+            disabled={!selectedModule}
+          >
+            <Add style={{ color: "#f7bd1d" , fontSize:"16px" }} />
+             New Row
+          </Button>
         </Box>
       </Box>
 

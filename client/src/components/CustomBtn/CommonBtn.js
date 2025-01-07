@@ -7,7 +7,7 @@ const CommonBtn = ({ PAGE_CD, SAVE_CLICK, INQUERY_CLICK }) => {
 
   const [permissions, setPermissions] = useState(null);
 
-  console.log(permissions, "permisions data");
+ 
   
 
   useEffect(() => {
