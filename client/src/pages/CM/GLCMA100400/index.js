@@ -76,7 +76,7 @@ const GLCMA100400 = () => {
 
 
   const Save_Click = async () => {
-    console.log("Save button clicked");
+    alert("Save button clicked");
     // Add save logic here
   };
 
