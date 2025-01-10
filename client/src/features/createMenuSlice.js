@@ -2,47 +2,37 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setAlert } from './alertSlice';
 
-
-// // Async thunk to fetch module data
-// export const fetchmoduleData = createAsyncThunk(
-//     'createMenu/fetchmoduleData',
-//     async (selectedModule, { rejectWithValue }) => {
-//         try {
-//             const response = await axios.post('api/GLCMA100300/data', {
-//                 MODULE_CD: selectedModule.M_DVN,
-//                 CODE_NO: selectedModule.CODE_NO,
-//                 REG_BY: "GL000001", // Ensure this value is dynamic or static as per your needs
-//             });
-//             return response.data;
-//         } catch (error) {
-//             return rejectWithValue(error.response?.data || error.message);
-//         }
-//     }
-// );
-
-
+// Async thunk to update/create menu data
 export const updateCreateMenu = createAsyncThunk(
     'createMenu/updateCreateMenu',
-  
-    async (tableData, { rejectWithValue, dispatch }) => {
+    async (newRows, { rejectWithValue, dispatch }) => {
+        console.log('Payload being sent:', newRows);  // Debugging payload
+
         try {
-            const response = await axios.post('/api/GLCMA100400/', tableData);
-            dispatch(setAlert({ msg: 'Update Create Menu successfully!', alertType: 'success' }));
-            return response.data;
+            const response = await axios.post('/api/GLCMA100400/', newRows);
+            console.log('API Response:', response);
+
+            dispatch(setAlert({ msg: 'Menu added successfully!', alertType: 'success' }));
+
+            // Assuming the API returns only a message
+            return {
+                message: response.data.message,  // Store success message
+            };
         } catch (error) {
+            console.error('API Error:', error);
             return rejectWithValue(
-                error.response?.data?.message || 'Failed to update Create Menu data'
+                error.response?.data?.message || 'Failed to create Menu data'
             );
         }
     }
 );
 
-
-// Slice to manage common code data
+// Slice to manage menu data
 const createMenuSlice = createSlice({
     name: "createMenu",
     initialState: {
-        createMenuData: [],
+        createMenuData: [],  // Store the menu data (if available)
+        message: '',  // Store the success message
         status: 'idle',
         error: null,
     },
@@ -50,21 +40,17 @@ const createMenuSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(updateCreateMenu.pending, (state) => {
-                state.status = "loading";
+                state.status = "loading";  // Set loading state
             })
             .addCase(updateCreateMenu.fulfilled, (state, action) => {
-                state.status = "succeeded";
-                state.createMenuData = action.payload;
+                state.status = "succeeded";  // Set success state
+                state.message = action.payload.message;  // Store the success message
             })
             .addCase(updateCreateMenu.rejected, (state, action) => {
-                state.status = "failed";
-                state.error = action.payload;
+                state.status = "failed";  // Set failed state
+                state.error = action.payload;  // Store the error message
             });
     }
 });
-
-
-
-
 
 export default createMenuSlice.reducer;

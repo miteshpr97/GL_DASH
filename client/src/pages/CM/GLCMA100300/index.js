@@ -34,10 +34,15 @@ const GLCMA100300 = () => {
   const [tableData, setTableData] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
 
+
   // Extract data and state from Redux
   const { commonModuleData, status, error } = useSelector(
     (state) => state.commonCode
   );
+
+
+  console.log(tableData);
+  
 
   console.log(commonModuleData, "data is the data");
 

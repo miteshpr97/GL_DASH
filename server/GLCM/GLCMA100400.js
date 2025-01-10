@@ -21,6 +21,8 @@ router.post("/", async (req, res) => {
       REG_BY: req.body.REG_BY,
       ACTIVE_YN: req.body.ACTIVE_YN,
     };
+
+    console.log(strParaMeter);
   
     try {
       const result = await dbUtil.dbUtil_Temp.Save_SP(
