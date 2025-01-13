@@ -42,6 +42,10 @@ const GLCMA100400 = () => {
     PAGE_LNK: "",
   });
 
+
+  console.log(newRowData, "SHOE NEW ROW DATA");
+  
+
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
     { id: "MODULE_NM", label: "Module Name", minWidth: 70, readonly: true },
