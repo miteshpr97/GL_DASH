@@ -14,14 +14,17 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit"; 
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
 
-import { updateCreateMenu } from "../../../features/createMenuSlice";
+import { createNewMenu } from "../../../features/createMenuSlice";
 import AddMenuModal from "./AddMenuModal";
+import { useDispatch } from "react-redux";
 
 const GLCMA100400 = () => {
+  const dispatch = useDispatch();
   const [module, setModule] = useState("AM");
   const [moduleData, setModuleData] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -42,9 +45,7 @@ const GLCMA100400 = () => {
     PAGE_LNK: "",
   });
 
-
-  console.log(newRowData, "SHOE NEW ROW DATA");
-  
+  console.log(tableData, "new tavle data");
 
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
@@ -61,17 +62,6 @@ const GLCMA100400 = () => {
     { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
   ];
 
-  // useEffect(() => {
-  //   if (Array.isArray(createMenuData) && JSON.stringify(createMenuData) !== JSON.stringify(tableData)) {
-  //     setTableData(createMenuData);
-  //   } else {
-  //     setTableData([]);
-  //   }
-  // }, [createMenuData]);
-
-
-  // Fetch module data on mount or when module changes
-
   useEffect(() => {
     const fectchModuleData = async () => {
       try {
@@ -87,7 +77,6 @@ const GLCMA100400 = () => {
     fectchModuleData();
   }, [module]);
 
-
   const filteredModuleData = useMemo(() => {
     return moduleData.filter((data) => data.MODULE_CD === module);
   }, [module, moduleData]);
@@ -99,18 +88,21 @@ const GLCMA100400 = () => {
     }
   }, [filteredModuleData, hasChanges]);
 
-
   const Save_Click = async () => {
-    alert("Save button clicked");
-    // Add save logic here
+    try {
+      await dispatch(createNewMenu(newRowData));
+      setTableData((prevData) => [...prevData, newRowData]); // Update table data immediately
+      setOpenModal(false);
+      alert("Data saved successfully!");
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("Failed to save data. Please try again.");
+    }
   };
-
-
 
   const handleModuleChange = (event) => {
     setModule(event.target.value);
   };
-
 
   const handleTableChange = (event, index, field) => {
     setTableData((prevData) =>
@@ -148,13 +140,8 @@ const GLCMA100400 = () => {
     setNewRowData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-
-
-
-
   return (
     <>
-
       <AddMenuModal
         openModal={openModal}
         handleClose={handleModalClose}
@@ -200,7 +187,6 @@ const GLCMA100400 = () => {
               p: 1,
             }}
           >
-
             <FormControl size="small" sx={{ minWidth: 200 }}>
               <InputLabel id="Module-select-label">Module</InputLabel>
               <Select
@@ -240,12 +226,10 @@ const GLCMA100400 = () => {
                 marginLeft: "5px",
               }}
               onClick={handleModalOpen}
-
             >
               <Add style={{ color: "#f7bd1d", fontSize: "16px" }} />
               New Row
             </Button>
-
           </Box>
         </Box>
 
@@ -307,47 +291,61 @@ const GLCMA100400 = () => {
                         ))}
                     </TableRow>
                   </TableHead>
-
                   <TableBody>
-                    {(Array.isArray(tableData) ? tableData : []).map((data, rowIndex) => (
-                      <TableRow key={rowIndex}>
-                        {moduleName.map((column, colIndex) => (
-                          <TableCell key={colIndex} style={tableStyles.cell}>
-                            {column.readonly ? (
-                              data[column.id]
-                            ) : (
-                              <TextField
-                                fullWidth
-                                value={data[column.id] || ""}
-                                onChange={(event) =>
-                                  handleTableChange(event, rowIndex, column.id)
-                                }
-                                size="small"
-                                sx={{
-                                  "& .MuiInputBase-input": {
-                                    fontSize: "11px",
-                                    padding: "2px 5px",
-                                  },
-                                }}
-                              />
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-
+  {(Array.isArray(tableData) ? tableData : []).map((data, rowIndex) => (
+    <TableRow key={rowIndex}>
+      {moduleName.map((column, colIndex) => (
+        <TableCell key={colIndex} style={tableStyles.cell}>
+          {column.readonly ? (
+            data[column.id]
+          ) : (
+            <TextField
+              fullWidth
+              value={data[column.id] || ""}
+              onChange={(event) =>
+                handleTableChange(event, rowIndex, column.id)
+              }
+              size="small"
+              InputProps={{
+                readOnly: true, // This makes the field readonly without disabling it
+              }}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: "11px",
+                  padding: "2px 5px",
+                },
+              }}
+            />
+          )}
+        </TableCell>
+      ))}
+      {/* Add an extra column for the Update button */}
+      <TableCell style={tableStyles.cell}>
+        <Button
+          variant="contained"
+          size="small"
+          // onClick={() => handleUpdateRow(rowIndex)}
+          sx={{
+            fontSize: "12px",
+            padding: "3px 8px",
+            minWidth: "40px", // Ensures button width is consistent
+          }}
+        >
+          <EditIcon style={{ color: "#ffffff", fontSize: "16px" }} />
+        </Button>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
                 </Table>
               </TableContainer>
             </Box>
           </Box>
         </Box>
       </Box>
-
     </>
   );
 };
-
 
 // Styles
 const tableStyles = {
@@ -360,25 +358,4 @@ const tableStyles = {
   },
 };
 
-
-
 export default GLCMA100400;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

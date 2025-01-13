@@ -161,7 +161,7 @@ export default function Sidebar() {
           width: "var(--Sidebar-width)",
           display: "flex",
           flexDirection: "column",
-          zIndex: 9999,
+          zIndex: 999,
           borderRight: "1px solid #ddd",
           [`& .MuiDrawer-paper`]: {
             width: "220px",
