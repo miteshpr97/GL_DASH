@@ -33,7 +33,7 @@ export default function Sidebar() {
     return storedState ? JSON.parse(storedState) : {};
   });
 
-  console.log(menuData, "menudata");
+  // console.log(menuData, "menudata");
   
 
   React.useEffect(() => {

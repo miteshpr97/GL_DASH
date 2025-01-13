@@ -4,7 +4,8 @@ import alertReducer from '../features/alertSlice';
 import userCreationReducer from '../features/userCreationSlice';
 import userAccessReducer from '../features/userAccessSlice'
 import commonCodeReducer from '../features/commonCodeSlice';
-import TransCreationReducer from '../features/tranSlice'
+import TransCreationReducer from '../features/tranSlice';
+import createMenuReducer from '../features/createMenuSlice';
 
 const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
         userAccess: userAccessReducer,
         commonCode: commonCodeReducer,
         TransCreation: TransCreationReducer,
+        createMenu: createMenuReducer,
        },
 });
 

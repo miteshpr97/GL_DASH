@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -11,64 +15,63 @@ import {
   TextField,
 } from "@mui/material";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
-import {
-  fetchmoduleData,
-  updateModuleData,
-} from "../../../features/commonCodeSlice";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
 
+import { updateCreateMenu } from "../../../features/createMenuSlice";
+import AddMenuModal from "./AddMenuModal";
+
 const GLCMA100400 = () => {
-  const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [module, setModule] = useState("AM");
   const [moduleData, setModuleData] = useState([]);
-  const [selectedModule, setSelectedModule] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
-
-  // Extract data and state from Redux
-  const { commonModuleData, status, error } = useSelector(
-    (state) => state.commonCode
-  );
-
-  console.log(commonModuleData, "data is the data");
+  const [openModal, setOpenModal] = useState(false);
+  const [newRowData, setNewRowData] = useState({
+    MODULE_CD: "",
+    MODULE_NM: "",
+    MENU_CD: "",
+    MENU_NM: "",
+    PAGE_CD: "",
+    PAGE_NM: "",
+    PAGE_ID: "",
+    RSTATUS: "",
+    ICON_PAGE: "",
+    ICON_MODULE: "",
+    ICON_MENU: "",
+    PAGE_LNK: "",
+  });
 
   const moduleName = [
-    { id: "M_DVN", label: "Module Code", minWidth: 70, readonly: true },
-    { id: "C_DVN", label: "Module Name", minWidth: 70, readonly: true },
-    { id: "CODE_NO", label: "Menu Code", minWidth: 70 },
-    { id: "CODE_NM", label: "Menu Name", minWidth: 70 },
-    { id: "CODE_NMH", label: "Page Code", minWidth: 70 },
-    { id: "CODE_NMA", label: "Page Name", minWidth: 70 },
-    { id: "CODE_NMO", label: "Page ID", minWidth: 70 },
-    { id: "SUB_GUN1", label: "R Status", minWidth: 70 },
-    { id: "SUB_GUN2", label: "Icon Page", minWidth: 70 },
-    { id: "SUB_GUN3", label: "Icon Module", minWidth: 70 },
-    { id: "SUB_GUN4", label: "Icon Menu", minWidth: 70 },
-    { id: "SUB_GUN5", label: "Page Link", minWidth: 70 },
+    { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
+    { id: "MODULE_NM", label: "Module Name", minWidth: 70, readonly: true },
+    { id: "MENU_CD", label: "Menu Code", minWidth: 70 },
+    { id: "MENU_NM", label: "Menu Name", minWidth: 70 },
+    { id: "PAGE_CD", label: "Page Code", minWidth: 70 },
+    { id: "PAGE_NM", label: "Page Name", minWidth: 70 },
+    { id: "PAGE_ID", label: "Page ID", minWidth: 70 },
+    { id: "RSTATUS", label: "R Status", minWidth: 70 },
+    { id: "ICON_PAGE", label: "Icon Page", minWidth: 70 },
+    { id: "ICON_MODULE", label: "Icon Module", minWidth: 70 },
+    { id: "ICON_MENU", label: "Icon Menu", minWidth: 70 },
+    { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
   ];
 
+  // useEffect(() => {
+  //   if (Array.isArray(createMenuData) && JSON.stringify(createMenuData) !== JSON.stringify(tableData)) {
+  //     setTableData(createMenuData);
+  //   } else {
+  //     setTableData([]);
+  //   }
+  // }, [createMenuData]);
 
-  useEffect(() => {
-    if (selectedModule) {
-      dispatch(fetchmoduleData(selectedModule));
-    }
-  }, [selectedModule, dispatch]);
 
-  useEffect(() => {
-    setTableData(commonModuleData || []);
-  }, [commonModuleData]);
+  // Fetch module data on mount or when module changes
 
-  // module base data fetch from select
   useEffect(() => {
     const fectchModuleData = async () => {
       try {
-        const res = await axios.post("/api/GLCMA100300/codeNo", {
-          MODULE_CD: module,
-        });
+        const res = await axios.post("/api/GLCMA100400/get");
         if (res.status === 200 && Array.isArray(res.data)) {
           setModuleData(res.data);
         }
@@ -80,26 +83,30 @@ const GLCMA100400 = () => {
     fectchModuleData();
   }, [module]);
 
-  const Save_Click = async (event) => {
-    if (event) {
-      event.preventDefault();
-    }
 
+  const filteredModuleData = useMemo(() => {
+    return moduleData.filter((data) => data.MODULE_CD === module);
+  }, [module, moduleData]);
+
+  useEffect(() => {
+    // Initialize `tableData` only if it hasn't been manually modified
     if (!hasChanges) {
-      alert("No changes detected. Please make changes before saving.");
-      return;
+      setTableData(filteredModuleData || []);
     }
-    try {
-      await dispatch(updateModuleData(tableData));
-      if (selectedModule) {
-        await dispatch(fetchmoduleData(selectedModule));
-      }
-      alert("Data saved successfully!");
-    } catch (error) {
-      console.error("Error saving data:", error);
-      alert("Failed to save data. Please try again.");
-    }
+  }, [filteredModuleData, hasChanges]);
+
+
+  const Save_Click = async () => {
+    alert("Save button clicked");
+    // Add save logic here
   };
+
+
+
+  const handleModuleChange = (event) => {
+    setModule(event.target.value);
+  };
+
 
   const handleTableChange = (event, index, field) => {
     setTableData((prevData) =>
@@ -110,200 +117,261 @@ const GLCMA100400 = () => {
     setHasChanges(true);
   };
 
-  const addnewmoduleRow = () => {
-    const newRow = {
-      M_DVN: commonModuleData[0]?.M_DVN || "",
-      C_DVN: commonModuleData[0]?.C_DVN || "",
-      CODE_NO: "",
-      CODE_NM: "",
-      CODE_NMH: "",
-      CODE_NMA: "",
-      CODE_NMO: "",
-      SUB_GUN1: "",
-      SUB_GUN2: "",
-      SUB_GUN3: "",
-      SUB_GUN4: "",
-      SUB_GUN5: "",
-      SORT_BY: "",
-      RMKS: "",
-    };
-
-    setTableData((prevData) => [...prevData, newRow]);
+  const handleModalOpen = () => {
+    setNewRowData({
+      MODULE_CD: filteredModuleData[0]?.MODULE_CD || "",
+      MODULE_NM: filteredModuleData[0]?.MODULE_NM || "",
+      MENU_CD: "",
+      MENU_NM: "",
+      PAGE_CD: "",
+      PAGE_NM: "",
+      PAGE_ID: "",
+      RSTATUS: "",
+      ICON_PAGE: "",
+      ICON_MODULE: "",
+      ICON_MENU: "",
+      PAGE_LNK: "",
+    });
+    setOpenModal(true);
   };
 
-  const startIndex = (page - 1) * rowsPerPage;
-
-  // Styles
-  const tableStyles = {
-    cell: {
-      textAlign: "center",
-      padding: "8px 5px",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
+  const handleModalClose = () => {
+    setOpenModal(false);
   };
 
-  if (status === "failed") {
-    return <p>Error: {error}</p>;
-  }
+  const handleNewRowChange = (event) => {
+    const { name, value } = event.target;
+    setNewRowData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+
+
+
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100vh",
-        p: 1,
-        backgroundColor: "#fafafa",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {/* Header with Action Buttons */}
+    <>
+
+      <AddMenuModal
+        openModal={openModal}
+        handleClose={handleModalClose}
+        handleAdd={Save_Click}
+        moduleName={moduleName}
+        handleNewRowChange={handleNewRowChange}
+        newRowData={newRowData}
+      />
+
       <Box
         sx={{
+          width: "100%",
+          height: "100vh",
+          p: 1,
+          backgroundColor: "#fafafa",
           display: "flex",
-          gap: 2,
-          alignItems: "center",
-          p: 1,
-          backgroundColor: "#ffffff",
-          boxShadow: 2,
-          borderRadius: 1,
-          mb: 2,
-          justifyContent: "space-between",
-          flexWrap: "wrap",
+          flexDirection: "column",
         }}
       >
-        <CommonBtn PAGE_CD="GLCMA100300" SAVE_CLICK={Save_Click} />
-
+        {/* Header with Action Buttons */}
         <Box
           sx={{
-            height: "30px",
             display: "flex",
+            gap: 2,
             alignItems: "center",
+            p: 1,
+            backgroundColor: "#ffffff",
+            boxShadow: 2,
+            borderRadius: 1,
+            mb: 2,
             justifyContent: "space-between",
-            p: 1,
+            flexWrap: "wrap",
           }}
         >
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            sx={{
-              fontSize: "12px",
-              padding: "3px 8px",
-              marginRight: "10px",
-            }}
-            onClick={addnewmoduleRow}
-            disabled={!selectedModule}
-          >
-            <Add style={{ color: "#f7bd1d" , fontSize:"16px" }} />
-             New Row
-          </Button>
+          <CommonBtn PAGE_CD="GLCMA100400" SAVE_CLICK={Save_Click} />
 
-        </Box>
-      </Box>
-
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: " 1fr" },
-          gap: 1,
-          borderRadius: 1,
-          p: 1,
-          boxShadow: 2,
-          height: "calc(100vh - 150px)",
-          transition: "transform 0.4s ease, width 0.4s ease",
-        }}
-      >
-
-
-        {/* Main Box */}
-        <Box
-          sx={{
-            background: "white",
-            borderRadius: 2,
-            boxShadow: 3,
-            p: 1,
-            pt:0.5,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            overflowX: "auto",
-            transition: "width 0.4s ease",
-            width: "100%",
-          }}
-        >
           <Box
             sx={{
-              flex: 1,
-              maxHeight: "100%",
-              overflowX: "auto",
+              height: "30px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              p: 1,
             }}
           >
-            <TableContainer sx={{ minHeight: "100%" }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    {moduleName.length > 0 &&
-                      moduleName.map((column, idx) => (
-                        <TableCell
-                          key={idx}
-                          sx={{
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                            background: "#4c5bb5",
-                            color: "#fff",
-                            padding: "4px 8px",
-                          }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                  </TableRow>
-                </TableHead>
 
-                <TableBody>
-                  {tableData.map((data, rowIndex) => (
-                    <TableRow key={rowIndex}>
-                      {moduleName.map((column, colIndex) => (
-                        <TableCell key={colIndex} style={tableStyles.cell}>
-                          {column.readonly ? (
-                            data[column.id]
-                          ) : (
-                            <TextField
-                              fullWidth
-                              value={data[column.id]}
-                              // variant="standard"
-                              onChange={(event) =>
-                                handleTableChange(event, rowIndex, column.id)
-                              }
-                              size="small"
-                              sx={{
-                                "& .MuiInputBase-input": {
-                                  fontSize: "11px",
-                                  padding: "2px 5px",
-          
-                                },                           
-                              }}
-                            />
-                          )}
-                        </TableCell>
-                      ))}
+            <FormControl size="small" sx={{ minWidth: 200 }}>
+              <InputLabel id="Module-select-label">Module</InputLabel>
+              <Select
+                labelId="Module-select-label"
+                id="Module-select"
+                value={module}
+                label="Module"
+                onChange={handleModuleChange}
+                sx={{
+                  height: "30px",
+                  fontSize: "11px",
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      maxHeight: 200, // Optional: Adjust menu height if needed
+                    },
+                  },
+                }}
+              >
+                <MenuItem value="AM" sx={{ fontSize: "11px", height: "30px" }}>
+                  AM
+                </MenuItem>
+                <MenuItem value="CM" sx={{ fontSize: "11px", height: "30px" }}>
+                  CM
+                </MenuItem>
+              </Select>
+            </FormControl>
+
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              sx={{
+                fontSize: "12px",
+                padding: "3px 8px",
+                marginLeft: "5px",
+              }}
+              onClick={handleModalOpen}
+
+            >
+              <Add style={{ color: "#f7bd1d", fontSize: "16px" }} />
+              New Row
+            </Button>
+
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: " 1fr" },
+            gap: 1,
+            borderRadius: 1,
+            p: 1,
+            boxShadow: 2,
+            height: "calc(100vh - 150px)",
+            transition: "transform 0.4s ease, width 0.4s ease",
+          }}
+        >
+          {/* Main Box */}
+          <Box
+            sx={{
+              background: "white",
+              borderRadius: 2,
+              boxShadow: 3,
+              p: 1,
+              pt: 0.5,
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+              overflowX: "auto",
+              transition: "width 0.4s ease",
+              width: "100%",
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                maxHeight: "100%",
+                overflowX: "auto",
+              }}
+            >
+              <TableContainer sx={{ minHeight: "100%" }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableRow>
+                      {moduleName.length > 0 &&
+                        moduleName.map((column, idx) => (
+                          <TableCell
+                            key={idx}
+                            sx={{
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                              background: "#4c5bb5",
+                              color: "#fff",
+                              padding: "4px 8px",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                  </TableHead>
+
+                  <TableBody>
+                    {(Array.isArray(tableData) ? tableData : []).map((data, rowIndex) => (
+                      <TableRow key={rowIndex}>
+                        {moduleName.map((column, colIndex) => (
+                          <TableCell key={colIndex} style={tableStyles.cell}>
+                            {column.readonly ? (
+                              data[column.id]
+                            ) : (
+                              <TextField
+                                fullWidth
+                                value={data[column.id] || ""}
+                                onChange={(event) =>
+                                  handleTableChange(event, rowIndex, column.id)
+                                }
+                                size="small"
+                                sx={{
+                                  "& .MuiInputBase-input": {
+                                    fontSize: "11px",
+                                    padding: "2px 5px",
+                                  },
+                                }}
+                              />
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+
+                </Table>
+              </TableContainer>
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
+
+    </>
   );
 };
 
+
+// Styles
+const tableStyles = {
+  cell: {
+    textAlign: "center",
+    padding: "8px 5px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
+};
+
+
+
 export default GLCMA100400;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
