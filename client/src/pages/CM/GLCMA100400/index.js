@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -17,6 +17,8 @@ import {
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
+
+import { updateCreateMenu } from "../../../features/createMenuSlice";
 import AddMenuModal from "./AddMenuModal";
 
 const GLCMA100400 = () => {
@@ -40,7 +42,6 @@ const GLCMA100400 = () => {
     PAGE_LNK: "",
   });
 
-
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
     { id: "MODULE_NM", label: "Module Name", minWidth: 70, readonly: true },
@@ -56,11 +57,21 @@ const GLCMA100400 = () => {
     { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
   ];
 
+  // useEffect(() => {
+  //   if (Array.isArray(createMenuData) && JSON.stringify(createMenuData) !== JSON.stringify(tableData)) {
+  //     setTableData(createMenuData);
+  //   } else {
+  //     setTableData([]);
+  //   }
+  // }, [createMenuData]);
+
+
   // Fetch module data on mount or when module changes
+
   useEffect(() => {
     const fectchModuleData = async () => {
       try {
-        const res = await axios.post("/api/GLCMA100400/get", {});
+        const res = await axios.post("/api/GLCMA100400/get");
         if (res.status === 200 && Array.isArray(res.data)) {
           setModuleData(res.data);
         }
@@ -73,10 +84,9 @@ const GLCMA100400 = () => {
   }, [module]);
 
 
-  // Filter module data based on selected module
-  const filteredModuleData = moduleData.filter(
-    (data) => data.MODULE_CD === module
-  );
+  const filteredModuleData = useMemo(() => {
+    return moduleData.filter((data) => data.MODULE_CD === module);
+  }, [module, moduleData]);
 
   useEffect(() => {
     // Initialize `tableData` only if it hasn't been manually modified
@@ -85,17 +95,12 @@ const GLCMA100400 = () => {
     }
   }, [filteredModuleData, hasChanges]);
 
+
   const Save_Click = async () => {
     alert("Save button clicked");
     // Add save logic here
-    // try{
-    //   const res =  await axios.post("/api/GLCMA100400/")
-
-    // }catch(error){
-    //   console.log(error);
-
-    // }
   };
+
 
 
   const handleModuleChange = (event) => {
@@ -111,7 +116,6 @@ const GLCMA100400 = () => {
     );
     setHasChanges(true);
   };
-
 
   const handleModalOpen = () => {
     setNewRowData({
@@ -131,24 +135,22 @@ const GLCMA100400 = () => {
     setOpenModal(true);
   };
 
-
   const handleModalClose = () => {
-    setOpenModal(false); // Close the modal by setting openModal to false
+    setOpenModal(false);
   };
+
   const handleNewRowChange = (event) => {
     const { name, value } = event.target;
     setNewRowData((prevData) => ({ ...prevData, [name]: value }));
   };
 
 
-  
-  
-
 
 
 
   return (
     <>
+
       <AddMenuModal
         openModal={openModal}
         handleClose={handleModalClose}
@@ -157,6 +159,7 @@ const GLCMA100400 = () => {
         handleNewRowChange={handleNewRowChange}
         newRowData={newRowData}
       />
+
       <Box
         sx={{
           width: "100%",
@@ -166,11 +169,7 @@ const GLCMA100400 = () => {
           display: "flex",
           flexDirection: "column",
         }}
-
-
-
-
-      >-
+      >
         {/* Header with Action Buttons */}
         <Box
           sx={{
@@ -237,6 +236,7 @@ const GLCMA100400 = () => {
                 marginLeft: "5px",
               }}
               onClick={handleModalOpen}
+
             >
               <Add style={{ color: "#f7bd1d", fontSize: "16px" }} />
               New Row
@@ -305,7 +305,7 @@ const GLCMA100400 = () => {
                   </TableHead>
 
                   <TableBody>
-                    {tableData.map((data, rowIndex) => (
+                    {(Array.isArray(tableData) ? tableData : []).map((data, rowIndex) => (
                       <TableRow key={rowIndex}>
                         {moduleName.map((column, colIndex) => (
                           <TableCell key={colIndex} style={tableStyles.cell}>
@@ -314,7 +314,7 @@ const GLCMA100400 = () => {
                             ) : (
                               <TextField
                                 fullWidth
-                                value={data[column.id]}
+                                value={data[column.id] || ""}
                                 onChange={(event) =>
                                   handleTableChange(event, rowIndex, column.id)
                                 }
@@ -331,17 +331,16 @@ const GLCMA100400 = () => {
                         ))}
                       </TableRow>
                     ))}
-
-
                   </TableBody>
+
                 </Table>
               </TableContainer>
             </Box>
           </Box>
         </Box>
       </Box>
-    </>
 
+    </>
   );
 };
 
@@ -360,6 +359,12 @@ const tableStyles = {
 
 
 export default GLCMA100400;
+
+
+
+
+
+
 
 
 
