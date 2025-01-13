@@ -30,6 +30,7 @@ const GLCMA100400 = () => {
   const [tableData, setTableData] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [mode, setMode] = React.useState("add");
   const [newRowData, setNewRowData] = useState({
     MODULE_CD: "",
     MODULE_NM: "",
@@ -45,7 +46,7 @@ const GLCMA100400 = () => {
     PAGE_LNK: "",
   });
 
-  // console.log(tableData, "new tavle data");
+  
 
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
@@ -91,7 +92,21 @@ const GLCMA100400 = () => {
   const Save_Click = async () => {
     try {
       await dispatch(createNewMenu(newRowData));
-      setTableData((prevData) => [...prevData, newRowData]); // Update table data immediately
+      setTableData((prevData) => {
+        const rowIndex = prevData.findIndex(
+          (row) => row.PAGE_ID === newRowData.PAGE_ID
+        );
+        if (rowIndex > -1) {
+          // If the row exists, update it
+          const updatedData = [...prevData];
+          updatedData[rowIndex] = newRowData;
+          return updatedData;
+        } else {
+          // If the row doesn't exist, add it as a new row
+          return [...prevData, newRowData];
+        }
+      });
+
       setOpenModal(false);
       alert("Data saved successfully!");
     } catch (error) {
@@ -99,6 +114,7 @@ const GLCMA100400 = () => {
       alert("Failed to save data. Please try again.");
     }
   };
+
 
   const handleModuleChange = (event) => {
     setModule(event.target.value);
@@ -114,6 +130,7 @@ const GLCMA100400 = () => {
   };
 
   const handleModalOpen = () => {
+    setMode("add");
     setNewRowData({
       MODULE_CD: filteredModuleData[0]?.MODULE_CD || "",
       MODULE_NM: filteredModuleData[0]?.MODULE_NM || "",
@@ -132,7 +149,8 @@ const GLCMA100400 = () => {
     setOpenModal(true);
   };
 
- const handleEditModal = (rowData)=>{
+  const handleEditModal = (rowData) => {
+    setMode("update");
     setNewRowData(rowData);
     setOpenModal(true);
 
@@ -156,6 +174,7 @@ const GLCMA100400 = () => {
         moduleName={moduleName}
         handleNewRowChange={handleNewRowChange}
         newRowData={newRowData}
+        mode={mode}
       />
 
       <Box
@@ -209,7 +228,7 @@ const GLCMA100400 = () => {
                 MenuProps={{
                   PaperProps: {
                     sx: {
-                      maxHeight: 200, // Optional: Adjust menu height if needed
+                      maxHeight: 200,
                     },
                   },
                 }}
@@ -326,7 +345,7 @@ const GLCMA100400 = () => {
                                       fontSize: "11px",
                                       padding: "2px 5px",
                                     },
-                                    fontSize:"9px"
+                                    fontSize: "9px"
                                   }}
                                 />
                               )}
@@ -371,7 +390,7 @@ const tableStyles = {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    fontSize:"11px"
+    fontSize: "11px"
   },
 };
 
