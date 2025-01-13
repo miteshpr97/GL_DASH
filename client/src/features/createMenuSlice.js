@@ -2,9 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setAlert } from './alertSlice';
 
+
 // Async thunk to update/create menu data
-export const updateCreateMenu = createAsyncThunk(
-    'createMenu/updateCreateMenu',
+export const createNewMenu = createAsyncThunk(
+    'createMenu/createNewMenu',
     async (newRows, { rejectWithValue, dispatch }) => {
         console.log('Payload being sent:', newRows);  // Debugging payload
 
@@ -39,14 +40,14 @@ const createMenuSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(updateCreateMenu.pending, (state) => {
+            .addCase(createNewMenu.pending, (state) => {
                 state.status = "loading";  // Set loading state
             })
-            .addCase(updateCreateMenu.fulfilled, (state, action) => {
+            .addCase(createNewMenu.fulfilled, (state, action) => {
                 state.status = "succeeded";  // Set success state
                 state.message = action.payload.message;  // Store the success message
             })
-            .addCase(updateCreateMenu.rejected, (state, action) => {
+            .addCase(createNewMenu.rejected, (state, action) => {
                 state.status = "failed";  // Set failed state
                 state.error = action.payload;  // Store the error message
             });
