@@ -14,7 +14,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit"; 
+import EditIcon from "@mui/icons-material/Edit";
 import CommonBtn from "../../../components/CustomBtn/CommonBtn";
 import axios from "axios";
 import Add from "@mui/icons-material/Add";
@@ -45,7 +45,7 @@ const GLCMA100400 = () => {
     PAGE_LNK: "",
   });
 
-  console.log(tableData, "new tavle data");
+  // console.log(tableData, "new tavle data");
 
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
@@ -128,8 +128,15 @@ const GLCMA100400 = () => {
       ICON_MENU: "",
       PAGE_LNK: "",
     });
+
     setOpenModal(true);
   };
+
+ const handleEditModal = (rowData)=>{
+    setNewRowData(rowData);
+    setOpenModal(true);
+
+  }
 
   const handleModalClose = () => {
     setOpenModal(false);
@@ -292,51 +299,60 @@ const GLCMA100400 = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-  {(Array.isArray(tableData) ? tableData : []).map((data, rowIndex) => (
-    <TableRow key={rowIndex}>
-      {moduleName.map((column, colIndex) => (
-        <TableCell key={colIndex} style={tableStyles.cell}>
-          {column.readonly ? (
-            data[column.id]
-          ) : (
-            <TextField
-              fullWidth
-              value={data[column.id] || ""}
-              onChange={(event) =>
-                handleTableChange(event, rowIndex, column.id)
-              }
-              size="small"
-              InputProps={{
-                readOnly: true, // This makes the field readonly without disabling it
-              }}
-              sx={{
-                "& .MuiInputBase-input": {
-                  fontSize: "11px",
-                  padding: "2px 5px",
-                },
-              }}
-            />
-          )}
-        </TableCell>
-      ))}
-      {/* Add an extra column for the Update button */}
-      <TableCell style={tableStyles.cell}>
-        <Button
-          variant="contained"
-          size="small"
-          // onClick={() => handleUpdateRow(rowIndex)}
-          sx={{
-            fontSize: "12px",
-            padding: "3px 8px",
-            minWidth: "40px", // Ensures button width is consistent
-          }}
-        >
-          <EditIcon style={{ color: "#ffffff", fontSize: "16px" }} />
-        </Button>
-      </TableCell>
-    </TableRow>
-  ))}
-</TableBody>
+                    {(Array.isArray(tableData) ? tableData : []).map(
+                      (data, rowIndex) => (
+                        <TableRow key={rowIndex}>
+                          {moduleName.map((column, colIndex) => (
+                            <TableCell key={colIndex} style={tableStyles.cell}>
+                              {column.readonly ? (
+                                data[column.id]
+                              ) : (
+                                <TextField
+                                  fullWidth
+                                  value={data[column.id] || ""}
+                                  onChange={(event) =>
+                                    handleTableChange(
+                                      event,
+                                      rowIndex,
+                                      column.id
+                                    )
+                                  }
+                                  size="small"
+                                  InputProps={{
+                                    readOnly: true, // This makes the field readonly without disabling it
+                                  }}
+                                  sx={{
+                                    "& .MuiInputBase-input": {
+                                      fontSize: "11px",
+                                      padding: "2px 5px",
+                                    },
+                                    fontSize:"9px"
+                                  }}
+                                />
+                              )}
+                            </TableCell>
+                          ))}
+                          {/* Add an extra column for the Update button */}
+                          <TableCell style={tableStyles.cell}>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={() => handleEditModal(data)}
+                              sx={{
+                                fontSize: "12px",
+                                padding: "3px 8px",
+                                minWidth: "40px", // Ensures button width is consistent
+                              }}
+                            >
+                              <EditIcon
+                                style={{ color: "#ffffff", fontSize: "16px" }}
+                              />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  </TableBody>
                 </Table>
               </TableContainer>
             </Box>
@@ -355,6 +371,7 @@ const tableStyles = {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
+    fontSize:"11px"
   },
 };
 
