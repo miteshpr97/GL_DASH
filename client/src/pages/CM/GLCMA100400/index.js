@@ -91,7 +91,7 @@ const GLCMA100400 = () => {
   const Save_Click = async () => {
     try {
       await dispatch(createNewMenu(newRowData));
-      setTableData((prevData) => [...prevData, newRowData]); // Update table data immediately
+      setTableData((prevData) => [...prevData, newRowData]);
       setOpenModal(false);
       alert("Data saved successfully!");
     } catch (error) {
