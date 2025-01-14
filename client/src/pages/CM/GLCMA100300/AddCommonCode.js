@@ -33,7 +33,7 @@ const standardStyles = {
   },
 };
 
-const AddMenuModal = ({
+const AddCommonCode = ({
   openModal,
   handleClose,
   handleAdd,
@@ -44,7 +44,7 @@ const AddMenuModal = ({
 }) => {
   return (
     <Dialog open={openModal} onClose={handleClose}>
-      <DialogTitle> {mode === "add" ? "Add New Row" : "Update Menu"}</DialogTitle>
+      <DialogTitle>{mode === "add" ? "Add New Row" : "Update Menu"} </DialogTitle>
       <DialogContent>
         <Grid container spacing={1}>
           {moduleName.map((col, idx) => (
@@ -87,11 +87,11 @@ const AddMenuModal = ({
             },
           }}
         >
-          {mode === "add" ? "Add" : "Update"}
+          Add
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default AddMenuModal;
+export default AddCommonCode;
