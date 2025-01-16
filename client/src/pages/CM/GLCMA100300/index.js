@@ -635,7 +635,7 @@ const GLCMA100300 = () => {
       alert("Failed to save data. Please try again.");
     }
   };
-  
+
 
   const handleTableChange = (event, index, field) => {
     setTableData((prevData) =>
@@ -952,6 +952,18 @@ const GLCMA100300 = () => {
                             {column.label}
                           </TableCell>
                         ))}
+
+
+                      <TableCell
+                        sx={{
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          background: "#4c5bb5",
+                          color: "#fff",
+                          padding: "4px 8px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >Action</TableCell>
                     </TableRow>
                   </TableHead>
 
@@ -968,7 +980,7 @@ const GLCMA100300 = () => {
                             <Skeleton animation="wave" />
                             <Skeleton animation={false} />
                           </Box>
-                          <p style={{color:"grey"}}>Please Select Code No from Sidebar</p>
+                          <p style={{ color: "grey" }}>Please Select Code No from Sidebar</p>
                         </TableCell>
                       </TableRow>
                     ) : (

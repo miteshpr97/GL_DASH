@@ -64,8 +64,11 @@ const GLCMA100400 = () => {
     { id: "ICON_PAGE", label: "Icon Page", minWidth: 70 },
     { id: "ICON_MODULE", label: "Icon Module", minWidth: 70 },
     { id: "ICON_MENU", label: "Icon Menu", minWidth: 70 },
-    { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
+    { id: "PAGE_LNK", label: "Page Link", minWidth: 70 }
+
   ];
+
+
 
   // useEffect(()=>{
   //   dispatch(setBtnPermission())
@@ -339,8 +342,21 @@ const GLCMA100400 = () => {
                             }}
                           >
                             {column.label}
+
                           </TableCell>
+
                         ))}
+
+                      <TableCell
+                        sx={{
+                          fontSize: "12px",
+                          fontWeight: "bold",
+                          background: "#4c5bb5",
+                          color: "#fff",
+                          padding: "4px 8px",
+                          whiteSpace: "nowrap",
+                        }}
+                      >Action</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

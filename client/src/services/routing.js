@@ -27,11 +27,11 @@ const router = createBrowserRouter([
                 element: <GLAMT100100/>
             },
             {
-                path: 'UserCreation',
+                path: 'GLCMA100100',
                 element: <GLCMA100100/>
             },
             {
-                path: 'UserAccess',
+                path: 'GLCMA100200',
                 element: <GLCMA100200/>
             },
             {
