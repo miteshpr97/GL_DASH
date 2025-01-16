@@ -34,15 +34,12 @@
 //   const [tableData, setTableData] = useState([]);
 //   const [hasChanges, setHasChanges] = useState(false);
 
-
 //   // Extract data and state from Redux
 //   const { commonModuleData, status, error } = useSelector(
 //     (state) => state.commonCode
 //   );
 
-
 //   console.log(tableData);
-
 
 //   console.log(commonModuleData, "data is the data");
 
@@ -213,7 +210,6 @@
 //           }}
 //         >
 
-
 //           <FormControl size="small" sx={{ minWidth: 200 }}>
 //             <InputLabel id="Module-select-label">Module</InputLabel>
 //             <Select
@@ -242,8 +238,6 @@
 //               </MenuItem>
 //             </Select>
 //           </FormControl>
-
-
 
 //           <Button
 //             variant="contained"
@@ -432,7 +426,7 @@
 //                                   fontSize: "11px",
 //                                   padding: "2px 5px",
 
-//                                 },                           
+//                                 },
 //                               }}
 //                             />
 //                           )}
@@ -452,8 +446,6 @@
 
 // export default GLCMA100300;
 
-
-
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
@@ -462,6 +454,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -481,7 +474,6 @@ import axios from "axios";
 import Add from "@mui/icons-material/Add";
 import AddCommonCode from "./AddCommonCode";
 import EditIcon from "@mui/icons-material/Edit";
-
 
 const GLCMA100300 = () => {
   const dispatch = useDispatch();
@@ -508,10 +500,8 @@ const GLCMA100300 = () => {
     SUB_GUN4: "",
     SUB_GUN5: "",
     SORT_BY: "",
-    RMKS: ""
-
+    RMKS: "",
   });
-
 
   const moduleName = [
     { id: "M_DVN", label: "M_DVN", minWidth: 70, readonly: true },
@@ -535,7 +525,6 @@ const GLCMA100300 = () => {
     (state) => state.commonCode
   );
 
-
   useEffect(() => {
     if (selectedModule) {
       dispatch(fetchmoduleData(selectedModule));
@@ -548,7 +537,6 @@ const GLCMA100300 = () => {
 
   // module base data fetch from select
   useEffect(() => {
-
     const fectchModuleData = async () => {
       try {
         const res = await axios.post("/api/GLCMA100300/codeNo", {
@@ -564,7 +552,6 @@ const GLCMA100300 = () => {
     };
     fectchModuleData();
   }, [module]);
-
 
   const filteredModuleData = useMemo(() => {
     return moduleData.filter((data) => data.MODULE_CD === module);
@@ -595,26 +582,27 @@ const GLCMA100300 = () => {
   };
 
   const Save_Click = async () => {
-
     const requiredFields = [
       "M_DVN",
       "C_DVN",
       "CODE_NO",
-      "CODE_NM",
-      "CODE_NMH",
-      "CODE_NMA",
-      "CODE_NMO",
-      "SUB_GUN1",
-      "SUB_GUN2",
-      "SUB_GUN3",
-      "SUB_GUN4",
-      "SUB_GUN5",
-      "SORT_B",
-      "RMK"
+      // "CODE_NM",
+      // "CODE_NMH",
+      // "CODE_NMA",
+      // "CODE_NMO",
+      // "SUB_GUN1",
+      // "SUB_GUN2",
+      // "SUB_GUN3",
+      // "SUB_GUN4",
+      // "SUB_GUN5",
+      // "SORT_B",
+      // "RMK"
     ];
 
     // Check if all required fields are filled
-    const isValid = requiredFields.every((field) => newRowData[field]?.trim() !== "");
+    const isValid = requiredFields.every(
+      (field) => newRowData[field]?.trim() !== ""
+    );
 
     if (!isValid) {
       alert("Please fill in all required fields.");
@@ -658,7 +646,6 @@ const GLCMA100300 = () => {
     setHasChanges(true);
   };
 
-
   const handleModalOpen = () => {
     setNewRowData({
       M_DVN: commonModuleData[0]?.M_DVN || "",
@@ -679,14 +666,11 @@ const GLCMA100300 = () => {
     setOpenModal(true);
   };
 
-
   const handleEditModal = (rowData) => {
     setMode("update");
     setNewRowData(rowData);
     setOpenModal(true);
-
-  }
-
+  };
 
   const handleModalClose = () => {
     setOpenModal(false);
@@ -711,11 +695,9 @@ const GLCMA100300 = () => {
     },
   };
 
-
   if (status === "failed") {
     return <p>Error: {error}</p>;
   }
-
 
   return (
     <>
@@ -764,8 +746,6 @@ const GLCMA100300 = () => {
               p: 1,
             }}
           >
-
-
             <FormControl size="small" sx={{ minWidth: 200 }}>
               <InputLabel id="Module-select-label">Module</InputLabel>
               <Select
@@ -794,8 +774,6 @@ const GLCMA100300 = () => {
                 </MenuItem>
               </Select>
             </FormControl>
-
-
 
             <Button
               variant="contained"
@@ -837,10 +815,13 @@ const GLCMA100300 = () => {
               flexDirection: "column",
             }}
           >
-            <TableContainer sx={{
-              height: "93%", scrollbarWidth: "thin",
-              scrollbarColor: "#4c5bb5 transparent",
-            }}>
+            <TableContainer
+              sx={{
+                height: "93%",
+                scrollbarWidth: "thin",
+                scrollbarColor: "#4c5bb5 transparent",
+              }}
+            >
               <Table stickyHeader aria-label="user table">
                 <TableHead>
                   <TableRow>
@@ -851,7 +832,8 @@ const GLCMA100300 = () => {
                           minWidth: column.minWidth,
                           padding: "4px 18px",
                           fontWeight: "600",
-                          backgroundColor: (theme) => theme.palette.primary.main,
+                          backgroundColor: (theme) =>
+                            theme.palette.primary.main,
                           color: "white",
                           fontSize: "12px",
                         }}
@@ -945,10 +927,13 @@ const GLCMA100300 = () => {
                 overflowX: "auto",
               }}
             >
-              <TableContainer sx={{
-                minHeight: "100%", scrollbarWidth: "thin",
-                scrollbarColor: "#4c5bb5 transparent",
-              }}>
+              <TableContainer
+                sx={{
+                  minHeight: "100%",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#4c5bb5 transparent",
+                }}
+              >
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
                     <TableRow>
@@ -971,53 +956,72 @@ const GLCMA100300 = () => {
                   </TableHead>
 
                   <TableBody>
-                    {tableData.map((data, rowIndex) => (
-                      <TableRow key={rowIndex}>
-                        {moduleName.map((column, colIndex) => (
-                          <TableCell key={colIndex} style={tableStyles.cell}>
-                            {column.readonly ? (
-                              data[column.id]
-                            ) : (
-                              <TextField
-                                fullWidth
-                                value={data[column.id]}
-                                // variant="standard"
-                                onChange={(event) =>
-                                  handleTableChange(event, rowIndex, column.id)
-                                }
-                                size="small"
-                                InputProps={{
-                                  readOnly: true, // This makes the field readonly without disabling it
-                                }}
-                                sx={{
-                                  "& .MuiInputBase-input": {
-                                    fontSize: "11px",
-                                    padding: "2px 5px",
-
-                                  },
-                                }}
-                              />
-                            )}
-                          </TableCell>
-                        ))}
-                        <TableCell style={tableStyles.cell}>
-                          <Button
-                            variant="contained"
-                            size="small"
-                            onClick={() => handleEditModal(data)}
-                            sx={{
-                              fontSize: "12px",
-                              padding: "3px 8px",
-                              minWidth: "40px", // Ensures button width is consistent
-                            }}
-                          >
-                            <EditIcon
-                              style={{ color: "#ffffff", fontSize: "16px" }}
-                            />
-                          </Button>
+                    {tableData.length === 0 ? (
+                      <TableRow>
+                        <TableCell
+                          colSpan={moduleName.length + 1}
+                          style={tableStyles.cell}
+                          align="center"
+                        >
+                          <Box sx={{ width: "100%" }}>
+                            <Skeleton />
+                            <Skeleton animation="wave" />
+                            <Skeleton animation={false} />
+                          </Box>
+                          <p style={{color:"grey"}}>Please Select Code No from Sidebar</p>
                         </TableCell>
                       </TableRow>
-                    ))}
+                    ) : (
+                      tableData.map((data, rowIndex) => (
+                        <TableRow key={rowIndex}>
+                          {moduleName.map((column, colIndex) => (
+                            <TableCell key={colIndex} style={tableStyles.cell}>
+                              {column.readonly ? (
+                                data[column.id]
+                              ) : (
+                                <TextField
+                                  fullWidth
+                                  value={data[column.id]}
+                                  onChange={(event) =>
+                                    handleTableChange(
+                                      event,
+                                      rowIndex,
+                                      column.id
+                                    )
+                                  }
+                                  size="small"
+                                  InputProps={{
+                                    readOnly: true,
+                                  }}
+                                  sx={{
+                                    "& .MuiInputBase-input": {
+                                      fontSize: "11px",
+                                      padding: "2px 5px",
+                                    },
+                                  }}
+                                />
+                              )}
+                            </TableCell>
+                          ))}
+                          <TableCell style={tableStyles.cell}>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={() => handleEditModal(data)}
+                              sx={{
+                                fontSize: "12px",
+                                padding: "3px 8px",
+                                minWidth: "40px",
+                              }}
+                            >
+                              <EditIcon
+                                style={{ color: "#ffffff", fontSize: "16px" }}
+                              />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

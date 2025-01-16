@@ -21,7 +21,8 @@ import Add from "@mui/icons-material/Add";
 
 import { createNewMenu } from "../../../features/createMenuSlice";
 import AddMenuModal from "./AddMenuModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+// import { setBtnPermission } from "../../../features/userAccessSlice";
 
 const GLCMA100400 = () => {
   const dispatch = useDispatch();
@@ -46,7 +47,10 @@ const GLCMA100400 = () => {
     PAGE_LNK: "",
   });
 
-  
+  // const { btnPermission } = useSelector(state => state.userAccess);
+  // console.log('btnPermission:', btnPermission);
+
+
 
   const moduleName = [
     { id: "MODULE_CD", label: "Module Code", minWidth: 70, readonly: true },
@@ -62,6 +66,10 @@ const GLCMA100400 = () => {
     { id: "ICON_MENU", label: "Icon Menu", minWidth: 70 },
     { id: "PAGE_LNK", label: "Page Link", minWidth: 70 },
   ];
+
+  // useEffect(()=>{
+  //   dispatch(setBtnPermission())
+  // })
 
   useEffect(() => {
     const fectchModuleData = async () => {
@@ -99,15 +107,15 @@ const GLCMA100400 = () => {
       "RSTATUS",
       "PAGE_LNK",
     ];
-  
+
     // Check if all required fields are filled
     const isValid = requiredFields.every((field) => newRowData[field]?.trim() !== "");
-    
+
     if (!isValid) {
       alert("Please fill in all required fields.");
       return;
     }
-  
+
     try {
       await dispatch(createNewMenu(newRowData));
       setTableData((prevData) => {
