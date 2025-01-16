@@ -5,9 +5,13 @@ import { _post_WithoutToken } from "../../CommonUtilAPI/GLApiClient";
 
 const CommonBtn = ({ PAGE_CD, SAVE_CLICK, INQUERY_CLICK }) => {
 
+
+
+  
+
   const [permissions, setPermissions] = useState(null);
 
- 
+  console.log(permissions);
   
 
   useEffect(() => {

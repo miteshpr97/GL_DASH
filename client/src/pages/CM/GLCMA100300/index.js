@@ -647,6 +647,7 @@ const GLCMA100300 = () => {
       alert("Failed to save data. Please try again.");
     }
   };
+  
 
   const handleTableChange = (event, index, field) => {
     setTableData((prevData) =>
