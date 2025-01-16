@@ -15,7 +15,7 @@ export default function Dashboard() {
           <Card>
             <CardContent>
               <Typography variant="h6">Total Users</Typography>
-              <Typography variant="h4">1,024</Typography>
+              <Typography variant="h4">0</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -25,7 +25,7 @@ export default function Dashboard() {
           <Card>
             <CardContent>
               <Typography variant="h6">Active Sessions</Typography>
-              <Typography variant="h4">342</Typography>
+              <Typography variant="h4">0</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -35,7 +35,7 @@ export default function Dashboard() {
           <Card>
             <CardContent>
               <Typography variant="h6">New Signups</Typography>
-              <Typography variant="h4">128</Typography>
+              <Typography variant="h4">0</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -45,7 +45,7 @@ export default function Dashboard() {
           <Card>
             <CardContent>
               <Typography variant="h6">Reports Generated</Typography>
-              <Typography variant="h4">67</Typography>
+              <Typography variant="h4">0</Typography>
             </CardContent>
           </Card>
         </Grid>

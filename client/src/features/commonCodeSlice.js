@@ -23,7 +23,6 @@ export const fetchmoduleData = createAsyncThunk(
 
 export const updateModuleData = createAsyncThunk(
     'commonCode/updateModuleData',
-  
     async (tableData, { rejectWithValue, dispatch }) => {
         try {
             const response = await axios.post('/api/GLCMA100300/', tableData);

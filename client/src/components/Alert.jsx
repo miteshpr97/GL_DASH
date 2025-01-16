@@ -7,8 +7,6 @@ const AlertComponent = () => {
   const alerts = useSelector((state) => state.alerts);
   const dispatch = useDispatch();
 
-  console.log(alerts); // Check alert data
-
   useEffect(() => {
     if (alerts.length === 0) return;
 

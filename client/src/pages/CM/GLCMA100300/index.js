@@ -495,18 +495,21 @@ const GLCMA100300 = () => {
   const [mode, setMode] = React.useState("add");
   const [hasChanges, setHasChanges] = useState(false);
   const [newRowData, setNewRowData] = useState({
-    MODULE_CD: "",
-    MODULE_NM: "",
-    MENU_CD: "",
-    MENU_NM: "",
-    PAGE_CD: "",
-    PAGE_NM: "",
-    PAGE_ID: "",
-    RSTATUS: "",
-    ICON_PAGE: "",
-    ICON_MODULE: "",
-    ICON_MENU: "",
-    PAGE_LNK: "",
+    M_DVN: "",
+    C_DVN: "",
+    CODE_NO: "",
+    CODE_NM: "",
+    CODE_NMH: "",
+    CODE_NMA: "",
+    CODE_NMO: "",
+    SUB_GUN1: "",
+    SUB_GUN2: "",
+    SUB_GUN3: "",
+    SUB_GUN4: "",
+    SUB_GUN5: "",
+    SORT_BY: "",
+    RMKS: ""
+
   });
 
 
@@ -545,6 +548,7 @@ const GLCMA100300 = () => {
 
   // module base data fetch from select
   useEffect(() => {
+
     const fectchModuleData = async () => {
       try {
         const res = await axios.post("/api/GLCMA100300/codeNo", {
@@ -573,36 +577,10 @@ const GLCMA100300 = () => {
     }
   }, [filteredModuleData, hasChanges]);
 
-
-
-  const Save_Click = async () => {
-    try {
-      await dispatch(updateModuleData(newRowData));
-      setTableData((prevData) => {
-        const rowIndex = prevData.findIndex(
-          (row) => row.CODE_NO === newRowData.CODE_NO
-        );
-        if (rowIndex > -1) {
-          // If the row exists, update it
-          const updatedData = [...prevData];
-          updatedData[rowIndex] = newRowData;
-
-          return updatedData;
-        } else {
-          // If the row doesn't exist, add it as a new row
-          return [...prevData, newRowData];
-        }
-      });
-      setOpenModal(false);
-
-    } catch (error) {
-      console.error("Error saving data:", error);
-      alert("Failed to save data. Please try again.");
-    }
-  };
-
   //select M_dvn and code_no
   const handleModuleSelect = (module) => {
+    console.log("modal is selected");
+
     setSelectedModule(module);
     // setSelectedEmployee(user.EMP_CD);
   };
@@ -614,6 +592,60 @@ const GLCMA100300 = () => {
   // module base data fetch from select
   const handleModuleChange = (event) => {
     setModule(event.target.value);
+  };
+
+  const Save_Click = async () => {
+
+    const requiredFields = [
+      "M_DVN",
+      "C_DVN",
+      "CODE_NO",
+      "CODE_NM",
+      "CODE_NMH",
+      "CODE_NMA",
+      "CODE_NMO",
+      "SUB_GUN1",
+      "SUB_GUN2",
+      "SUB_GUN3",
+      "SUB_GUN4",
+      "SUB_GUN5",
+      "SORT_B",
+      "RMK"
+    ];
+
+    // Check if all required fields are filled
+    const isValid = requiredFields.every((field) => newRowData[field]?.trim() !== "");
+
+    if (!isValid) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      await dispatch(updateModuleData(newRowData));
+
+      setTableData((prevData) => {
+        const rowIndex = prevData.findIndex(
+          (row) => row.CODE_NO === newRowData.CODE_NO
+        );
+        if (rowIndex > -1) {
+          // If the row exists, update it
+          const updatedData = [...prevData];
+          updatedData[rowIndex] = newRowData;
+          return updatedData;
+        } else {
+          // If the row doesn't exist, add it as a new row
+          return [...prevData, newRowData];
+        }
+      });
+      if (selectedModule) {
+        await dispatch(fetchmoduleData(selectedModule));
+      }
+      setOpenModal(false);
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("Failed to save data. Please try again.");
+    }
   };
 
   const handleTableChange = (event, index, field) => {
@@ -695,9 +727,6 @@ const GLCMA100300 = () => {
         newRowData={newRowData}
         mode={mode}
       />
-
-
-
       <Box
         sx={{
           width: "100%",
@@ -807,7 +836,10 @@ const GLCMA100300 = () => {
               flexDirection: "column",
             }}
           >
-            <TableContainer sx={{ height: "93%" }}>
+            <TableContainer sx={{
+              height: "93%", scrollbarWidth: "thin",
+              scrollbarColor: "#4c5bb5 transparent",
+            }}>
               <Table stickyHeader aria-label="user table">
                 <TableHead>
                   <TableRow>
@@ -837,6 +869,7 @@ const GLCMA100300 = () => {
                         sx={{
                           cursor: "pointer",
                           borderRadius: "50px",
+
                           backgroundColor:
                             selectedModule === data ? "#e3eefa" : "inherit",
                           transition: "background-color 0.3s ease",
@@ -911,7 +944,10 @@ const GLCMA100300 = () => {
                 overflowX: "auto",
               }}
             >
-              <TableContainer sx={{ minHeight: "100%" }}>
+              <TableContainer sx={{
+                minHeight: "100%", scrollbarWidth: "thin",
+                scrollbarColor: "#4c5bb5 transparent",
+              }}>
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
                     <TableRow>
@@ -949,6 +985,9 @@ const GLCMA100300 = () => {
                                   handleTableChange(event, rowIndex, column.id)
                                 }
                                 size="small"
+                                InputProps={{
+                                  readOnly: true, // This makes the field readonly without disabling it
+                                }}
                                 sx={{
                                   "& .MuiInputBase-input": {
                                     fontSize: "11px",

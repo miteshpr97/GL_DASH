@@ -179,6 +179,8 @@ const AccessTable = ({ userAccess, permissions, handleCheckboxChange }) => {
       width: "100%",
       maxHeight: "100%",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      scrollbarWidth: "thin",
+            scrollbarColor: "#4c5bb5 transparent",
     },
     table: { minWidth: "100" },
     headerCell: {
