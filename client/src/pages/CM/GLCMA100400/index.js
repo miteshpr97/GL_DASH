@@ -90,6 +90,24 @@ const GLCMA100400 = () => {
   }, [filteredModuleData, hasChanges]);
 
   const Save_Click = async () => {
+    const requiredFields = [
+      "MENU_CD",
+      "MENU_NM",
+      "PAGE_CD",
+      "PAGE_NM",
+      "PAGE_ID",
+      "RSTATUS",
+      "PAGE_LNK",
+    ];
+  
+    // Check if all required fields are filled
+    const isValid = requiredFields.every((field) => newRowData[field]?.trim() !== "");
+    
+    if (!isValid) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+  
     try {
       await dispatch(createNewMenu(newRowData));
       setTableData((prevData) => {
@@ -395,3 +413,6 @@ const tableStyles = {
 };
 
 export default GLCMA100400;
+
+
+

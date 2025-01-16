@@ -34,7 +34,6 @@ const columns = [
   },
 ];
 
-
 function TabPanel({ children, value, index }) {
   return (
     <Collapse in={value === index} timeout={500}>
@@ -43,14 +42,11 @@ function TabPanel({ children, value, index }) {
   );
 }
 
-
 // function TabPanel({ children, value, index }) {
 //   return value === index && <Box sx={{ p: 3 }}>{children}</Box>;
 // }
 
-
 const GLAMT100100 = () => {
-
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const [value, setValue] = useState(0);
@@ -71,15 +67,12 @@ const GLAMT100100 = () => {
     FAMT: "",
     EXCHANGE_RATE: "",
     REG_BY: "",
-    DOC_STATUS: ""
+    DOC_STATUS: "",
   });
 
-  const {
-    TransData,
-    status,
-    error,
-  } = useSelector((state) => state.TransCreation);
-
+  const { TransData, status, error } = useSelector(
+    (state) => state.TransCreation
+  );
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -94,12 +87,22 @@ const GLAMT100100 = () => {
   };
 
   const Save_Click = async (event) => {
+    const requiredFields = [
+      "YEAR_CD",
+    ];
+  
+    const isValid = requiredFields.every((field) => regisData[field]?.trim() !== "");
+    
+    if (!isValid) {
+      alert("Please fill in all required fields.");
+      return;
+    }
     if (event) event.preventDefault();
     setLoading(true);
     try {
       const res = await axios.post("/api/GLAMT100100", regisData);
       console.log("Response:", res.data);
-      await dispatch(fetchTransData())
+      await dispatch(fetchTransData());
       alert("Data saved successfully!");
     } catch (error) {
       console.error("Error during save:", error);
@@ -116,7 +119,7 @@ const GLAMT100100 = () => {
     if (firstInput) {
       firstInput.focus();
     }
-  }
+  };
 
   useEffect(() => {
     if (status === "idle") {
@@ -124,10 +127,7 @@ const GLAMT100100 = () => {
     }
   }, [dispatch, status]);
 
-
-
   return (
-
     <Box
       sx={{
         width: "100%",
@@ -154,10 +154,13 @@ const GLAMT100100 = () => {
         }}
       >
         <SearchTextField placeholder="Search for items..." />
-          <CommonBtn PAGE_CD="GLAMT100100" SAVE_CLICK={Save_Click} INQUERY_CLICK={Inquery_Click} />
-         
 
         {loading && <CircularProgress size={24} />}
+        <CommonBtn
+          PAGE_CD="GLAMT100100"
+          SAVE_CLICK={Save_Click}
+          INQUERY_CLICK={Inquery_Click}
+        />
       </Box>
 
       {/* Tabs */}
@@ -188,12 +191,13 @@ const GLAMT100100 = () => {
             />
           </Tabs>
         </Box>
-        <Box sx={{
-          "& .css-19kzrtu": {
-            padding: "10px",
-          },
-
-        }}>
+        <Box
+          sx={{
+            "& .css-19kzrtu": {
+              padding: "10px",
+            },
+          }}
+        >
           <TabPanel value={value} index={0}>
             <DataTable
               rows={TransData?.length > 0 ? TransData : []}
@@ -210,30 +214,10 @@ const GLAMT100100 = () => {
         </Box>
       </Box>
     </Box>
-
   );
 };
 
 export default GLAMT100100;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const columns = [
 //   { field: "invoice", headerName: "Invoice", width: 120 },
@@ -271,8 +255,3 @@ export default GLAMT100100;
 //     ),
 //   },
 // ];
-
-
-
-
-

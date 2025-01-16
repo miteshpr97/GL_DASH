@@ -74,6 +74,7 @@ const AddMenuModal = ({
             '&:hover': {
               color: 'white', // Font color on hover
             },
+             padding:"2px 4px"
           }}
         >
           Cancel
@@ -84,10 +85,12 @@ const AddMenuModal = ({
           sx={{
             '&:hover': {
               color: 'white', // Font color on hover
+              background:"green"
             },
+            padding:"2px 4px"
           }}
         >
-          {mode === "add" ? "Add" : "Update"}
+          {mode === "add" ? "SAVE" : "Update"}
         </Button>
       </DialogActions>
     </Dialog>

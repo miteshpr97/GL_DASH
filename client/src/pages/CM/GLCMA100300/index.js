@@ -566,11 +566,10 @@ const GLCMA100300 = () => {
   }, [module]);
 
   const Save_Click = async () => {
-  
     try {
       await dispatch(updateModuleData(newRowData));
       setTableData((prevData) => {
-        const rowIndex = prevData.findIndex(
+      const rowIndex = prevData.findIndex(
           (row) => row.CODE_NO === newRowData.CODE_NO
         );
         if (rowIndex > -1) {
@@ -809,7 +808,8 @@ const GLCMA100300 = () => {
               flexDirection: "column",
             }}
           >
-            <TableContainer sx={{ height: "93%" }}>
+            <TableContainer sx={{ height: "93%",scrollbarWidth: "thin",
+            scrollbarColor: "#4c5bb5 transparent", }}>
               <Table stickyHeader aria-label="user table">
                 <TableHead>
                   <TableRow>
@@ -839,6 +839,7 @@ const GLCMA100300 = () => {
                         sx={{
                           cursor: "pointer",
                           borderRadius: "50px",
+        
                           backgroundColor:
                             selectedModule === data ? "#e3eefa" : "inherit",
                           transition: "background-color 0.3s ease",
@@ -913,7 +914,8 @@ const GLCMA100300 = () => {
                 overflowX: "auto",
               }}
             >
-              <TableContainer sx={{ minHeight: "100%" }}>
+              <TableContainer sx={{ minHeight: "100%", scrollbarWidth: "thin",
+            scrollbarColor: "#4c5bb5 transparent", }}>
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
                     <TableRow>
@@ -951,6 +953,9 @@ const GLCMA100300 = () => {
                                   handleTableChange(event, rowIndex, column.id)
                                 }
                                 size="small"
+                                InputProps={{
+                                  readOnly: true, // This makes the field readonly without disabling it
+                                }}
                                 sx={{
                                   "& .MuiInputBase-input": {
                                     fontSize: "11px",
