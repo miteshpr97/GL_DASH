@@ -454,9 +454,7 @@
 
 
 
-
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -493,7 +491,7 @@ const GLCMA100300 = () => {
   const [moduleData, setModuleData] = useState([]);
   const [selectedModule, setSelectedModule] = useState(null);
   const [tableData, setTableData] = useState([]);
-  console.log(tableData, "tableData");
+  const [openModal, setOpenModal] = useState(false);
   const [mode, setMode] = React.useState("add");
   const [hasChanges, setHasChanges] = useState(false);
   const [newRowData, setNewRowData] = useState({
@@ -511,14 +509,6 @@ const GLCMA100300 = () => {
     PAGE_LNK: "",
   });
 
-  console.log(newRowData, "newRowData");
-
-  const [openModal, setOpenModal] = useState(false);
-
-  // Extract data and state from Redux
-  const { commonModuleData, status, error } = useSelector(
-    (state) => state.commonCode
-  );
 
   const moduleName = [
     { id: "M_DVN", label: "M_DVN", minWidth: 70, readonly: true },
@@ -536,6 +526,12 @@ const GLCMA100300 = () => {
     { id: "SORT_BY", label: "SORT_BY", minWidth: 70 },
     { id: "RMKS", label: "RMKS", minWidth: 70 },
   ];
+
+  // Extract data and state from Redux
+  const { commonModuleData, status, error } = useSelector(
+    (state) => state.commonCode
+  );
+
 
   useEffect(() => {
     if (selectedModule) {
@@ -565,8 +561,21 @@ const GLCMA100300 = () => {
     fectchModuleData();
   }, [module]);
 
+
+  const filteredModuleData = useMemo(() => {
+    return moduleData.filter((data) => data.MODULE_CD === module);
+  }, [module, moduleData]);
+
+  useEffect(() => {
+    // Initialize `tableData` only if it hasn't been manually modified
+    if (!hasChanges) {
+      setTableData(filteredModuleData || []);
+    }
+  }, [filteredModuleData, hasChanges]);
+
+
+
   const Save_Click = async () => {
-  
     try {
       await dispatch(updateModuleData(newRowData));
       setTableData((prevData) => {
@@ -577,6 +586,7 @@ const GLCMA100300 = () => {
           // If the row exists, update it
           const updatedData = [...prevData];
           updatedData[rowIndex] = newRowData;
+
           return updatedData;
         } else {
           // If the row doesn't exist, add it as a new row
@@ -584,7 +594,7 @@ const GLCMA100300 = () => {
         }
       });
       setOpenModal(false);
-      alert("Data saved successfully!");
+
     } catch (error) {
       console.error("Error saving data:", error);
       alert("Failed to save data. Please try again.");
@@ -617,8 +627,6 @@ const GLCMA100300 = () => {
 
 
   const handleModalOpen = () => {
-    setMode("add");
-
     setNewRowData({
       M_DVN: commonModuleData[0]?.M_DVN || "",
       C_DVN: commonModuleData[0]?.C_DVN || "",
@@ -635,9 +643,9 @@ const GLCMA100300 = () => {
       SORT_BY: "",
       RMKS: "",
     });
-
     setOpenModal(true);
   };
+
 
   const handleEditModal = (rowData) => {
     setMode("update");
@@ -655,12 +663,6 @@ const GLCMA100300 = () => {
     const { name, value } = event.target;
     setNewRowData((prevData) => ({ ...prevData, [name]: value }));
   };
-
-
-
-
-
-
 
   const startIndex = (page - 1) * rowsPerPage;
   const currentData = moduleData.slice(startIndex, startIndex + rowsPerPage);
@@ -682,13 +684,6 @@ const GLCMA100300 = () => {
   }
 
 
-
-
-
-
-
-
-
   return (
     <>
       <AddCommonCode
@@ -700,6 +695,9 @@ const GLCMA100300 = () => {
         newRowData={newRowData}
         mode={mode}
       />
+
+
+
       <Box
         sx={{
           width: "100%",
@@ -962,22 +960,22 @@ const GLCMA100300 = () => {
                             )}
                           </TableCell>
                         ))}
-                          <TableCell style={tableStyles.cell}>
-                            <Button
-                              variant="contained"
-                              size="small"
-                              onClick={() => handleEditModal(data)}
-                              sx={{
-                                fontSize: "12px",
-                                padding: "3px 8px",
-                                minWidth: "40px", // Ensures button width is consistent
-                              }}
-                            >
-                              <EditIcon
-                                style={{ color: "#ffffff", fontSize: "16px" }}
-                              />
-                            </Button>
-                          </TableCell>
+                        <TableCell style={tableStyles.cell}>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleEditModal(data)}
+                            sx={{
+                              fontSize: "12px",
+                              padding: "3px 8px",
+                              minWidth: "40px", // Ensures button width is consistent
+                            }}
+                          >
+                            <EditIcon
+                              style={{ color: "#ffffff", fontSize: "16px" }}
+                            />
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
